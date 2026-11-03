@@ -1,0 +1,42 @@
+
+> signal-lab-frontend@0.1.0 test
+> vitest --run
+
+
+ RUN  v5.1.0 C:/Users/k2230/Desktop/Study/资料/传智杯/frontend
+
+ ❯ src/features/lab/LabPage.test.tsx (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/lab/LabPage.test.tsx [ src/features/lab/LabPage.test.tsx ]
+Error: Failed to resolve import "./LabPage" from "src/features/lab/LabPage.test.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/k2230/Desktop/Study/资料/传智杯/frontend/src/features/lab/LabPage.test.tsx:61:37
+  112 |  	it("shows a failed calculation explicitly and retains the labeled previous result", async () => {
+  113 |  		vi.stubGlobal("fetch", vi.fn().mockResolvedValueOnce(response(aliased)).mockRejectedValueOnce(new Error("offline")));
+  114 |  		const { LabPage } = await import("./LabPage");
+      |                                     ^
+  115 |  		__vi_import_0__.render(/* @__PURE__ */ __vi_import_1__.jsxDEV(LabPage, {}, void 0, false, {
+  116 |  			fileName: _jsxFileName,
+ ❯ TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/node.js:8803:39
+ ❯ TransformPluginContext.error node_modules/vite/dist/node/chunks/node.js:8800:14
+ ❯ resolveId node_modules/vite/dist/node/chunks/node.js:26594:18
+ ❯ node_modules/vite/dist/node/chunks/node.js:26693:23
+ ❯ TransformPluginContext.transform node_modules/vite/dist/node/chunks/node.js:26666:4
+ ❯ EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/node.js:8582:14
+ ❯ loadAndTransform node_modules/vite/dist/node/chunks/node.js:20155:26
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  20:21:04
+   Duration  2.86s (environment 81%, setup 17%, transform 2%)
+
+npm notice
+npm notice New major version of npm available! 11.13.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

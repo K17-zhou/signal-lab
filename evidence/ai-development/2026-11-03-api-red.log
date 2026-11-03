@@ -1,0 +1,89 @@
+FFFFFFFFFFF                                                              [100%]
+================================== FAILURES ===================================
+_____________ test_run_returns_real_metrics_and_can_be_retrieved ______________
+tests\test_runs_api.py:20: in test_run_returns_real_metrics_and_can_be_retrieved
+    with TestClient(make_app(tmp_path / "lab.sqlite3")) as client:
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_runs_api.py:8: in make_app
+    from app.main import create_app
+E   ModuleNotFoundError: No module named 'app.main'
+_________________ test_run_persists_after_application_restart _________________
+tests\test_runs_api.py:34: in test_run_persists_after_application_restart
+    with TestClient(make_app(database)) as client:
+                    ^^^^^^^^^^^^^^^^^^
+tests\test_runs_api.py:8: in make_app
+    from app.main import create_app
+E   ModuleNotFoundError: No module named 'app.main'
+_____________ test_invalid_physical_requests_return_422[params0] ______________
+tests\test_runs_api.py:42: in test_invalid_physical_requests_return_422
+    with TestClient(make_app(tmp_path / "lab.sqlite3")) as client:
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_runs_api.py:8: in make_app
+    from app.main import create_app
+E   ModuleNotFoundError: No module named 'app.main'
+_____________ test_invalid_physical_requests_return_422[params1] ______________
+tests\test_runs_api.py:42: in test_invalid_physical_requests_return_422
+    with TestClient(make_app(tmp_path / "lab.sqlite3")) as client:
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_runs_api.py:8: in make_app
+    from app.main import create_app
+E   ModuleNotFoundError: No module named 'app.main'
+_____________ test_invalid_physical_requests_return_422[params2] ______________
+tests\test_runs_api.py:42: in test_invalid_physical_requests_return_422
+    with TestClient(make_app(tmp_path / "lab.sqlite3")) as client:
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_runs_api.py:8: in make_app
+    from app.main import create_app
+E   ModuleNotFoundError: No module named 'app.main'
+_____________ test_invalid_physical_requests_return_422[params3] ______________
+tests\test_runs_api.py:42: in test_invalid_physical_requests_return_422
+    with TestClient(make_app(tmp_path / "lab.sqlite3")) as client:
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_runs_api.py:8: in make_app
+    from app.main import create_app
+E   ModuleNotFoundError: No module named 'app.main'
+___ test_nonfinite_json_returns_a_serializable_422_not_a_server_error[NaN] ____
+tests\test_runs_api.py:49: in test_nonfinite_json_returns_a_serializable_422_not_a_server_error
+    with TestClient(make_app(tmp_path / "lab.sqlite3")) as client:
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_runs_api.py:8: in make_app
+    from app.main import create_app
+E   ModuleNotFoundError: No module named 'app.main'
+_ test_nonfinite_json_returns_a_serializable_422_not_a_server_error[Infinity] _
+tests\test_runs_api.py:49: in test_nonfinite_json_returns_a_serializable_422_not_a_server_error
+    with TestClient(make_app(tmp_path / "lab.sqlite3")) as client:
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_runs_api.py:8: in make_app
+    from app.main import create_app
+E   ModuleNotFoundError: No module named 'app.main'
+_ test_nonfinite_json_returns_a_serializable_422_not_a_server_error[-Infinity] _
+tests\test_runs_api.py:49: in test_nonfinite_json_returns_a_serializable_422_not_a_server_error
+    with TestClient(make_app(tmp_path / "lab.sqlite3")) as client:
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_runs_api.py:8: in make_app
+    from app.main import create_app
+E   ModuleNotFoundError: No module named 'app.main'
+______________ test_disabled_filter_and_unknown_run_are_explicit ______________
+tests\test_runs_api.py:57: in test_disabled_filter_and_unknown_run_are_explicit
+    with TestClient(make_app(tmp_path / "lab.sqlite3")) as client:
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_runs_api.py:8: in make_app
+    from app.main import create_app
+E   ModuleNotFoundError: No module named 'app.main'
+_________ test_store_preserves_existing_run_when_identifier_is_reused _________
+tests\test_runs_api.py:66: in test_store_preserves_existing_run_when_identifier_is_reused
+    from app.store import Store
+E   ModuleNotFoundError: No module named 'app.store'
+=========================== short test summary info ===========================
+FAILED tests/test_runs_api.py::test_run_returns_real_metrics_and_can_be_retrieved
+FAILED tests/test_runs_api.py::test_run_persists_after_application_restart - ...
+FAILED tests/test_runs_api.py::test_invalid_physical_requests_return_422[params0]
+FAILED tests/test_runs_api.py::test_invalid_physical_requests_return_422[params1]
+FAILED tests/test_runs_api.py::test_invalid_physical_requests_return_422[params2]
+FAILED tests/test_runs_api.py::test_invalid_physical_requests_return_422[params3]
+FAILED tests/test_runs_api.py::test_nonfinite_json_returns_a_serializable_422_not_a_server_error[NaN]
+FAILED tests/test_runs_api.py::test_nonfinite_json_returns_a_serializable_422_not_a_server_error[Infinity]
+FAILED tests/test_runs_api.py::test_nonfinite_json_returns_a_serializable_422_not_a_server_error[-Infinity]
+FAILED tests/test_runs_api.py::test_disabled_filter_and_unknown_run_are_explicit
+FAILED tests/test_runs_api.py::test_store_preserves_existing_run_when_identifier_is_reused
+11 failed in 3.37s

@@ -11,10 +11,12 @@ dependencies = [
   "numpy>=2,<3",
   "scipy>=1.14,<2",
   "pydantic>=2.9,<3",
+  "fastapi>=0.162,<1",
+  "uvicorn>=0.54,<1",
 ]
 
 [project.optional-dependencies]
-test = ["pytest>=8,<10"]
+test = ["pytest>=8,<10", "httpx2>=2.16,<3"]
 
 [tool.setuptools.packages.find]
 include = ["app*"]

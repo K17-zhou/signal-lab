@@ -1,0 +1,97 @@
+
+> signal-lab-frontend@0.1.0 test
+> vitest --run
+
+
+ RUN  v5.1.0 C:/Users/k2230/Desktop/Study/资料/传智杯/frontend
+
+ ❯ src/features/lab/LabPage.test.tsx (3 tests | 3 failed) 2154ms
+   ❯ LabPage (3)
+     × keeps the later run when the earlier request finishes last 122ms
+     × rejects invalid draft input without replacing the previous valid result 1019ms
+     × shows a failed calculation explicitly and retains the labeled previous result 1010ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/lab/LabPage.test.tsx > LabPage > keeps the later run when the earlier request finishes last
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "正常采样"
+
+There are no accessible roles. But there might be some inaccessible roles. If you wish to access them, then set the `hidden` option to `true`. Learn more about this here: https://testing-library.com/docs/dom-testing-library/api-queries#byrole
+
+Ignored nodes: comments, script, style
+<body>
+  <div />
+</body>
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/features/lab/LabPage.test.tsx:38:28
+     36|     const { LabPage } = await import('./LabPage');
+     37|     render(<LabPage />);
+     38|     fireEvent.click(screen.getByRole('button', { name: '正常采样', exact: …
+       |                            ^
+     39|     await act(async () => { second.resolve(response(safe)); });
+     40|     expect(await screen.findByText('run-B')).toBeVisible();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  src/features/lab/LabPage.test.tsx > LabPage > rejects invalid draft input without replacing the previous valid result
+TestingLibraryElementError: Unable to find an element with the text: run-A. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+<body>
+  <div />
+</body>
+
+Ignored nodes: comments, script, style
+<body>
+  <div />
+</body>
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ src/features/lab/LabPage.test.tsx:51:18
+     49|     const { LabPage } = await import('./LabPage');
+     50|     render(<LabPage />);
+     51|     await screen.findByText('run-A');
+       |                  ^
+     52|     fireEvent.change(screen.getByRole('spinbutton', { name: '信号频率' }),…
+     53|     fireEvent.click(screen.getByRole('button', { name: '运行实验', exact: …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  src/features/lab/LabPage.test.tsx > LabPage > shows a failed calculation explicitly and retains the labeled previous result
+TestingLibraryElementError: Unable to find an element with the text: run-A. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+<body>
+  <div />
+</body>
+
+Ignored nodes: comments, script, style
+<body>
+  <div />
+</body>
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ src/features/lab/LabPage.test.tsx:63:18
+     61|     const { LabPage } = await import('./LabPage');
+     62|     render(<LabPage />);
+     63|     await screen.findByText('run-A');
+       |                  ^
+     64|     fireEvent.click(screen.getByRole('button', { name: '正常采样', exact: …
+     65|     await waitFor(() => expect(screen.getByRole('alert')).toHaveTextCo…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed (3)
+   Start at  20:21:53
+   Duration  4.83s (tests 47%, environment 42%, setup 8%, transform 2%)
+
+npm notice
+npm notice New major version of npm available! 11.13.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

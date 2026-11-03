@@ -1,0 +1,25 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_________________ test_default_database_stays_in_the_project __________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000024D7CBFCE90>
+
+    def test_default_database_stays_in_the_project(monkeypatch):
+        import app.main as main
+    
+        created_paths = []
+        monkeypatch.delenv("SIGNAL_LAB_DB_PATH", raising=False)
+        monkeypatch.setattr(main, "Store", lambda path: created_paths.append(Path(path)))
+        with TestClient(main.create_app()) as client:
+            assert client.get("/api/health").status_code == 200
+        project = Path(__file__).resolve().parents[2]
+>       assert created_paths == [project / ".cache" / "signal-lab.sqlite3"]
+E       AssertionError: assert [WindowsPath(...lab.sqlite3')] == [WindowsPath(...lab.sqlite3')]
+E         
+E         At index 0 diff: WindowsPath('C:/Users/k2230/Desktop/Study/����/.cache/signal-lab.sqlite3') != WindowsPath('C:/Users/k2230/Desktop/Study/����/���Ǳ�/.cache/signal-lab.sqlite3')
+E         Use -v to get more diff
+
+backend\tests\test_runs_api.py:29: AssertionError
+=========================== short test summary info ===========================
+FAILED backend\tests\test_runs_api.py::test_default_database_stays_in_the_project
+1 failed in 3.12s

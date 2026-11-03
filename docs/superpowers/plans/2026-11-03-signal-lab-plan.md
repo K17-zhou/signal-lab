@@ -10,7 +10,7 @@
 
 **Spec:** [省赛版本设计基线](../specs/2026-11-03-signal-lab-design.md)。功能、工时和目标指标为计划基线；实际完成情况以下面的执行状态和对应证据为准，未测的成绩不记为成果。
 
-**执行状态（2026-11-03）：** Task 1数值基础已实现并通过30项测试及独立代码审查；包含频谱与周期重建，进度覆盖原11月4日数值任务。Task 2及其后的网页、AI、教学测评仍未开始；详见[实际开发记录](../../../evidence/ai-development/2026-11-03-foundation.md)。未测的教学效果仍不记为成果。
+**执行状态（2026-11-03）：** Task 1数值基础已完成。Task 2运行API与网页已实现，完整后端42项、前端4项测试及生产构建通过，浏览器四案例、导出与手机布局已核对，正在收尾审查；详见[网页开发记录](../../../evidence/ai-development/2026-11-03-interactive-lab.md)。Task 3及之后的学习流程、AI和教学测评尚未开始。未测的教学效果仍不记为成果。
 
 ## 你的排期与今晚任务
 
@@ -119,11 +119,11 @@ AssessmentAnswer固定为choice(option_id)或numeric(value, unit)；ScoreResult�
 
 **Interfaces:** 消费Task 1的ExperimentRequest/ExperimentRun；产生POST /api/experiments/run、Store.put_run/get_run，以及LabPage显示真实run_id与科学边界说明。
 
-- [ ] 写API失败测试：合法请求返回200及可查run_id，越界/NaN/未知experiment_type返回422，P1未启用时明确拒绝。
-- [ ] 写前端异步顺序测试：先发A后发B，B先完成、A后完成，最终仍显示B的run_id和参数。
-- [ ] 分别运行backend的python -m pytest tests/test_runs_api.py -q、frontend的npm run test -- --run，确认目标测试先失败。
-- [ ] 实现SQLite运行保存、接口、参数调整及曲线绘制；参考线、采样点、频谱和重建曲线使用同一运行结果；最新请求优先。
-- [ ] 重跑测试并在浏览器完成S1/S2/S3切换，确认轴单位、边界说明和数据同步；记录实际截图和错误修复。
+- [x] 写API失败测试：合法请求返回200及可查run_id，越界/NaN/未知experiment_type返回422，P1未启用时明确拒绝。
+- [x] 写前端异步顺序测试：先发A后发B，B先完成、A后完成，最终仍显示B的run_id和参数。
+- [x] 分别运行backend的python -m pytest tests/test_runs_api.py -q、frontend的npm run test -- --run，确认目标测试先失败。
+- [x] 实现SQLite运行保存、接口、参数调整及曲线绘制；参考线、采样点、频谱和重建曲线使用同一运行结果；最新请求优先。
+- [x] 重跑测试并在浏览器完成S1/S2/S3切换，确认轴单位、边界说明和数据同步；记录实际截图和错误修复。
 - [ ] 提交这一可运行实验版本，保存对应AI对话与验证结果。
 
 ## Task 3: 预测、迁移题和真实记录（11/6余时–11/7前半，约5小时）
