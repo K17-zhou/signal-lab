@@ -69,6 +69,7 @@ Pop-Location
 
 ## 文档与证据
 
+- [下次接续入口（11月4日）](docs/progress/2026-11-04-handoff.md)
 - [执行计划](docs/superpowers/plans/2026-11-03-signal-lab-plan.md)
 - [设计基线](docs/superpowers/specs/2026-11-03-signal-lab-design.md)
 - [AI开发证据索引](evidence/ai-development/index.md)
