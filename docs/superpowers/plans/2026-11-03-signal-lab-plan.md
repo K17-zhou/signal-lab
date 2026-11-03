@@ -1,0 +1,233 @@
+# 信号实验工坊 Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** 在2026-11-16前交付可复现、有真实AI指导和验证材料的通信原理交互实验作品，参加11月18日截止的传智杯省赛。
+
+**Architecture:** Python实验引擎输出真实计算结果，React前端负责交互与学习流程；模型通过后端获取运行证据、解释误区并建议合法参数。计算、判题和学习记录独立于模型，SQLite保存运行及匿名会话。
+
+**Tech Stack:** React、TypeScript、Vite、ECharts；Python 3.12、FastAPI、Pydantic、NumPy、SciPy、SQLite；pytest、Vitest、Playwright。
+
+**Spec:** [省赛版本设计基线](../specs/2026-11-03-signal-lab-design.md)。这里的功能、工时和指标都是计划，尚无产品实现或测评成绩。
+
+## 你的排期与今晚任务
+
+已确认：周五至周一全天，周二至周四晚间1–2小时。全天按6小时有效工作估算，至11月16日约54–60小时；11月17日晚另留1–2小时缓冲。所有日期和时间均为北京时间。
+
+工时基线：P0核心开发22小时、用例与试用7小时、复现修复12小时、材料10小时、机动2小时，共53小时。P1滤波最多加4小时；正常进度总计57小时，投入偏低或任何核心任务超时则舍弃P1。正式真人评估只比较同一程序B/C两个模式，静态仿真A作为功能基线说明。
+
+**今晚11月3日的必达目标：能运行首批采样标准案例，并保存第一次真实开发记录。**
+
+| 顺序 | 预算 | 今晚做什么 | 结束时看到什么 |
+| --- | --- | --- | --- |
+| 1 | 10分钟 | 阅读并确认本计划范围，开始保存AI原始对话和决策记录 | 题目、P0范围和证据目录明确 |
+| 2 | 20分钟 | 建立最小Git/Python环境，记录版本，加入密钥和运行数据忽略规则 | 仓库和测试入口可用 |
+| 3 | 45分钟 | 写标准S1–S3测试，再实现采样状态和折叠频率计算 | 50/400→50Hz；70/100→30Hz；50/100→边界警告 |
+| 4 | 15分钟 | 运行测试、保存真实输出和对应Prompt，做一次有意义的commit | 本次修改和验证能追溯 |
+| 加做 | 余下30分钟 | 补采样点或频谱计算，或者整理最小绘图页面 | 不影响前三个标准案例 |
+
+只有1小时就完成前两项和S1–S2，未完成项留到11月4日；不得把未运行的案例记成通过。今晚不以完整界面或聊天接入为验收条件。
+
+## 日期安排
+
+| 日期 | 可用时间 | 主要交付 | 当日验收 |
+| --- | --- | --- | --- |
+| 11/3 周二 | 晚间1–2h | 最小工程、首批采样案例、开发记录 | S1–S3状态与折叠频率；不足时按今晚缩减方案 |
+| 11/4 周三 | 晚间1–2h | 频谱、周期重建和数值边界 | S1重建、S2混叠、S3退化均符合设计 |
+| 11/5 周四 | 晚间1–2h | 后端运行接口与最小绘图页面 | 输入参数能返回一次真实运行并画图 |
+| 11/6 周五 | 全天，约6h | 主实验界面、案例与学习记录 | 调参、比较、预测、导出走通 |
+| 11/7 周六 | 全天，约6h | 真实模型、结果引用与误区反馈 | 至少一次真实API调用；错误引用被拒绝 |
+| 11/8 周日 | 全天，约6h | 预测→实验→纠错→迁移题完整流程 | P0用户流程通过；建立首版验证用例 |
+| 11/9 周一 | 全天，约6h | P0查漏与数值复核；满足条件才做滤波扩展 | 主流程无已知科学错误，导出可审查 |
+| 11/10 周二 | 晚间1–2h | 小规模试用与问题归档 | 记录真实用户遇到的问题；邀请由用户安排 |
+| 11/11 周三 | 晚间1–2h | 修复关键问题，补同难度对照题 | 复现问题、修复和回归记录齐全 |
+| 11/12 周四 | 晚间1–2h | 统计已取得的结果、确定视频故事线 | 功能冻结；无数据的指标明确标为未测 |
+| 11/13 周五 | 全天，约6h | 留出案例、独立复现和关键修复 | 新目录复现有真实计时记录 |
+| 11/14 周六 | 全天，约6h | 交互、错误状态、试用记录与成果图表 | 标准完整流程稳定，结果与证据对应 |
+| 11/15 周日 | 全天，约6h | 视频、PDF、README和仓库评审访问 | 5–8分钟视频，PDF≤30页，至少3条开发链 |
+| 11/16 周一 | 全天，约6h | 最终核对、材料上传与用户正式提交 | 计划当天提交并保存成功回执 |
+| 11/17 周二 | 晚间1–2h | 链接与回执复查，处理允许的更正 | 不重复提交；更正遵循组委会流程 |
+| 11/18 周三 | 官方15:00截止 | 不安排首次提交或新增开发 | 截止前应已完成提交 |
+
+**范围控制：** P0是一条完整学习流程；P1滤波最多占用11月9日中的4小时。11月8日P0未走通就延期P1；11月12日后只修复、验证和整理材料。
+
+## Global Constraints
+
+- f0取5–200的整数Hz，fs取20–1000的整数Hz，A取0.1–2，phase取[-pi, pi]，时长固定1秒。
+- 参考网格4096点，采样时刻n/fs，n=0..fs-1。直接计算这些时刻的原信号，不能用带抗混叠滤波的降采样函数代替欠采样。
+- 样本RMS<1e-8时标记DEGENERATE_SAMPLES，频谱实测主峰返回null，避免把浮点噪声解释为真实主峰。
+- fs>2*f0标记well_sampled；fs<2*f0标记undersampled；相等标记nyquist_boundary。边界不能直接宣称可无损重建。
+- 省赛只允许sampling_aliasing、lowpass_filter两种结构化实验；不执行模型生成的任意Python、JS或shell代码。
+- 模型超时30秒，显示明确失败状态，实验计算仍可用。
+- 计算指标由程序渲染，AI输出不能覆盖数值结果、标准答案或原始学习记录。
+- 官方省赛最终截止：2026-11-18 15:00；内部计划2026-11-16完成首次正式提交，11月17日晚留作检查或获准更正。
+
+## Review Focus
+
+1. 奈奎斯特边界或全零采样被解释成成功重建：任务1用S3/S4钉住。
+2. 快速连续调参后，旧请求覆盖新结果或引用错run_id：任务2、4、6验证。
+3. 模型超时、返回非JSON或越界参数，被静默替换成成功演示：任务4验证明确失败和实验仍可用。
+4. 刷新或模型重试覆盖原始预测、重复计入一次作答：任务3以event_id幂等验证。
+5. 周期模型被外推到任意实测信号、对照题答案泄漏给指导模型：任务1、4、6核验假设展示、请求上下文和留出集。
+
+## 文件结构与公共接口
+
+以下是未来执行时创建的路径，本次没有创建这些产品文件。共享类型以设计基线第5节为准。
+
+| 路径 | 职责 |
+| --- | --- |
+| backend/app/main.py | FastAPI装配与路由 |
+| backend/app/schemas.py | 设计基线中的请求、结果、证据及学习事件类型 |
+| backend/app/experiments/sampling.py | 采样、频谱、周期重建与警告 |
+| backend/app/experiments/filtering.py | P1低通滤波 |
+| backend/app/experiments/runner.py | run_experiment(request: ExperimentRequest) -> ExperimentRun |
+| backend/app/store.py | Store.put_run(run), get_run(run_id), append_event(event), list_events(session_id) |
+| backend/app/tutor/client.py | TutorClient.complete(context: dict) -> str，真实模型适配 |
+| backend/app/tutor/service.py | guide(request: TutorRequest) -> TutorReply及证据校验 |
+| frontend/src/api.ts | 类型化API请求与错误处理 |
+| frontend/src/features/lab/ | 参数、波形、频谱、运行比较 |
+| frontend/src/features/learning/ | 预测、步骤、迁移题、记录导出 |
+| frontend/src/features/tutor/ | 指导内容、证据跳转、建议参数确认 |
+| content/cases.json | 公开学习案例；不放留出题答案 |
+| backend/content/assessment_keys.json | 服务端判题及留出题答案；不随前端打包 |
+| evaluation/ | 用例清单、对照配置、匿名原始结果和分析 |
+| evidence/ai-development/ | 原始AI交互、commit映射、实际验证记录 |
+| deliverables/ | 与最终源码版本对应的文档、视频及材料索引 |
+
+LearningEvent含event_id字符串；同一event_id重复写入只计一次。Store.get_run返回ExperimentRun或null；Store.list_events返回LearningEvent列表。TutorReply.next_experiment仅为建议，用户确认后运行接口才产生新run_id；禁止把建议当作已执行结果。
+
+AssessmentAnswer固定为choice(option_id)或numeric(value, unit)；ScoreResult包含correct、misconception_code、explanation_key。频率数值题容差0.5Hz，P1增益题容差0.02；反思文字不自动判分。评估B/C以同一程序的模式开关实现，两者都可获得当前参数与真实指标，模型与调用限制相同，C使用结构化建议和证据引用。
+
+## Task 1: 可核验的采样实验引擎（11/3–11/4，约3小时）
+
+**Files:** 创建backend/pyproject.toml、backend/app/schemas.py、backend/app/experiments/sampling.py、backend/app/experiments/runner.py、backend/tests/test_sampling.py、.gitignore；开始evidence/ai-development/index.md。
+
+**Interfaces:** 消费SamplingParams；产生run_experiment(request: ExperimentRequest) -> ExperimentRun，采样指标包含alias_frequency_hz、sampling_state、sample_rms、peak_frequency_hz、reconstruction_rmse。
+
+- [ ] 写失败测试test_safe_sampling_reconstructs：50/400→50Hz，状态well_sampled，RMSE<1e-10。
+- [ ] 写test_aliases_70hz_to_negative_30hz：70/100→30Hz，重建等于负30Hz正弦，较原信号RMSE与1之差<1e-10。
+- [ ] 写test_nyquist_zero_samples：50/100、phase=0，边界与DEGENERATE_SAMPLES同时成立，实测主峰null；补100/100的S4区分用例。
+- [ ] 从backend运行python -m pytest tests/test_sampling.py -q，确认先出现缺少实现的失败。
+- [ ] 实现请求范围、解析采样、单边谱与周期重建；按SciPy文档处理DC/Nyquist系数和周期假设；建立实际依赖锁定。
+- [ ] 重跑同一测试，预期全部通过；将实际输出、失败修复过程和对应commit记录到证据索引。
+
+## Task 2: 真实运行API与交互实验页面（11/5–11/6，约6小时）
+
+**Files:** 创建backend/app/main.py、backend/app/store.py、backend/tests/test_runs_api.py、frontend/package.json、frontend/src/api.ts、frontend/src/features/lab/LabPage.tsx、frontend/src/features/lab/plots.ts；测试frontend/src/features/lab/LabPage.test.tsx。
+
+**Interfaces:** 消费Task 1的ExperimentRequest/ExperimentRun；产生POST /api/experiments/run、Store.put_run/get_run，以及LabPage显示真实run_id与科学边界说明。
+
+- [ ] 写API失败测试：合法请求返回200及可查run_id，越界/NaN/未知experiment_type返回422，P1未启用时明确拒绝。
+- [ ] 写前端异步顺序测试：先发A后发B，B先完成、A后完成，最终仍显示B的run_id和参数。
+- [ ] 分别运行backend的python -m pytest tests/test_runs_api.py -q、frontend的npm run test -- --run，确认目标测试先失败。
+- [ ] 实现SQLite运行保存、接口、参数调整及曲线绘制；参考线、采样点、频谱和重建曲线使用同一运行结果；最新请求优先。
+- [ ] 重跑测试并在浏览器完成S1/S2/S3切换，确认轴单位、边界说明和数据同步；记录实际截图和错误修复。
+- [ ] 提交这一可运行实验版本，保存对应AI对话与验证结果。
+
+## Task 3: 预测、迁移题和真实记录（11/6余时–11/7前半，约5小时）
+
+**Files:** 创建content/cases.json、backend/content/assessment_keys.json、backend/app/learning.py、backend/tests/test_learning.py、frontend/src/features/learning/LearningFlow.tsx及LearningFlow.test.tsx；修改schemas.py、store.py、main.py。
+
+**Interfaces:** 消费实验run_id；产生LearningEvent(event_id+设计字段)、POST /api/events、GET /api/sessions/{id}/export?format=json或csv；score_answer(case_id: str, answer: AssessmentAnswer) -> ScoreResult执行客观判题。
+
+- [ ] 写失败测试：同一event_id重发只保存一次；刷新后原预测仍在；迁移题更换参数，前端内容不含标准答案。
+- [ ] 写判题边界断言：单选按option_id匹配；30Hz标准答案的30.5Hz通过、30.6Hz不通过；单位不为Hz的频率答案被拒绝；反思文字不产生自动得分。
+- [ ] 写导出断言：保留预测、实际run_id、答案、耗时与失败结果；其他会话数据不会混入；CSV能正确处理中文及换行。
+- [ ] 运行python -m pytest tests/test_learning.py -q和前端目标测试，确认失败。
+- [ ] 实现完整学习步骤、6类误区案例、服务端判题、记录恢复和导出；所有正式作答追加记录，不让模型覆写。
+- [ ] 重跑测试；在浏览器完成一次新会话到迁移题及导出，检查记录能逐条还原操作。
+- [ ] 提交，并保存这次学习流程从需求到修复的真实开发证据。
+
+## Task 4: 真实AI指导与证据引用（11/7后半–11/8，约8小时）
+
+**Files:** 创建backend/app/tutor/client.py、backend/app/tutor/service.py、backend/tests/test_tutor.py、frontend/src/features/tutor/TutorPanel.tsx及TutorPanel.test.tsx、.env.example；修改main.py与学习流程。
+
+**Interfaces:** 消费Store.get_run、TutorRequest和真实运行；产生TutorClient.complete(context: dict) -> str、guide(request) -> TutorReply、validate_evidence(reply, run) -> bool和POST /api/tutor/guide。
+
+- [ ] 写失败测试：错误run_id、未知metric_key、非JSON、非法建议参数均不显示为有效指导；30秒超时返回明确错误。
+- [ ] 写上下文测试：发送当前运行、当前预测及必要理论材料，不发送留出题答案；前端包和响应均不含密钥。
+- [ ] 用固定模拟响应测试上述失败路径，运行python -m pytest tests/test_tutor.py -q及前端目标测试，确认先失败；这些模拟结果不得算真实AI验收。
+- [ ] 实施时与用户确定模型、凭据和费用安排，再接入真实后端适配器；提示词约束解释依据和参数范围。
+- [ ] 实现证据跳转、建议参数确认和模型失败提示；点击确认才运行新实验并显示新run_id，保留已有预测。
+- [ ] 重跑自动测试，再用真实模型跑至少10条指导请求并人工核对；记录模型、时间、配置、错误与修复，明确区分实测和模拟。
+- [ ] 完成完整学习流程后提交，保存AI证据引用错误的修复迭代链。
+
+## Task 5: 有条件的滤波扩展（11/9，最多4小时）
+
+**Files:** 创建backend/app/experiments/filtering.py、backend/tests/test_filtering.py；修改runner.py、schemas.py、LabPage.tsx与cases.json。
+
+**Interfaces:** 消费FilteringParams；仍返回ExperimentRun，增加gain_20hz、gain_120hz及稳态窗口说明。
+
+- [ ] 先检查P0流程、真实AI和导出是否全部可用；未满足则将本任务标延期，把时间用于P0修复。
+- [ ] 写失败测试：cutoff=60时20Hz增益与0.99993001差<0.005，120Hz增益与0.05380920差<0.005；cutoff≤0或≥500被拒绝。
+- [ ] 运行python -m pytest tests/test_filtering.py -q，确认失败。
+- [ ] 用4阶Butterworth SOS与单向sosfilt实现；用最后1秒稳态窗口测量，展示启动瞬态与相移说明。
+- [ ] 重跑测试并走通一个滤波迁移题，确认既有采样学习流程不回归；4小时未完成就回退未完成功能入口并记录延期原因。
+- [ ] 完成时单独提交，不把半成品混入最终省赛路径。
+
+## Task 6: 对照、留出用例与真实试用（11/8余时–11/12，约7小时）
+
+**Files:** 创建evaluation/case_manifest.csv、evaluation/protocol.md、evaluation/assignments.csv、evaluation/raw/、evaluation/analyze.py、backend/tests/test_evaluation.py、frontend/e2e/learning-flow.spec.ts；维护evaluation/results.md；在tutor服务及前端加入B/C模式开关。
+
+**Interfaces:** 消费Task 3导出记录；analyze(events: list[dict]) -> dict返回样本数、完成率、迁移题正确数、耗时分布及失败计数。
+
+- [ ] 开始正式测评前冻结30个标注用例（20数值/边界、10指导/交互），标记至少10个留出案例；保留标注依据与版本。
+- [ ] 写分析测试：0名用户显示“未测”而非0%效果；失败与退出进入分母，重复event_id不重复统计，模拟记录不计真人。
+- [ ] 运行python -m pytest tests/test_evaluation.py -q确认失败；实现analyze并重跑通过。
+- [ ] 写并运行npx playwright test e2e/learning-flow.spec.ts：参数切换、先预测后运行、指导、迁移题、刷新恢复、超时、导出。
+- [ ] 用户自行邀请目标8–12名学生和1名教师；先用2–3人试跑流程。正式比较仅B/C两个条件，冻结X/Y两套匹配题组，各3个任务+3个新参数迁移题。
+- [ ] 按B-X→C-Y、C-X→B-Y、B-Y→C-X、C-Y→B-X四种顺序循环分配，每人约20–30分钟。B同样取得当前参数与实测指标；固定模型、材料及调用限制，记录条件、题组和顺序。
+- [ ] TutorRequest.mode固定取B或C，默认C；B原始文本包装为无引用、无建议参数的TutorReply。assignments.csv记录匿名participant_id、session_id、condition、form、order_index及模型配置，会话内不切换条件。
+- [ ] 少于4人时仅报告定性可用性；其他小样本也只报告描述性比较，A静态仿真不作为第三组真人试验。
+- [ ] 保存匿名原始记录与分析命令；提交软件修改和脱敏后的证据索引，原始个人信息不进入公开仓库。
+
+## Task 7: 独立复现与交互打磨（11/13–11/14，约12小时）
+
+**Files:** 创建README.md、scripts/start.ps1、scripts/check.ps1、evaluation/reproduction.md；更新测试和已有功能文件。
+
+**Interfaces:** 在已声明的Python/Node前提下，start.ps1启动后端和前端；check.ps1运行后端测试、前端测试、构建及主要浏览器流程，并根据失败返回非零退出码。
+
+- [ ] 执行冻结的留出案例，记录真实失败；对修复项先补能复现问题的测试，再做针对性修复。
+- [ ] 使用新的目录或另一台环境按README获取源码、安装依赖、配置变量、启动标准案例，全程计时；目标10分钟，记录所有必要步骤耗时。
+- [ ] 核查模型不可用、空会话、网络中断、未知run_id和连续调参；界面保持结果归属清楚，失败不会被成功提示覆盖。
+- [ ] 前端执行npm run test -- --run、npm run build、npx playwright test；后端执行python -m pytest -q，确认实际输出。
+- [ ] 只在新修改或失败出现后补充或重跑相关验证；核对桌面常用窗口尺寸下的图表、单位、按钮和证据定位。
+- [ ] 冻结可交付版本，记录commit、实际依赖版本、已知限制、实测耗时和截图；保存最终缺陷清单。
+
+## Task 8: 参赛材料与提交（11/15–11/16，材料约10小时，缓冲2小时）
+
+**Files:** 创建deliverables/作品说明.md、deliverables/技术文档提纲.md、deliverables/视频脚本.md、deliverables/提交清单.md；完成最终PDF、MP4及证据索引。
+
+**Interfaces:** 消费冻结版本、真实评估结果、开发证据；生成材料版本与源码commit的一一对应索引。
+
+- [ ] 汇总至少3个核心AI开发链：完整原始交互、关键修改、失败及修复、实际测试、对应commit；检查截图中的凭据和私人信息。
+- [ ] 写不超过30页的技术PDF，覆盖问题、同类差异、架构、意图控制、科学假设、验证、实际结果及限制；按页渲染检查图表、引用和文字。
+- [ ] 录制5–8分钟1080p MP4，至少2分钟真实AI协同开发过程；功能展示、数据与技术文档对应同一冻结版本。
+- [ ] 测试仓库评审权限、完整作品网盘、单独介绍文档和公开视频链接；用未登录视角检查可访问性。
+- [ ] 用户在11月16日按实际表单完成正式提交，保存成功回执、提交时间、材料链接及版本；此项不是本次已完成的操作。
+- [ ] 11月17日晚复查链接和回执；如需更正，遵循组委会允许的流程，避免在“一人一次”的表单上擅自重复提交。
+
+## 晋级后的国赛深化路线
+
+| 时间 | 深化重点 | 证据要求 |
+| --- | --- | --- |
+| 11/19–11/30 | 根据省赛反馈和真实错误扩展教学案例、抗混叠对照或量化实验 | 新案例标准答案、修复对照、版本记录 |
+| 12/1–12/10 | 如选择硬件拓展，接入一种实测信号链路并记录校准、采样率和误差 | 原始采集数据、设置、与仿真对照；设备与预算再确认 |
+| 12/11–12/20 | 扩大学生试用，做静态指导/普通聊天/本产品的公平对照 | 匿名原始数据、分配方法、失败记录和限制 |
+| 12/21–12/24 | 冻结版本，更新文档、视频与复现包 | 与最终commit一致的完整材料 |
+| 12/25 | 内部计划提交国赛，留补传缓冲 | 以晋级后的正式通知重核截止及流程 |
+
+国赛目前暂按官网12月27日提交截止安排，需在晋级后核对正式通知；上述是深化计划，不代表已晋级或已取得效果。
+
+## 主要取舍与计划自检
+
+- 科学正确性、真实AI、完整学习流程、开发证据和提交材料先于增加实验数量。
+- 若11月8日P0未完成，延期P1；若11月12日真人数据不足，保留真实样本量和限制，不编造效果。
+- 硬件可采购；是否接入以及何时购买，在测量目标和接口确定后决定，不把设备采购数量作为成果。
+- 所有开发任务有明确文件、公共接口、失败测试和验收方式；Review Focus中的五项分别归入任务1/2/3/4/6。
+- 任务勾选、测试通过、真人数量、复现耗时、上传及回执仅按执行时的实际证据更新。
+- 实施建议在当前聊天逐项执行，便于追踪这一紧密相连的核心流程。当前交付到计划阶段，实施时再按用户的开始指令进入任务1。
+
+设计独立审阅已完成：客观题型与容差、B/C题组分配、53小时P0预算和削减规则均已修订，复核未发现重要缺口。这是对文档可执行性的审阅，不是产品功能或教学效果已经验证。
+
+规则来源：[官方赛道](https://www.boxuegu.com/matchTrack/detail/?id=10039)、[个人流程](https://xuexi.boxuegu.com/matchProcess/?id=160136)、[最终提交表](https://f.kdocs.cn/g/CZ14BoMv/)。技术来源和边界见设计基线第8节。

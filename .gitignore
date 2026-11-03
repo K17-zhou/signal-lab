@@ -1,0 +1,17 @@
+.venv/
+.cache/
+.superpowers/
+.pytest_cache/
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+node_modules/
+.env
+.env.*
+!.env.example
+artifacts/
+evidence/private/
+*.sqlite3
+*.db
