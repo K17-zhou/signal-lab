@@ -1,0 +1,183 @@
+FFFFFFFFFFFFFFFFFFFFFFFFFFFF                                             [100%]
+================================== FAILURES ===================================
+_______________________ test_safe_sampling_reconstructs _______________________
+tests\test_sampling.py:32: in test_safe_sampling_reconstructs
+    run = run_sampling()
+          ^^^^^^^^^^^^^^
+tests\test_sampling.py:12: in run_sampling
+    from app.experiments.runner import run_experiment
+E   ModuleNotFoundError: No module named 'app.experiments.runner'
+_____________________ test_aliases_70hz_to_negative_30hz ______________________
+tests\test_sampling.py:46: in test_aliases_70hz_to_negative_30hz
+    run = run_sampling(70, 100)
+          ^^^^^^^^^^^^^^^^^^^^^
+tests\test_sampling.py:12: in run_sampling
+    from app.experiments.runner import run_experiment
+E   ModuleNotFoundError: No module named 'app.experiments.runner'
+__________________________ test_nyquist_zero_samples __________________________
+tests\test_sampling.py:59: in test_nyquist_zero_samples
+    run = run_sampling(50, 100)
+          ^^^^^^^^^^^^^^^^^^^^^
+tests\test_sampling.py:12: in run_sampling
+    from app.experiments.runner import run_experiment
+E   ModuleNotFoundError: No module named 'app.experiments.runner'
+________ test_integer_multiple_of_sample_rate_is_not_nyquist_boundary _________
+tests\test_sampling.py:70: in test_integer_multiple_of_sample_rate_is_not_nyquist_boundary
+    run = run_sampling(100, 100)
+          ^^^^^^^^^^^^^^^^^^^^^^
+tests\test_sampling.py:12: in run_sampling
+    from app.experiments.runner import run_experiment
+E   ModuleNotFoundError: No module named 'app.experiments.runner'
+_____________ test_nonzero_dc_alias_is_not_doubled_or_suppressed ______________
+tests\test_sampling.py:80: in test_nonzero_dc_alias_is_not_doubled_or_suppressed
+    run = run_sampling(100, 100, phase_rad=math.pi / 2)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_sampling.py:12: in run_sampling
+    from app.experiments.runner import run_experiment
+E   ModuleNotFoundError: No module named 'app.experiments.runner'
+____________________ test_nyquist_bin_keeps_unit_amplitude ____________________
+tests\test_sampling.py:91: in test_nyquist_bin_keeps_unit_amplitude
+    run = run_sampling(50, 100, phase_rad=math.pi / 2)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_sampling.py:12: in run_sampling
+    from app.experiments.runner import run_experiment
+E   ModuleNotFoundError: No module named 'app.experiments.runner'
+__________ test_odd_length_final_bin_is_a_regular_positive_frequency __________
+tests\test_sampling.py:101: in test_odd_length_final_bin_is_a_regular_positive_frequency
+    run = run_sampling(50, 101)
+          ^^^^^^^^^^^^^^^^^^^^^
+tests\test_sampling.py:12: in run_sampling
+    from app.experiments.runner import run_experiment
+E   ModuleNotFoundError: No module named 'app.experiments.runner'
+___________________ test_amplitude_and_phase_are_preserved ____________________
+tests\test_sampling.py:111: in test_amplitude_and_phase_are_preserved
+    run = run_sampling(25, 400, amplitude=2, phase_rad=math.pi / 2)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_sampling.py:12: in run_sampling
+    from app.experiments.runner import run_experiment
+E   ModuleNotFoundError: No module named 'app.experiments.runner'
+__________ test_sampling_grid_excludes_the_duplicate_period_endpoint __________
+tests\test_sampling.py:121: in test_sampling_grid_excludes_the_duplicate_period_endpoint
+    run = run_sampling()
+          ^^^^^^^^^^^^^^
+tests\test_sampling.py:12: in run_sampling
+    from app.experiments.runner import run_experiment
+E   ModuleNotFoundError: No module named 'app.experiments.runner'
+_____ test_multiple_folds_have_the_correct_observed_frequency[170-100-30] _____
+tests\test_sampling.py:133: in test_multiple_folds_have_the_correct_observed_frequency
+    assert run_sampling(frequency, sample_rate).metrics.alias_frequency_hz == expected
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_sampling.py:12: in run_sampling
+    from app.experiments.runner import run_experiment
+E   ModuleNotFoundError: No module named 'app.experiments.runner'
+_____ test_multiple_folds_have_the_correct_observed_frequency[190-80-30] ______
+tests\test_sampling.py:133: in test_multiple_folds_have_the_correct_observed_frequency
+    assert run_sampling(frequency, sample_rate).metrics.alias_frequency_hz == expected
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_sampling.py:12: in run_sampling
+    from app.experiments.runner import run_experiment
+E   ModuleNotFoundError: No module named 'app.experiments.runner'
+______ test_multiple_folds_have_the_correct_observed_frequency[200-20-0] ______
+tests\test_sampling.py:133: in test_multiple_folds_have_the_correct_observed_frequency
+    assert run_sampling(frequency, sample_rate).metrics.alias_frequency_hz == expected
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_sampling.py:12: in run_sampling
+    from app.experiments.runner import run_experiment
+E   ModuleNotFoundError: No module named 'app.experiments.runner'
+_____________ test_result_is_finite_json_and_has_a_unique_run_id ______________
+tests\test_sampling.py:138: in test_result_is_finite_json_and_has_a_unique_run_id
+    first = run_sampling()
+            ^^^^^^^^^^^^^^
+tests\test_sampling.py:12: in run_sampling
+    from app.experiments.runner import run_experiment
+E   ModuleNotFoundError: No module named 'app.experiments.runner'
+___ test_invalid_parameters_are_rejected_before_computation[frequency_hz-4] ___
+tests\test_sampling.py:164: in test_invalid_parameters_are_rejected_before_computation
+    from app.schemas import ExperimentRequest
+E   ModuleNotFoundError: No module named 'app.schemas'
+__ test_invalid_parameters_are_rejected_before_computation[frequency_hz-201] __
+tests\test_sampling.py:164: in test_invalid_parameters_are_rejected_before_computation
+    from app.schemas import ExperimentRequest
+E   ModuleNotFoundError: No module named 'app.schemas'
+__ test_invalid_parameters_are_rejected_before_computation[frequency_hz-5.5] __
+tests\test_sampling.py:164: in test_invalid_parameters_are_rejected_before_computation
+    from app.schemas import ExperimentRequest
+E   ModuleNotFoundError: No module named 'app.schemas'
+_ test_invalid_parameters_are_rejected_before_computation[frequency_hz-True] __
+tests\test_sampling.py:164: in test_invalid_parameters_are_rejected_before_computation
+    from app.schemas import ExperimentRequest
+E   ModuleNotFoundError: No module named 'app.schemas'
+__ test_invalid_parameters_are_rejected_before_computation[frequency_hz-50] ___
+tests\test_sampling.py:164: in test_invalid_parameters_are_rejected_before_computation
+    from app.schemas import ExperimentRequest
+E   ModuleNotFoundError: No module named 'app.schemas'
+_ test_invalid_parameters_are_rejected_before_computation[sample_rate_hz-19] __
+tests\test_sampling.py:164: in test_invalid_parameters_are_rejected_before_computation
+    from app.schemas import ExperimentRequest
+E   ModuleNotFoundError: No module named 'app.schemas'
+_ test_invalid_parameters_are_rejected_before_computation[sample_rate_hz-1001] _
+tests\test_sampling.py:164: in test_invalid_parameters_are_rejected_before_computation
+    from app.schemas import ExperimentRequest
+E   ModuleNotFoundError: No module named 'app.schemas'
+_ test_invalid_parameters_are_rejected_before_computation[sample_rate_hz-100.5] _
+tests\test_sampling.py:164: in test_invalid_parameters_are_rejected_before_computation
+    from app.schemas import ExperimentRequest
+E   ModuleNotFoundError: No module named 'app.schemas'
+____ test_invalid_parameters_are_rejected_before_computation[amplitude-0] _____
+tests\test_sampling.py:164: in test_invalid_parameters_are_rejected_before_computation
+    from app.schemas import ExperimentRequest
+E   ModuleNotFoundError: No module named 'app.schemas'
+___ test_invalid_parameters_are_rejected_before_computation[amplitude-2.1] ____
+tests\test_sampling.py:164: in test_invalid_parameters_are_rejected_before_computation
+    from app.schemas import ExperimentRequest
+E   ModuleNotFoundError: No module named 'app.schemas'
+___ test_invalid_parameters_are_rejected_before_computation[amplitude-nan] ____
+tests\test_sampling.py:164: in test_invalid_parameters_are_rejected_before_computation
+    from app.schemas import ExperimentRequest
+E   ModuleNotFoundError: No module named 'app.schemas'
+___ test_invalid_parameters_are_rejected_before_computation[amplitude-inf] ____
+tests\test_sampling.py:164: in test_invalid_parameters_are_rejected_before_computation
+    from app.schemas import ExperimentRequest
+E   ModuleNotFoundError: No module named 'app.schemas'
+_ test_invalid_parameters_are_rejected_before_computation[phase_rad-3.151592653589793] _
+tests\test_sampling.py:164: in test_invalid_parameters_are_rejected_before_computation
+    from app.schemas import ExperimentRequest
+E   ModuleNotFoundError: No module named 'app.schemas'
+___ test_invalid_parameters_are_rejected_before_computation[phase_rad-nan] ____
+tests\test_sampling.py:164: in test_invalid_parameters_are_rejected_before_computation
+    from app.schemas import ExperimentRequest
+E   ModuleNotFoundError: No module named 'app.schemas'
+________ test_unknown_fields_and_experiments_are_not_silently_accepted ________
+tests\test_sampling.py:174: in test_unknown_fields_and_experiments_are_not_silently_accepted
+    from app.schemas import ExperimentRequest
+E   ModuleNotFoundError: No module named 'app.schemas'
+=========================== short test summary info ===========================
+FAILED tests/test_sampling.py::test_safe_sampling_reconstructs - ModuleNotFou...
+FAILED tests/test_sampling.py::test_aliases_70hz_to_negative_30hz - ModuleNot...
+FAILED tests/test_sampling.py::test_nyquist_zero_samples - ModuleNotFoundErro...
+FAILED tests/test_sampling.py::test_integer_multiple_of_sample_rate_is_not_nyquist_boundary
+FAILED tests/test_sampling.py::test_nonzero_dc_alias_is_not_doubled_or_suppressed
+FAILED tests/test_sampling.py::test_nyquist_bin_keeps_unit_amplitude - Module...
+FAILED tests/test_sampling.py::test_odd_length_final_bin_is_a_regular_positive_frequency
+FAILED tests/test_sampling.py::test_amplitude_and_phase_are_preserved - Modul...
+FAILED tests/test_sampling.py::test_sampling_grid_excludes_the_duplicate_period_endpoint
+FAILED tests/test_sampling.py::test_multiple_folds_have_the_correct_observed_frequency[170-100-30]
+FAILED tests/test_sampling.py::test_multiple_folds_have_the_correct_observed_frequency[190-80-30]
+FAILED tests/test_sampling.py::test_multiple_folds_have_the_correct_observed_frequency[200-20-0]
+FAILED tests/test_sampling.py::test_result_is_finite_json_and_has_a_unique_run_id
+FAILED tests/test_sampling.py::test_invalid_parameters_are_rejected_before_computation[frequency_hz-4]
+FAILED tests/test_sampling.py::test_invalid_parameters_are_rejected_before_computation[frequency_hz-201]
+FAILED tests/test_sampling.py::test_invalid_parameters_are_rejected_before_computation[frequency_hz-5.5]
+FAILED tests/test_sampling.py::test_invalid_parameters_are_rejected_before_computation[frequency_hz-True]
+FAILED tests/test_sampling.py::test_invalid_parameters_are_rejected_before_computation[frequency_hz-50]
+FAILED tests/test_sampling.py::test_invalid_parameters_are_rejected_before_computation[sample_rate_hz-19]
+FAILED tests/test_sampling.py::test_invalid_parameters_are_rejected_before_computation[sample_rate_hz-1001]
+FAILED tests/test_sampling.py::test_invalid_parameters_are_rejected_before_computation[sample_rate_hz-100.5]
+FAILED tests/test_sampling.py::test_invalid_parameters_are_rejected_before_computation[amplitude-0]
+FAILED tests/test_sampling.py::test_invalid_parameters_are_rejected_before_computation[amplitude-2.1]
+FAILED tests/test_sampling.py::test_invalid_parameters_are_rejected_before_computation[amplitude-nan]
+FAILED tests/test_sampling.py::test_invalid_parameters_are_rejected_before_computation[amplitude-inf]
+FAILED tests/test_sampling.py::test_invalid_parameters_are_rejected_before_computation[phase_rad-3.151592653589793]
+FAILED tests/test_sampling.py::test_invalid_parameters_are_rejected_before_computation[phase_rad-nan]
+FAILED tests/test_sampling.py::test_unknown_fields_and_experiments_are_not_silently_accepted
+28 failed in 1.33s
