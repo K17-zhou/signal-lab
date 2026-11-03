@@ -1,0 +1,20 @@
+FF                                                                       [100%]
+================================== FAILURES ===================================
+______________________ test_demo_exports_computed_cases _______________________
+tests\test_demo.py:19: in test_demo_exports_computed_cases
+    assert result.returncode == 0, result.stderr
+E   AssertionError: C:\Users\k2230\Desktop\Study\����\���Ǳ�\.venv\Scripts\python.exe: No module named app.demo
+E     
+E   assert 1 == 0
+E    +  where 1 = CompletedProcess(args=['C:\\Users\\k2230\\Desktop\\Study\\����\\���Ǳ�\\.venv\\Scripts\\python.exe', '-m', 'app.demo', '--o... stdout='', stderr='C:\\Users\\k2230\\Desktop\\Study\\����\\���Ǳ�\\.venv\\Scripts\\python.exe: No module named app.demo\n').returncode
+__________ test_demo_does_not_overwrite_an_existing_result_directory __________
+tests\test_demo.py:43: in test_demo_does_not_overwrite_an_existing_result_directory
+    assert "already exists" in result.stderr.casefold()
+E   AssertionError: assert 'already exists' in 'c:\\users\\k2230\\desktop\\study\\����\\���Ǳ�\\.venv\\scripts\\python.exe: no module named app.demo\n'
+E    +  where 'c:\\users\\k2230\\desktop\\study\\����\\���Ǳ�\\.venv\\scripts\\python.exe: no module named app.demo\n' = <built-in method casefold of str object at 0x00000197CEE4B780>()
+E    +    where <built-in method casefold of str object at 0x00000197CEE4B780> = 'C:\\Users\\k2230\\Desktop\\Study\\����\\���Ǳ�\\.venv\\Scripts\\python.exe: No module named app.demo\n'.casefold
+E    +      where 'C:\\Users\\k2230\\Desktop\\Study\\����\\���Ǳ�\\.venv\\Scripts\\python.exe: No module named app.demo\n' = CompletedProcess(args=['C:\\Users\\k2230\\Desktop\\Study\\����\\���Ǳ�\\.venv\\Scripts\\python.exe', '-m', 'app.demo', '--o... stdout='', stderr='C:\\Users\\k2230\\Desktop\\Study\\����\\���Ǳ�\\.venv\\Scripts\\python.exe: No module named app.demo\n').stderr
+=========================== short test summary info ===========================
+FAILED tests/test_demo.py::test_demo_exports_computed_cases - AssertionError:...
+FAILED tests/test_demo.py::test_demo_does_not_overwrite_an_existing_result_directory
+2 failed in 0.30s
