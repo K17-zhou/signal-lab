@@ -6,10 +6,10 @@
  RUN  v5.1.0 C:/Users/k2230/Desktop/Study/资料/传智杯/frontend
 
 
- Test Files  1 passed (1)
-      Tests  4 passed (4)
-   Start at  20:33:34
-   Duration  3.11s (environment 68%, tests 17%, setup 13%, transform 1%, import 1%)
+ Test Files  2 passed (2)
+      Tests  6 passed (6)
+   Start at  20:47:00
+   Duration  3.19s (environment 72%, setup 15%, tests 11%, transform 2%, import 1%)
 
 npm notice
 npm notice New major version of npm available! 11.13.0 -> 12.2.1

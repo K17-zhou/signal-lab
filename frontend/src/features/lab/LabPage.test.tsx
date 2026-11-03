@@ -50,6 +50,8 @@ describe('LabPage', () => {
     await act(async () => { first.resolve(response(aliased)); });
     expect(screen.getByText('run-B')).toBeVisible();
     expect(screen.queryByText('run-A')).not.toBeInTheDocument();
+    expect(screen.getByRole('spinbutton', { name: '信号频率' })).toHaveValue(50);
+    expect(screen.getByRole('spinbutton', { name: '采样率' })).toHaveValue(400);
   });
 
   it('rejects invalid draft input without replacing the previous valid result', async () => {

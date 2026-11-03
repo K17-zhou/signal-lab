@@ -1,0 +1,14 @@
+[
+  {
+    "frequency_hz": 5,
+    "sample_rate_hz": 49,
+    "id": "5f9a534a-c972-4d43-be42-1cd6990a7e76",
+    "summary": "采样充分\n\n5 Hz 信号以 49 Hz 采样，当前周期模型可重建。\n\n原始频率\n5 Hz\n观测主峰\n5 Hz\n重建误差\n< 0.001"
+  },
+  {
+    "frequency_hz": 54,
+    "sample_rate_hz": 49,
+    "id": "f161f074-3f5f-422b-ba96-0189f28f1c77",
+    "summary": "发生混叠\n\n54 Hz 信号以 49 Hz 采样，观测到的主峰为 5 Hz。\n\n原始频率\n54 Hz\n观测主峰\n5 Hz\n重建误差\n1.000"
+  }
+]

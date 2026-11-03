@@ -6,6 +6,7 @@ import { GridComponent, TooltipComponent } from 'echarts/components';
 import { SVGRenderer } from 'echarts/renderers';
 import type { ExperimentRun } from '../../api';
 import { buildPlotOptions } from './plots';
+import { formatFrequency } from './format';
 
 echarts.use([LineChart, ScatterChart, GridComponent, TooltipComponent, SVGRenderer]);
 
@@ -34,7 +35,7 @@ export function SignalPlots({ run }: { run: ExperimentRun | null }) {
     </section>
     <section className="chart-panel panel frequency-chart" aria-labelledby="frequency-heading">
       <div className="chart-heading"><h2 id="frequency-heading">频谱观察</h2></div>
-      {options && run ? <Plot option={options.frequency} label={`单边频谱：${run.metrics.peak_frequency_hz === null ? '无有效主峰' : `主峰${run.metrics.peak_frequency_hz}Hz`}`} /> : <div className="plot-empty">运行实验后显示频谱。</div>}
+      {options && run ? <Plot option={options.frequency} label={`单边频谱：${run.metrics.peak_frequency_hz === null ? '无有效主峰' : `主峰${formatFrequency(run.metrics.peak_frequency_hz)}Hz`}`} /> : <div className="plot-empty">运行实验后显示频谱。</div>}
     </section>
   </>;
 }

@@ -1,0 +1,59 @@
+
+> signal-lab-frontend@0.1.0 test
+> vitest --run src/features/lab/RunSummary.test.tsx
+
+
+ RUN  v5.1.0 C:/Users/k2230/Desktop/Study/资料/传智杯/frontend
+
+ ❯ src/features/lab/RunSummary.test.tsx (2 tests | 2 failed) 162ms
+   ❯ RunSummary (2)
+     × keeps floating point noise out of well_sampled frequency labels 146ms
+     × keeps floating point noise out of undersampled frequency labels 14ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/lab/RunSummary.test.tsx > RunSummary > keeps floating point noise out of well_sampled frequency labels
+Error: expect(element).not.toHaveTextContent()
+
+Expected element not to have text content:
+  5.000000000000001
+Received:
+  采样充分5 Hz 信号以 49 Hz 采样，当前周期模型可重建。原始频率5 Hz观测主峰5.000000000000001 Hz重建误差< 0.001
+ ❯ src/features/lab/RunSummary.test.tsx:16:25
+     14|     render(<RunSummary run={run} />);
+     15|     const summary = screen.getByRole('region', { name: '实验结果' });
+     16|     expect(summary).not.toHaveTextContent('5.000000000000001');
+       |                         ^
+     17|     expect(screen.getByText('观测主峰').nextElementSibling).toHaveTextCont…
+     18|     expect(run.metrics.peak_frequency_hz).toBe(5.000000000000001);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/features/lab/RunSummary.test.tsx > RunSummary > keeps floating point noise out of undersampled frequency labels
+Error: expect(element).not.toHaveTextContent()
+
+Expected element not to have text content:
+  5.000000000000001
+Received:
+  发生混叠54 Hz 信号以 49 Hz 采样，观测到的主峰为 5.000000000000001 Hz。原始频率54 Hz观测主峰5.000000000000001 Hz重建误差< 0.001
+ ❯ src/features/lab/RunSummary.test.tsx:16:25
+     14|     render(<RunSummary run={run} />);
+     15|     const summary = screen.getByRole('region', { name: '实验结果' });
+     16|     expect(summary).not.toHaveTextContent('5.000000000000001');
+       |                         ^
+     17|     expect(screen.getByText('观测主峰').nextElementSibling).toHaveTextCont…
+     18|     expect(run.metrics.peak_frequency_hz).toBe(5.000000000000001);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  20:45:43
+   Duration  3.48s (environment 75%, setup 16%, tests 5%, transform 3%)
+
+npm notice
+npm notice New major version of npm available! 11.13.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

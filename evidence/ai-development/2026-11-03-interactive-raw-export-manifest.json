@@ -1,0 +1,14 @@
+{
+  "source_filename": "rollout-2026-11-03T14-43-09-01a1a025-bbdd-7931-8411-f68287b67809.jsonl",
+  "rollout_id": "01a1a025-bbdd-7931-8411-f68287b67809",
+  "user_instruction": "继续推进吧",
+  "source_start_line": 900,
+  "source_end_line": 1412,
+  "record_count": 513,
+  "bytes": 19002847,
+  "sha256": "b680bccf712fbd2644967a66e1e7ecc46013de159bf33f731d0d16a3f50614b0",
+  "private_path": "evidence/private/2026-11-03-interactive-lab-turn.partial.jsonl",
+  "snapshot_created_at": "2026-11-03T20:43:53.318381+08:00",
+  "completeness": "Partial snapshot before review completion, later frequency display fix and final reply; not a final full conversation export.",
+  "privacy": "Git ignored. Review private information before any external submission."
+}

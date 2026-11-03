@@ -1,0 +1,14 @@
+# 概念图生成记录
+
+内置Image Gen，2026-11-03；不透明背景，全新生成，无参考图片。产物为同目录signal-lab-desktop-concept.png。下面是实际传入的原始提示词，来自当前会话的工具调用，并非事后摘要。
+
+```text
+Use case: ui-mockup. Generate a high fidelity complete desktop web app screen, 1536 by 1024 landscape, for a Chinese university communication-signals educational tool named "信号实验工坊". This is a professional usable scientific lab app, not a marketing landing page. A clean airy high-taste light interface: true-white panels on a very pale cool #f5f7fb page, navy #172544 text, cobalt #315efb primary actions, thin cool gray borders, restrained corner radius 12px, no gradients, no photos, no illustrations. Text-only brand, no custom raster logo. Excellent readable Chinese sans typography.
+Complete screen composition: quiet top bar with text brand on the left, small text "周期正弦实验" and a secondary "导出本次数据" button on the right. Below, left-aligned main heading exactly "采样、混叠与重建" and short subtitle exactly "调节参数，观察同一个信号如何呈现不同的样子。" No kicker, hero badge, promotional metrics, navigation to future AI features, or fake controls.
+Four working-case buttons in a horizontal row: "正常采样", "混叠", "边界退化", "DC折叠". Show 混叠 selected.
+Main lab is a 280px parameter rail on the left and a wide main plotting region on the right. Parameter rail heading "实验参数". Four neatly typeset fields with both numeric values and range sliders: "信号频率" 70 Hz, "采样率" 100 Hz, "幅度" 1.0, "初相位" 0 rad. Each label clearly paired with numeric input. Large cobalt "运行实验" button near rail bottom, then restrained small "恢复默认" text button. This rail has a single white surface, not nested cards.
+Right main plot region has two large stacked white chart surfaces. First heading "时域对比", subtle legend orange "原信号", cobalt "采样点", teal dashed "周期重建"; show original fast 70Hz sine and blue discrete sample dots with slow teal 30Hz reconstruction over x=0 to 0.12 seconds. Light thin grid, real readable axis labels "时间 / s", "幅度". Second heading "频谱观察"; show a blue narrow 30Hz spectral peak on a 0 to 50 Hz horizontal axis, title is not data decoration.
+Below/above chart region a concise amber explanation band "发生混叠" and text "70 Hz 信号以 100 Hz 采样，观测到的主峰为 30 Hz。" Include real concise numeric results in a single inline summary row: "原始频率 70 Hz" / "观测主峰 30 Hz" / "重建误差 1.000". Do not invent accuracy or learning-effect numbers.
+Footer beneath plots contains "实验记录" with a small monospace run identifier, and a modest explanatory sentence "当前实验限定为 1 秒周期正弦模型。周期重建不代表能恢复已丢失的信息。".
+All controls, text and charts are code-native when implemented; this generated image is only the design reference. Make the full app screen complete and legible, no browser chrome, no smartphone inset, no branding watermark, no clipped panels, no scrollbars obscuring content. Keep viewport density comfortable. Mobile later stacks the same rail above plots.
+```
