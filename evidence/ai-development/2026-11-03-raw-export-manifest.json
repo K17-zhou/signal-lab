@@ -1,0 +1,13 @@
+{
+  "scope": "current authorized development turn only; partial snapshot before final reply",
+  "source_file": "rollout-2026-11-03T14-43-09-01a1a025-bbdd-7931-8411-f68287b67809.jsonl",
+  "source_start_line": 600,
+  "source_end_line": 860,
+  "records": 261,
+  "bytes": 882432,
+  "sha256": "771f1d719b064773a8b01a9a5700cfe8ac9da3a64174523f2f426b2d3f910195",
+  "exported_at_utc": "2026-11-03T11:38:22.636413+00:00",
+  "private_file": "evidence/private/2026-11-03-foundation-turn.partial.jsonl",
+  "raw_log_git_ignored": true,
+  "public_release_review": "required before sharing raw logs"
+}

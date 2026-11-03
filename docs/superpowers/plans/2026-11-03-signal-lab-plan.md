@@ -8,7 +8,9 @@
 
 **Tech Stack:** React、TypeScript、Vite、ECharts；Python 3.12、FastAPI、Pydantic、NumPy、SciPy、SQLite；pytest、Vitest、Playwright。
 
-**Spec:** [省赛版本设计基线](../specs/2026-11-03-signal-lab-design.md)。这里的功能、工时和指标都是计划，尚无产品实现或测评成绩。
+**Spec:** [省赛版本设计基线](../specs/2026-11-03-signal-lab-design.md)。功能、工时和目标指标为计划基线；实际完成情况以下面的执行状态和对应证据为准，未测的成绩不记为成果。
+
+**执行状态（2026-11-03）：** Task 1数值基础已实现并通过30项测试及独立代码审查；包含频谱与周期重建，进度覆盖原11月4日数值任务。Task 2及其后的网页、AI、教学测评仍未开始；详见[实际开发记录](../../../evidence/ai-development/2026-11-03-foundation.md)。未测的教学效果仍不记为成果。
 
 ## 你的排期与今晚任务
 
@@ -104,12 +106,12 @@ AssessmentAnswer固定为choice(option_id)或numeric(value, unit)；ScoreResult�
 
 **Interfaces:** 消费SamplingParams；产生run_experiment(request: ExperimentRequest) -> ExperimentRun，采样指标包含alias_frequency_hz、sampling_state、sample_rms、peak_frequency_hz、reconstruction_rmse。
 
-- [ ] 写失败测试test_safe_sampling_reconstructs：50/400→50Hz，状态well_sampled，RMSE<1e-10。
-- [ ] 写test_aliases_70hz_to_negative_30hz：70/100→30Hz，重建等于负30Hz正弦，较原信号RMSE与1之差<1e-10。
-- [ ] 写test_nyquist_zero_samples：50/100、phase=0，边界与DEGENERATE_SAMPLES同时成立，实测主峰null；补100/100的S4区分用例。
-- [ ] 从backend运行python -m pytest tests/test_sampling.py -q，确认先出现缺少实现的失败。
-- [ ] 实现请求范围、解析采样、单边谱与周期重建；按SciPy文档处理DC/Nyquist系数和周期假设；建立实际依赖锁定。
-- [ ] 重跑同一测试，预期全部通过；将实际输出、失败修复过程和对应commit记录到证据索引。
+- [x] 写失败测试test_safe_sampling_reconstructs：50/400→50Hz，状态well_sampled，RMSE<1e-10。
+- [x] 写test_aliases_70hz_to_negative_30hz：70/100→30Hz，重建等于负30Hz正弦，较原信号RMSE与1之差<1e-10。
+- [x] 写test_nyquist_zero_samples：50/100、phase=0，边界与DEGENERATE_SAMPLES同时成立，实测主峰null；补100/100的S4区分用例。
+- [x] 从backend运行python -m pytest tests/test_sampling.py -q，确认先出现缺少实现的失败。
+- [x] 实现请求范围、解析采样、单边谱与周期重建；按SciPy文档处理DC/Nyquist系数和周期假设；建立实际依赖锁定。
+- [x] 重跑同一测试，预期全部通过；将实际输出、失败修复过程和对应commit记录到证据索引。
 
 ## Task 2: 真实运行API与交互实验页面（11/5–11/6，约6小时）
 
