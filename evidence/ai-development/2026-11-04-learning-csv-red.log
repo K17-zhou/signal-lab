@@ -1,0 +1,10 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+____ test_exports_keep_real_events_and_multiline_reflection_in_one_session ____
+tests\test_learning.py:180: in test_exports_keep_real_events_and_multiline_reflection_in_one_session
+    assert csv_rows[3]["question_id"] == "alias-transfer"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'question_id'
+=========================== short test summary info ===========================
+FAILED tests/test_learning.py::test_exports_keep_real_events_and_multiline_reflection_in_one_session
+1 failed, 9 deselected in 1.97s

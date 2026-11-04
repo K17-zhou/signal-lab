@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { LearningFlow } from './LearningFlow';
 
@@ -108,5 +108,20 @@ describe('guided learning', () => {
     await screen.findByText('已保存预测：22 Hz');
     await waitFor(() => expect(submitted).toHaveLength(2));
     expect(submitted[1]).toEqual(submitted[0]);
+  });
+
+  it('offers a retry when loading the exercise catalog times out', async () => {
+    const { fetchMock } = setupTransport();
+    const timeout = new AbortController();
+    vi.spyOn(AbortSignal, 'timeout').mockReturnValueOnce(timeout.signal);
+    fetchMock.mockImplementationOnce((_url, options) => new Promise((_resolve, reject) => {
+      const signal = options?.signal;
+      signal?.addEventListener('abort', () => reject(signal.reason), { once: true });
+    }));
+    render(<LearningFlow />);
+    act(() => timeout.abort(new DOMException('Timed out', 'TimeoutError')));
+    expect(await screen.findByRole('alert')).toHaveTextContent('请求超时');
+    fireEvent.click(screen.getByRole('button', { name: '重试加载' }));
+    expect(await screen.findByRole('spinbutton', { name: '预测答案（Hz）' })).toBeVisible();
   });
 });

@@ -3,6 +3,7 @@
 from concurrent.futures import ThreadPoolExecutor
 import csv
 from io import StringIO
+import json
 from uuid import uuid4
 
 from fastapi.testclient import TestClient
@@ -176,6 +177,10 @@ def test_exports_keep_real_events_and_multiline_reflection_in_one_session(tmp_pa
         assert [row["event_id"] for row in csv_rows] == [row["event_id"] for row in rows]
         assert csv_rows[2]["note"] == note
         assert csv_rows[3]["answer_value"] == "36.0"
+        assert csv_rows[3]["question_id"] == "alias-transfer"
+        assert csv_rows[3]["question_prompt"] == exported.json()["cases"][CASE]["transfer"]["prompt"]
+        assert json.loads(csv_rows[3]["question_params"])["frequency_hz"] == 80
+        assert json.loads(csv_rows[3]["run_params"])["frequency_hz"] == 70
 
 
 def test_public_catalog_has_new_transfer_parameters_and_no_answer_keys(tmp_path):

@@ -7,9 +7,9 @@
 
 
  Test Files  3 passed (3)
-      Tests  9 passed (9)
-   Start at  11:00:26
-   Duration  2.48s (environment 69%, setup 14%, tests 13%, transform 3%, import 1%)
+      Tests  10 passed (10)
+   Start at  11:04:51
+   Duration  2.30s (environment 70%, setup 15%, tests 13%, transform 2%, import 1%)
 
 npm notice
 npm notice New major version of npm available! 11.13.0 -> 12.2.1

@@ -11,3 +11,4 @@
 *.ps1 text eol=lf
 # Preserve command output, including whitespace emitted by test reporters.
 evidence/ai-development/*.log text eol=lf -whitespace
+evidence/ai-development/*-browser-sample.csv -text -whitespace

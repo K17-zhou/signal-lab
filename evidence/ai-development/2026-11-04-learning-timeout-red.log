@@ -1,0 +1,120 @@
+
+> signal-lab-frontend@0.1.0 test
+> vitest --run src/features/learning/LearningFlow.test.tsx -t catalog times out
+
+
+ RUN  v5.1.0 C:/Users/k2230/Desktop/Study/资料/传智杯/frontend
+
+ ❯ src/features/learning/LearningFlow.test.tsx (4 tests | 1 failed | 3 skipped) 1022ms
+   ❯ guided learning (4)
+     × offers a retry when loading the exercise catalog times out 1021ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/learning/LearningFlow.test.tsx > guided learning > offers a retry when loading the exercise catalog times out
+TestingLibraryElementError: Unable to find role="alert"
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <header
+      class="topbar"
+    >
+      <span
+        class="brand"
+      >
+        信号实验工坊
+      </span>
+      <a
+        class="mode-link"
+        href="#"
+      >
+        自由实验
+      </a>
+    </header>
+    <main
+      class="page"
+    >
+      <div
+        class="intro"
+      >
+        <h1>
+          引导学习
+        </h1>
+        <p>
+          先写下预测，再用实验验证，最后尝试一道新参数题。
+        </p>
+      </div>
+      <p
+        class="learning-notice"
+        role="status"
+      >
+        正在读取学习记录…
+      </p>
+    </main>
+  </div>
+</body>
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <header
+      class="topbar"
+    >
+      <span
+        class="brand"
+      >
+        信号实验工坊
+      </span>
+      <a
+        class="mode-link"
+        href="#"
+      >
+        自由实验
+      </a>
+    </header>
+    <main
+      class="page"
+    >
+      <div
+        class="intro"
+      >
+        <h1>
+          引导学习
+        </h1>
+        <p>
+          先写下预测，再用实验验证，最后尝试一道新参数题。
+        </p>
+      </div>
+      <p
+        class="learning-notice"
+        role="status"
+      >
+        正在读取学习记录…
+      </p>
+    </main>
+  </div>
+</body>
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ src/features/learning/LearningFlow.test.tsx:123:25
+    121|     render(<LearningFlow />);
+    122|     act(() => timeout.abort(new DOMException('Timed out', 'TimeoutErro…
+    123|     expect(await screen.findByRole('alert')).toHaveTextContent('请求超时');
+       |                         ^
+    124|     fireEvent.click(screen.getByRole('button', { name: '重试加载' }));
+    125|     expect(await screen.findByRole('spinbutton', { name: '预测答案（Hz）' })…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 skipped (4)
+   Start at  11:04:20
+   Duration  2.45s (tests 45%, environment 42%, setup 9%, transform 3%, import 1%)
+
+npm notice
+npm notice New major version of npm available! 11.13.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

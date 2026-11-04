@@ -48,7 +48,9 @@ export class LearningRequestError extends Error {
 }
 
 async function requestJson<T>(url: string, options?: RequestInit): Promise<T> {
-  const response = await fetch(url, options);
+  const timeout = AbortSignal.timeout(15000);
+  const signal = options?.signal ? AbortSignal.any([options.signal, timeout]) : timeout;
+  const response = await fetch(url, { ...options, signal });
   if (!response.ok) throw new LearningRequestError(response.status);
   return response.json() as Promise<T>;
 }
@@ -70,6 +72,5 @@ export function appendLearningEvent(event: LearningEventDraft) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(event),
-    signal: AbortSignal.timeout(15000),
   });
 }

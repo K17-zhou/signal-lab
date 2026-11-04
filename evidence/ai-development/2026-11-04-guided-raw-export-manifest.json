@@ -1,0 +1,13 @@
+{
+  "source_filename": "rollout-2026-11-03T14-43-09-01a1a025-bbdd-7931-8411-f68287b67809.jsonl",
+  "rollout_id": "01a1a025-bbdd-7931-8411-f68287b67809",
+  "user_instruction": "继续做",
+  "source_start_line": 1590,
+  "source_end_line": 1905,
+  "record_count": 316,
+  "bytes": 1924641,
+  "sha256": "436ae61eac9ed7664a379493f8e6f4f34d998c6f1de85a5e070098ed3dfd599a",
+  "private_path": "evidence/private/2026-11-04-guided-learning-turn.partial.jsonl",
+  "snapshot_created_at": "2026-11-04T11:06:51.372115+08:00",
+  "completeness": "Partial turn snapshot through review fixes and live verification, before documentation closeout and final reply."
+}

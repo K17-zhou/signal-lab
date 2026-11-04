@@ -108,20 +108,29 @@ def prepare_event(
 def export_csv(events: list[LearningEvent], runs: dict) -> str:
     output = StringIO(newline="")
     writer = csv.DictWriter(output, fieldnames=[
-        "event_id", "session_id", "case_id", "stage", "run_id", "answer_kind",
-        "answer_option_id", "answer_value", "answer_unit", "note", "elapsed_ms",
-        "outcome", "timestamp", "run_params", "run_metrics",
+        "event_id", "session_id", "case_id", "case_title", "stage", "run_id",
+        "question_id", "question_prompt", "question_params", "question_options",
+        "answer_kind", "answer_option_id", "answer_value", "answer_unit", "note",
+        "elapsed_ms", "outcome", "timestamp", "run_params", "run_metrics",
     ])
     writer.writeheader()
     for event in events:
         row = event.model_dump(mode="json", exclude={"answer"})
         answer = event.answer.model_dump() if event.answer is not None else {}
         run = runs.get(str(event.run_id))
+        case = CASES_BY_ID[event.case_id]
+        question = {"predict": case.prediction, "transfer": case.transfer}.get(event.stage)
+        question_data = question.model_dump(mode="json") if question else {}
         # Keep the raw note in JSON and prevent a spreadsheet from evaluating it.
         if event.note and event.note.lstrip().startswith(("=", "+", "-", "@")):
             row["note"] = "'" + event.note
         writer.writerow({
             **row,
+            "case_title": case.title,
+            "question_id": question_data.get("question_id"),
+            "question_prompt": question_data.get("prompt"),
+            "question_params": json.dumps(question_data["params"], ensure_ascii=False) if question else "",
+            "question_options": json.dumps(question_data["options"], ensure_ascii=False) if question else "",
             "answer_kind": answer.get("kind"),
             "answer_option_id": answer.get("option_id"),
             "answer_value": answer.get("value"),
