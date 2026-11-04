@@ -7,6 +7,7 @@
 - 运行一秒周期正弦信号的采样、混叠、单边幅度谱和周期重建。
 - 在网页切换四个标准案例、调整参数、对照波形与频谱，导出当前运行JSON。
 - 在引导学习中完成六组采样练习，依次保存预测、运行实验和提交新参数迁移题。迁移题由服务端判分。
+- 在实验运行后请求本地模型指导。可点按反馈引用跳回本次运行的实测数据，确认建议参数后生成单独的对照运行。
 - 在同一标签页刷新后恢复已保存的学习进度。观察记录、耗时、真实运行及判题结果可导出为JSON和CSV。
 - 将成功运行追加保存到SQLite，并按运行编号查询；快速切换时仅显示最新请求结果。
 - 区分正常采样、欠采样、奈奎斯特边界、采样全零等退化情况。
@@ -58,6 +59,16 @@ Pop-Location
 
 学习接口包括`GET /api/learning/cases`读取题面，`POST /api/events`写入学习事件，`GET /api/sessions/{id}/events`恢复进度，以及`GET /api/sessions/{id}/export?format=json`或`format=csv`导出。同一事件编号和内容重发时返回原记录，冲突提交返回HTTP 409。
 
+## 本地 AI 指导
+
+本项目选择 Qwen3-1.7B Q4_K_M 量化权重和便携版 llama.cpp。模型文件为 1,282,439,264 字节。启动配置为 2048 token 上下文、单并发和 4 个 CPU 线程，推理服务只监听 `127.0.0.1:8081`。 [模型仓库](https://huggingface.co/ggml-org/Qwen3-1.7B-GGUF) · [llama.cpp 接口](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+
+1. 将 Windows Vulkan 版 llama.cpp b11814 解压到 `.cache/runtimes/llama-b11814/`，使 `llama-server.exe` 位于该目录下。本机项目的便携运行器已就绪。 [运行包](https://github.com/ggml-org/llama.cpp/releases/download/b11814/llama-b11814-bin-win-vulkan-x64.zip)
+2. 将 `Qwen3-1.7B-Q4_K_M.gguf` 放到项目的 `.cache/models/`。启动脚本会验证长度和 SHA256。 [固定版本权重](https://huggingface.co/ggml-org/Qwen3-1.7B-GGUF/resolve/daeb8e2d528a760970442092f6bf1e55c3b659eb/Qwen3-1.7B-Q4_K_M.gguf?download=true)
+3. 在项目目录启动 `.\scripts\start-tutor.ps1`。可加 `-Cpu` 选用 CPU。另开一个项目目录终端启动 `.\scripts\start.ps1`，然后完成一次预测和实验，点击“获取 AI 指导”。
+
+应用默认使用模型别名 `qwen3-1.7b` 和端口 8081。可通过启动应用前的进程环境变量设置 `SIGNAL_LAB_TUTOR_PORT`、`SIGNAL_LAB_TUTOR_MODEL`。当前验收已完成固定响应联调，真实 Qwen 推理、质量和资源用量待权重就绪后实测。
+
 ## 标准案例与限制
 
 | 案例 | 原频率 / 采样率 | 应观察到的结果 |
@@ -71,7 +82,7 @@ Pop-Location
 - Fourier重建具有周期假设；不推广为任意真实信号的完美恢复。
 - 欠采样直接在原信号上取样，不经过会抑制混叠的降采样滤波器。
 - 同一参数得到同一数值结果，每次运行编号不同。数值正确不等同教学效果已验证。
-- 当前版本没有调用模型API、使用密钥、采购硬件或发布公网服务。
+- 本地指导通过本机模型服务运行。真实模型验收记录将补充在开发证据中。
 
 ## 文档与证据
 
@@ -81,4 +92,5 @@ Pop-Location
 - [AI开发证据索引](evidence/ai-development/index.md)
 - [网页与API实际开发记录](evidence/ai-development/2026-11-03-interactive-lab.md)
 - [引导学习与判题开发记录](evidence/ai-development/2026-11-04-guided-learning.md)
+- [本地 AI 接入与交接记录](evidence/ai-development/2026-11-04-local-tutor.md)
 - 本地测试环境以backend/requirements.lock.txt锁定；.venv、临时缓存、导出的大数组不进入Git。

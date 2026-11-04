@@ -76,7 +76,7 @@ def test_context_uses_saved_prediction_and_has_no_answer_keys(tutoring):
     assert context["prediction"] == {"kind": "numeric", "value": 22.0, "unit": "Hz"}
     assert context["run"]["metrics"]["peak_frequency_hz"] == pytest.approx(40)
     assert set(context) == {"run", "prediction", "exercise", "theory", "message", "mode"}
-    assert set(context["exercise"]) == {"title", "goal", "prompt"}
+    assert set(context["exercise"]) == {"title", "goal", "prompt", "params", "options"}
     assert "series" not in context["run"]
     assert "transfer" not in json.dumps(context, ensure_ascii=False)
     history = client.get(f"/api/sessions/{request['session_id']}/events").json()["events"]
@@ -132,6 +132,8 @@ def test_confirmed_observation_preserves_the_formal_run_and_prediction(tutoring)
     assert response.status_code == 200
     assert response.json()["evidence"][0]["run_id"] == comparison
     assert model.contexts[-1]["prediction"]["value"] == 22
+    assert model.contexts[-1]["exercise"]["params"]["sample_rate_hz"] == 110
+    assert model.contexts[-1]["run"]["params"]["sample_rate_hz"] == 200
     answer = {"kind": "numeric", "value": 30.5, "unit": "Hz"}
     assert event(client, session, "transfer", run_id=comparison, answer=answer).status_code == 409
     assert event(client, session, "transfer", run_id=request["run_id"], answer=answer).json()["outcome"] == "correct"

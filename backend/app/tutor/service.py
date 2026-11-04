@@ -50,7 +50,13 @@ async def guide(request: TutorRequest, store: Store, client: TutorClient | None)
     context = {
         "run": run.model_dump(mode="json", exclude={"series"}),
         "prediction": prediction.model_dump(mode="json") if prediction else None,
-        "exercise": {"title": case.title, "goal": case.goal, "prompt": case.prediction.prompt},
+        "exercise": {
+            "title": case.title,
+            "goal": case.goal,
+            "prompt": case.prediction.prompt,
+            "params": case.prediction.params.model_dump(mode="json"),
+            "options": [option.model_dump(mode="json") for option in case.prediction.options],
+        },
         "theory": THEORY,
         "message": request.message,
         "mode": request.mode,

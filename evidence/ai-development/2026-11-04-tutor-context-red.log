@@ -1,0 +1,20 @@
+FF                                                                       [100%]
+================================== FAILURES ===================================
+__________ test_context_uses_saved_prediction_and_has_no_answer_keys __________
+tests\test_tutor.py:79: in test_context_uses_saved_prediction_and_has_no_answer_keys
+    assert set(context["exercise"]) == {"title", "goal", "prompt", "params", "options"}
+E   AssertionError: assert {'goal', 'prompt', 'title'} == {'goal', 'opt...mpt', 'title'}
+E     
+E     Extra items in the right set:
+E     'params'
+E     'options'
+E     Use -v to get more diff
+_____ test_confirmed_observation_preserves_the_formal_run_and_prediction ______
+tests\test_tutor.py:135: in test_confirmed_observation_preserves_the_formal_run_and_prediction
+    assert model.contexts[-1]["exercise"]["params"]["sample_rate_hz"] == 110
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'params'
+=========================== short test summary info ===========================
+FAILED tests/test_tutor.py::test_context_uses_saved_prediction_and_has_no_answer_keys
+FAILED tests/test_tutor.py::test_confirmed_observation_preserves_the_formal_run_and_prediction
+2 failed, 8 deselected in 3.64s
