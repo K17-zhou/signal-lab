@@ -1,9 +1,10 @@
-"""Validated data contracts for the sampling experiment."""
+"""Validated data contracts for experiments and learning records."""
 
+from datetime import datetime
 import math
-from typing import Literal
+from typing import Annotated, Literal, Self
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import UUID4, BaseModel, ConfigDict, Field, model_validator
 
 
 class FrozenRecord(BaseModel):
@@ -48,3 +49,60 @@ class ExperimentRun(FrozenRecord):
     series: list[PlotSeries]
     metrics: SamplingMetrics
     warnings: list[str]
+
+
+class ChoiceAnswer(FrozenRecord):
+    kind: Literal["choice"]
+    option_id: str = Field(min_length=1, max_length=64)
+
+
+class NumericAnswer(FrozenRecord):
+    kind: Literal["numeric"]
+    value: float = Field(strict=True)
+    unit: Literal["Hz"]
+
+
+AssessmentAnswer = Annotated[ChoiceAnswer | NumericAnswer, Field(discriminator="kind")]
+LearningStage = Literal["predict", "run", "reflect", "transfer", "export", "error"]
+LearningOutcome = Literal["recorded", "completed", "correct", "incorrect", "failed"]
+
+
+class ScoreResult(FrozenRecord):
+    correct: bool
+    misconception_code: str | None
+    explanation_key: str
+
+
+class LearningEventRequest(FrozenRecord):
+    event_id: UUID4
+    session_id: UUID4
+    case_id: str = Field(min_length=1, max_length=64, pattern=r"^[a-z0-9-]+$")
+    stage: LearningStage
+    run_id: UUID4 | None = None
+    answer: AssessmentAnswer | None = None
+    note: str | None = Field(default=None, max_length=2000)
+    elapsed_ms: int = Field(strict=True, ge=0)
+
+    @model_validator(mode="after")
+    def check_stage_fields(self) -> Self:
+        if (self.stage in ("predict", "transfer")) != (self.answer is not None):
+            raise ValueError("Only prediction and transfer events require an answer")
+        if self.stage in ("run", "reflect", "transfer") and self.run_id is None:
+            raise ValueError("This stage requires a saved run")
+        if self.stage == "predict" and self.run_id is not None:
+            raise ValueError("A prediction must precede the experiment")
+        if self.note is not None and self.stage not in ("reflect", "error"):
+            raise ValueError("Only reflection and error events accept a note")
+        if self.stage == "reflect" and not (self.note or "").strip():
+            raise ValueError("A reflection requires a nonempty note")
+        return self
+
+
+class LearningEvent(LearningEventRequest):
+    outcome: LearningOutcome
+    timestamp: datetime
+
+
+class SessionHistory(FrozenRecord):
+    session_id: UUID4
+    events: list[LearningEvent]

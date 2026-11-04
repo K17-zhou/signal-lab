@@ -68,6 +68,7 @@ export function LabPage() {
     <header className="topbar">
       <span className="brand">信号实验工坊</span>
       <div className="topbar-actions"><span className="experiment-type">周期正弦实验</span>
+        <a className="mode-link" href="#learn">引导学习</a>
         <button type="button" className="button secondary export-button" onClick={exportRun} disabled={!run}>导出本次数据</button>
       </div>
     </header>

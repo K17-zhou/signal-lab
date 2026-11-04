@@ -1,0 +1,63 @@
+.learning-toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; margin: 24px 0 16px; }
+.case-picker, .learning-input { display: grid; gap: 6px; font-size: 14px; font-weight: 600; }
+.case-picker select, .learning-input input, .learning-input textarea {
+  min-height: 42px; max-width: 100%; padding: 8px 11px; color: inherit; background: #fff;
+  border: 1px solid #b8c2d6; border-radius: 8px; font: inherit; font-weight: 400;
+}
+.learning-input textarea { resize: vertical; }
+.learning-exports { margin-left: auto; display: flex; gap: 10px; }
+.learning-steps {
+  margin: 0 0 18px; padding: 0; list-style: none;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+}
+.learning-steps li {
+  display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 12px;
+  border: 1px solid var(--border); border-radius: 8px; background: #fff;
+  color: var(--muted); font-size: 14px; font-weight: 600;
+}
+.learning-steps span {
+  display: grid; place-items: center; width: 24px; height: 24px; flex: 0 0 24px;
+  border-radius: 50%; background: #eff2f8; font-size: 12px;
+}
+.learning-steps .current { border-color: #a9baff; color: #1d43bc; background: #eef3ff; }
+.learning-steps .current span { background: var(--blue); color: #fff; }
+.learning-steps .done { color: #17634c; }
+.learning-steps .done span { background: #e2f4eb; }
+.learning-layout {
+  display: grid; grid-template-columns: minmax(300px, 370px) minmax(0, 1fr);
+  grid-template-areas: "prediction results" "transfer results";
+  grid-template-rows: auto 1fr; align-items: start; gap: 16px 20px;
+}
+.learning-prediction { grid-area: prediction; }
+.learning-result { grid-area: results; }
+.learning-transfer { grid-area: transfer; }
+.learning-card { padding: 17px; }
+.learning-card p, .learning-notice p { margin: 8px 0 12px; font-size: 14px; line-height: 1.65; }
+.learning-card .case-goal, .learning-empty p { color: var(--muted); }
+.learning-card .learning-saved { color: #185e49; background: #edf9f4; padding: 8px 10px; border-radius: 7px; }
+.learning-card .learning-incorrect { color: #874d12; background: #fff6e3; padding: 8px 10px; border-radius: 7px; }
+.learning-card .learning-reflection { white-space: pre-wrap; overflow-wrap: anywhere; border-top: 1px solid var(--border); padding-top: 9px; }
+.case-parameters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 12px 0; }
+.case-parameters div { background: #f3f6fc; border-radius: 7px; padding: 7px 9px; }
+.case-parameters dt { font-size: 12px; color: var(--muted); }
+.case-parameters dd { margin: 3px 0 0; font-size: 14px; font-weight: 650; }
+.learning-form { display: grid; gap: 10px; margin: 10px 0 12px; }
+.learning-form button { justify-self: start; }
+.learning-form fieldset { display: grid; gap: 6px; min-width: 0; padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; }
+.learning-option { display: flex; align-items: baseline; gap: 8px; min-height: 26px; }
+.learning-option input { accent-color: var(--blue); }
+.learning-empty { min-height: 190px; }
+.learning-notice { margin: 10px 0 16px; }
+.learning-run-id code { overflow-wrap: anywhere; }
+@media (max-width: 800px) {
+  .learning-layout {
+    grid-template-columns: 1fr; grid-template-rows: auto;
+    grid-template-areas: "prediction" "results" "transfer"; gap: 16px;
+  }
+  .learning-exports { margin-left: 0; }
+}
+@media (max-width: 480px) {
+  .case-picker { flex: 1 1 100%; }
+  .learning-steps li { font-size: 12px; padding: 6px; gap: 5px; }
+  .learning-steps span { width: 19px; height: 19px; flex-basis: 19px; }
+}

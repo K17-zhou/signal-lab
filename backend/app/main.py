@@ -3,16 +3,19 @@
 from contextlib import asynccontextmanager
 import os
 from pathlib import Path
+from typing import Literal
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
+from pydantic import UUID4
 
 from app.experiments.runner import run_experiment
 from app.experiments.sampling import ENGINE_VERSION
-from app.schemas import ExperimentRequest, ExperimentRun
-from app.store import Store
+from app.learning import CASES, CASES_BY_ID, LearningCase, export_csv, prepare_event
+from app.schemas import ExperimentRequest, ExperimentRun, LearningEvent, LearningEventRequest, SessionHistory
+from app.store import LearningConflict, Store
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
@@ -53,6 +56,50 @@ def create_app(database_path: str | Path | None = None) -> FastAPI:
         if run is None:
             raise HTTPException(status_code=404, detail="Experiment run not found")
         return run
+
+    @application.get("/api/learning/cases", response_model=list[LearningCase])
+    def learning_cases():
+        return CASES
+
+    @application.post("/api/events", response_model=LearningEvent)
+    def append_event(payload: LearningEventRequest, request: Request):
+        case = CASES_BY_ID.get(payload.case_id)
+        if case is None:
+            raise HTTPException(status_code=404, detail="Learning case not found")
+        store = request.app.state.store
+        run = store.get_run(str(payload.run_id)) if payload.run_id is not None else None
+        if payload.run_id is not None and run is None:
+            raise HTTPException(status_code=404, detail="Experiment run not found")
+        try:
+            return store.append_event(prepare_event(payload, case, run))
+        except LearningConflict as error:
+            raise HTTPException(status_code=409, detail=str(error)) from error
+        except ValueError as error:
+            raise HTTPException(status_code=422, detail=str(error)) from error
+
+    @application.get("/api/sessions/{session_id}/events", response_model=SessionHistory)
+    def learning_history(session_id: UUID4, request: Request, response: Response):
+        response.headers["Cache-Control"] = "no-store"
+        return SessionHistory(session_id=session_id, events=request.app.state.store.list_events(str(session_id)))
+
+    @application.get("/api/sessions/{session_id}/export")
+    def learning_export(session_id: UUID4, request: Request, format: Literal["json", "csv"] = "json"):
+        store = request.app.state.store
+        events = store.list_events(str(session_id))
+        runs = {}
+        for run_id in {str(event.run_id) for event in events if event.run_id is not None}:
+            run = store.get_run(run_id)
+            if run is not None:
+                runs[run_id] = run.model_dump(mode="json", exclude={"series"})
+        headers = {
+            "Cache-Control": "no-store",
+            "Content-Disposition": f'attachment; filename="signal-lab-{session_id}.{format}"',
+        }
+        if format == "csv":
+            return Response(export_csv(events, runs), media_type="text/csv", headers=headers)
+        history = SessionHistory(session_id=session_id, events=events).model_dump(mode="json")
+        cases = {event.case_id: CASES_BY_ID[event.case_id].model_dump(mode="json") for event in events}
+        return JSONResponse({**history, "runs": runs, "cases": cases}, headers=headers)
 
     frontend = PROJECT_ROOT / "frontend" / "dist"
     if frontend.is_dir():

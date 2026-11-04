@@ -1,0 +1,102 @@
+[
+  {
+    "case_id": "alias-frequency",
+    "title": "观察到的频率来自哪里",
+    "goal": "比较原信号与采样后观测到的主峰。",
+    "prediction": {
+      "question_id": "alias-predict", "kind": "numeric", "unit": "Hz",
+      "params": {"frequency_hz": 70, "sample_rate_hz": 110},
+      "prompt": "对这个信号取样，预测单边频谱的主峰频率。"
+    },
+    "transfer": {
+      "question_id": "alias-transfer", "kind": "numeric", "unit": "Hz",
+      "params": {"frequency_hz": 80, "sample_rate_hz": 110},
+      "prompt": "改变原信号频率后，新的观测主峰是多少？"
+    }
+  },
+  {
+    "case_id": "nyquist-boundary",
+    "title": "采样率恰好等于两倍频率",
+    "goal": "判断奈奎斯特边界处的重建条件。",
+    "prediction": {
+      "question_id": "boundary-predict", "kind": "choice",
+      "params": {"frequency_hz": 50, "sample_rate_hz": 100},
+      "prompt": "当采样率等于信号频率的两倍，能否保证从样本唯一恢复原信号？",
+      "options": [{"option_id": "always", "label": "能保证"}, {"option_id": "not-guaranteed", "label": "不能保证"}]
+    },
+    "transfer": {
+      "question_id": "boundary-transfer", "kind": "choice",
+      "params": {"frequency_hz": 60, "sample_rate_hz": 120, "phase_rad": 1.5707963267948966},
+      "prompt": "这组边界采样的样本并不全为零。如果幅度和初相位未知，能保证唯一恢复原信号吗？",
+      "options": [{"option_id": "always", "label": "能保证"}, {"option_id": "not-guaranteed", "label": "不能保证"}]
+    }
+  },
+  {
+    "case_id": "interpolation",
+    "title": "增加插值点会改变什么",
+    "goal": "区分采样点和重建曲线的绘图点。",
+    "prediction": {
+      "question_id": "interpolation-predict", "kind": "choice",
+      "params": {"frequency_hz": 70, "sample_rate_hz": 100},
+      "prompt": "保持原采样点不变，增加重建曲线的绘图点能找回丢失的频率信息吗？",
+      "options": [{"option_id": "restore", "label": "能找回"}, {"option_id": "no-new-samples", "label": "不能找回"}]
+    },
+    "transfer": {
+      "question_id": "interpolation-transfer", "kind": "choice",
+      "params": {"frequency_hz": 95, "sample_rate_hz": 120},
+      "prompt": "对这组样本做更密的插值，增加的是哪一类点？",
+      "options": [{"option_id": "extra-samples", "label": "新的独立采样点"}, {"option_id": "display-points", "label": "从已有样本计算出的点"}]
+    }
+  },
+  {
+    "case_id": "smoothness",
+    "title": "曲线光滑能说明什么",
+    "goal": "用频谱和重建误差检验视觉判断。",
+    "prediction": {
+      "question_id": "smoothness-predict", "kind": "choice",
+      "params": {"frequency_hz": 90, "sample_rate_hz": 125},
+      "prompt": "重建曲线光滑并通过采样点，是否足以证明恢复了原信号？",
+      "options": [{"option_id": "enough", "label": "足够"}, {"option_id": "not-enough", "label": "不够"}]
+    },
+    "transfer": {
+      "question_id": "smoothness-transfer", "kind": "choice",
+      "params": {"frequency_hz": 110, "sample_rate_hz": 150},
+      "prompt": "若用这组参数比较原信号和重建曲线，哪项更能检验两者是否接近？",
+      "options": [{"option_id": "appearance", "label": "曲线光滑程度"}, {"option_id": "rmse", "label": "相对原信号的重建误差"}]
+    }
+  },
+  {
+    "case_id": "post-filter",
+    "title": "采样后的低通能修复什么",
+    "goal": "区分采样前预防混叠和采样后处理。",
+    "prediction": {
+      "question_id": "filter-predict", "kind": "choice",
+      "params": {"frequency_hz": 95, "sample_rate_hz": 140},
+      "prompt": "高频已经折叠到低频。只对这些样本做低通，能保证恢复原来的高频吗？",
+      "options": [{"option_id": "recover", "label": "能保证"}, {"option_id": "cannot-recover", "label": "不能保证"}]
+    },
+    "transfer": {
+      "question_id": "filter-transfer", "kind": "choice",
+      "params": {"frequency_hz": 115, "sample_rate_hz": 150},
+      "prompt": "如果折叠分量和有用的低频分量落在同一频率，采样后的低通能按来源区分两者吗？",
+      "options": [{"option_id": "separate", "label": "可以区分"}, {"option_id": "same-frequency", "label": "不能仅按频率区分"}]
+    }
+  },
+  {
+    "case_id": "sampling-phase",
+    "title": "初相位如何改变边界样本",
+    "goal": "观察同样的频率比在不同初相位下如何取样。",
+    "prediction": {
+      "question_id": "phase-predict", "kind": "choice",
+      "params": {"frequency_hz": 50, "sample_rate_hz": 100, "phase_rad": 0},
+      "prompt": "预测这组边界采样的样本是接近零，还是交替取正负值。",
+      "options": [{"option_id": "near-zero", "label": "接近零"}, {"option_id": "alternating", "label": "交替取正负值"}]
+    },
+    "transfer": {
+      "question_id": "phase-transfer", "kind": "choice",
+      "params": {"frequency_hz": 60, "sample_rate_hz": 120, "phase_rad": 1.5707963267948966},
+      "prompt": "改变初相位和频率后，预测新的样本形态。",
+      "options": [{"option_id": "near-zero", "label": "接近零"}, {"option_id": "alternating", "label": "交替取正负值"}]
+    }
+  }
+]

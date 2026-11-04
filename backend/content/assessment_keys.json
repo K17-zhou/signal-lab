@@ -1,0 +1,14 @@
+{
+  "alias-predict": {"answer": {"kind": "numeric", "value": 40, "unit": "Hz"}, "tolerance": 0.5, "misconception_code": "apparent_frequency", "explanation_key": "frequency_folding"},
+  "alias-transfer": {"answer": {"kind": "numeric", "value": 30, "unit": "Hz"}, "tolerance": 0.5, "misconception_code": "apparent_frequency", "explanation_key": "frequency_folding"},
+  "boundary-predict": {"answer": {"kind": "choice", "option_id": "not-guaranteed"}, "misconception_code": "nyquist_guarantee", "explanation_key": "boundary_ambiguity"},
+  "boundary-transfer": {"answer": {"kind": "choice", "option_id": "not-guaranteed"}, "misconception_code": "nyquist_guarantee", "explanation_key": "boundary_ambiguity"},
+  "interpolation-predict": {"answer": {"kind": "choice", "option_id": "no-new-samples"}, "misconception_code": "interpolation_recovers_information", "explanation_key": "interpolation_limits"},
+  "interpolation-transfer": {"answer": {"kind": "choice", "option_id": "display-points"}, "misconception_code": "interpolation_recovers_information", "explanation_key": "interpolation_limits"},
+  "smoothness-predict": {"answer": {"kind": "choice", "option_id": "not-enough"}, "misconception_code": "smoothness_is_accuracy", "explanation_key": "reconstruction_error"},
+  "smoothness-transfer": {"answer": {"kind": "choice", "option_id": "rmse"}, "misconception_code": "smoothness_is_accuracy", "explanation_key": "reconstruction_error"},
+  "filter-predict": {"answer": {"kind": "choice", "option_id": "cannot-recover"}, "misconception_code": "filter_after_aliasing", "explanation_key": "filtering_order"},
+  "filter-transfer": {"answer": {"kind": "choice", "option_id": "same-frequency"}, "misconception_code": "filter_after_aliasing", "explanation_key": "filtering_order"},
+  "phase-predict": {"answer": {"kind": "choice", "option_id": "near-zero"}, "misconception_code": "sampling_phase_ignored", "explanation_key": "boundary_phase"},
+  "phase-transfer": {"answer": {"kind": "choice", "option_id": "alternating"}, "misconception_code": "sampling_phase_ignored", "explanation_key": "boundary_phase"}
+}

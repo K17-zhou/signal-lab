@@ -1,0 +1,98 @@
+FFFFFFFFF                                                                [100%]
+================================== FAILURES ===================================
+______________ test_prediction_survives_restart_and_exact_retry _______________
+tests\test_learning.py:65: in test_prediction_survives_restart_and_exact_retry
+    original = append(client, prediction)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_learning.py:34: in append
+    assert response.status_code == 200, response.text
+E   AssertionError: {"detail":"Method Not Allowed"}
+E   assert 405 == 200
+E    +  where 405 = <Response [405 Method Not Allowed]>.status_code
+__________ test_a_run_must_match_the_case_and_belong_to_the_session ___________
+tests\test_learning.py:81: in test_a_run_must_match_the_case_and_belong_to_the_session
+    assert client.post("/api/events", json=without_prediction).status_code == 409
+E   AssertionError: assert 405 == 409
+E    +  where 405 = <Response [405 Method Not Allowed]>.status_code
+E    +    where <Response [405 Method Not Allowed]> = post('/api/events', json={'event_id': 'fffe4c20-86a4-42f9-bf40-b1d221f42ad3', 'session_id': '4fdb9ddf-0038-4458-aa03-710c2bb3f576', 'case_id': 'alias-frequency', 'stage': 'run', ...})
+E    +      where post = <starlette.testclient.TestClient object at 0x0000017189C35D10>.post
+_______ test_transfer_grades_only_valid_hz_answers[answer0-200-correct] _______
+tests\test_learning.py:104: in test_transfer_grades_only_valid_hz_answers
+    run_id = start_case(client, session)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_learning.py:48: in start_case
+    append(client, event(session, "predict", case=case, answer=prediction or numeric(30)))
+tests\test_learning.py:34: in append
+    assert response.status_code == 200, response.text
+E   AssertionError: {"detail":"Method Not Allowed"}
+E   assert 405 == 200
+E    +  where 405 = <Response [405 Method Not Allowed]>.status_code
+______ test_transfer_grades_only_valid_hz_answers[answer1-200-incorrect] ______
+tests\test_learning.py:104: in test_transfer_grades_only_valid_hz_answers
+    run_id = start_case(client, session)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_learning.py:48: in start_case
+    append(client, event(session, "predict", case=case, answer=prediction or numeric(30)))
+tests\test_learning.py:34: in append
+    assert response.status_code == 200, response.text
+E   AssertionError: {"detail":"Method Not Allowed"}
+E   assert 405 == 200
+E    +  where 405 = <Response [405 Method Not Allowed]>.status_code
+________ test_transfer_grades_only_valid_hz_answers[answer2-422-None] _________
+tests\test_learning.py:104: in test_transfer_grades_only_valid_hz_answers
+    run_id = start_case(client, session)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_learning.py:48: in start_case
+    append(client, event(session, "predict", case=case, answer=prediction or numeric(30)))
+tests\test_learning.py:34: in append
+    assert response.status_code == 200, response.text
+E   AssertionError: {"detail":"Method Not Allowed"}
+E   assert 405 == 200
+E    +  where 405 = <Response [405 Method Not Allowed]>.status_code
+_____ test_choice_is_graded_by_option_identifier[not-guaranteed-correct] ______
+tests\test_learning.py:120: in test_choice_is_graded_by_option_identifier
+    run_id = start_case(
+tests\test_learning.py:48: in start_case
+    append(client, event(session, "predict", case=case, answer=prediction or numeric(30)))
+tests\test_learning.py:34: in append
+    assert response.status_code == 200, response.text
+E   AssertionError: {"detail":"Method Not Allowed"}
+E   assert 405 == 200
+E    +  where 405 = <Response [405 Method Not Allowed]>.status_code
+________ test_choice_is_graded_by_option_identifier[always-incorrect] _________
+tests\test_learning.py:120: in test_choice_is_graded_by_option_identifier
+    run_id = start_case(
+tests\test_learning.py:48: in start_case
+    append(client, event(session, "predict", case=case, answer=prediction or numeric(30)))
+tests\test_learning.py:34: in append
+    assert response.status_code == 200, response.text
+E   AssertionError: {"detail":"Method Not Allowed"}
+E   assert 405 == 200
+E    +  where 405 = <Response [405 Method Not Allowed]>.status_code
+____ test_exports_keep_real_events_and_multiline_reflection_in_one_session ____
+tests\test_learning.py:136: in test_exports_keep_real_events_and_multiline_reflection_in_one_session
+    run_id = start_case(client, session)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_learning.py:48: in start_case
+    append(client, event(session, "predict", case=case, answer=prediction or numeric(30)))
+tests\test_learning.py:34: in append
+    assert response.status_code == 200, response.text
+E   AssertionError: {"detail":"Method Not Allowed"}
+E   assert 405 == 200
+E    +  where 405 = <Response [405 Method Not Allowed]>.status_code
+_____ test_public_catalog_has_new_transfer_parameters_and_no_answer_keys ______
+tests\test_learning.py:166: in test_public_catalog_has_new_transfer_parameters_and_no_answer_keys
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+=========================== short test summary info ===========================
+FAILED tests/test_learning.py::test_prediction_survives_restart_and_exact_retry
+FAILED tests/test_learning.py::test_a_run_must_match_the_case_and_belong_to_the_session
+FAILED tests/test_learning.py::test_transfer_grades_only_valid_hz_answers[answer0-200-correct]
+FAILED tests/test_learning.py::test_transfer_grades_only_valid_hz_answers[answer1-200-incorrect]
+FAILED tests/test_learning.py::test_transfer_grades_only_valid_hz_answers[answer2-422-None]
+FAILED tests/test_learning.py::test_choice_is_graded_by_option_identifier[not-guaranteed-correct]
+FAILED tests/test_learning.py::test_choice_is_graded_by_option_identifier[always-incorrect]
+FAILED tests/test_learning.py::test_exports_keep_real_events_and_multiline_reflection_in_one_session
+FAILED tests/test_learning.py::test_public_catalog_has_new_transfer_parameters_and_no_answer_keys
+9 failed in 3.20s

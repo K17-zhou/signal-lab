@@ -1,0 +1,22 @@
+
+> signal-lab-frontend@0.1.0 build
+> tsc -b && vite build
+
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 615 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                          0.62 kB │ gzip:   0.42 kB
+dist/assets/LearningFlow-BMwLDUjk.css    3.00 kB │ gzip:   1.00 kB
+dist/assets/index-QmStUSVG.css           8.05 kB │ gzip:   2.36 kB
+dist/assets/LearningFlow-D1_sj_X1.js    10.47 kB │ gzip:   3.90 kB
+dist/assets/index-BAUSaMa2.js          230.08 kB │ gzip:  72.92 kB
+dist/assets/SignalPlots-CTJ45clG.js    509.95 kB │ gzip: 173.62 kB
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 275ms
