@@ -124,4 +124,37 @@ describe('guided learning', () => {
     fireEvent.click(screen.getByRole('button', { name: '重试加载' }));
     expect(await screen.findByRole('spinbutton', { name: '预测答案（Hz）' })).toBeVisible();
   });
+
+  it('keeps the prediction and saves a separate run after confirming a tutor proposal', async () => {
+    const { fetchMock, submitted } = setupTransport([prediction, savedRun]);
+    const originalTransport = fetchMock.getMockImplementation()!;
+    const comparison = {
+      ...run, run_id: '914ed93e-075c-4bd8-808c-bd6d97409c0f',
+      params: { ...params, sample_rate_hz: 200 },
+      metrics: { ...run.metrics, sampling_state: 'well_sampled', peak_frequency_hz: 70 },
+    };
+    fetchMock.mockImplementation(async (url, options) => {
+      if (url === '/api/tutor/guide') return json({
+        explanation: '提高采样率后再观察主峰。',
+        evidence: [{ run_id: run.run_id, metric_key: 'peak_frequency_hz' }],
+        next_experiment: { experiment_type: 'sampling_aliasing', params: comparison.params },
+      });
+      if (url === '/api/experiments/run') {
+        expect(JSON.parse(String(options?.body)).params).toEqual(comparison.params);
+        return json(comparison);
+      }
+      return originalTransport(url, options);
+    });
+    render(<LearningFlow />);
+    fireEvent.click(await screen.findByRole('button', { name: '获取 AI 指导' }));
+    fireEvent.click(await screen.findByRole('button', { name: '观测主峰 40 Hz' }));
+    expect(screen.getByText('观测主峰 · 40 Hz')).toBeVisible();
+    expect(submitted).toEqual([]);
+    expect(fetchMock.mock.calls.map(([url]) => url)).not.toContain('/api/experiments/run');
+    fireEvent.click(screen.getByRole('button', { name: '确认运行对照实验' }));
+    expect(await screen.findByText(comparison.run_id)).toBeVisible();
+    expect(screen.getByText('当前图表显示对照实验')).toBeVisible();
+    expect(screen.getByText('已保存预测：22 Hz')).toBeVisible();
+    expect(submitted).toMatchObject([{ stage: 'observe', run_id: comparison.run_id }]);
+  });
 });

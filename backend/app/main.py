@@ -14,13 +14,17 @@ from pydantic import UUID4
 from app.experiments.runner import run_experiment
 from app.experiments.sampling import ENGINE_VERSION
 from app.learning import CASES, CASES_BY_ID, LearningCase, export_csv, prepare_event
-from app.schemas import ExperimentRequest, ExperimentRun, LearningEvent, LearningEventRequest, SessionHistory
+from app.schemas import (
+    ExperimentRequest, ExperimentRun, LearningEvent, LearningEventRequest, SessionHistory, TutorReply, TutorRequest,
+)
 from app.store import LearningConflict, Store
+from app.tutor.client import TutorClient
+from app.tutor.service import TutorError, guide
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
-def create_app(database_path: str | Path | None = None) -> FastAPI:
+def create_app(database_path: str | Path | None = None, *, tutor_client: TutorClient | None = None) -> FastAPI:
     database = Path(database_path or os.environ.get(
         "SIGNAL_LAB_DB_PATH", PROJECT_ROOT / ".cache" / "signal-lab.sqlite3"
     ))
@@ -28,6 +32,7 @@ def create_app(database_path: str | Path | None = None) -> FastAPI:
     @asynccontextmanager
     async def lifespan(application: FastAPI):
         application.state.store = Store(database)
+        application.state.tutor_client = tutor_client if tutor_client is not None else TutorClient.from_environment()
         yield
 
     application = FastAPI(title="信号实验工坊", version="0.2.0", lifespan=lifespan)
@@ -81,6 +86,13 @@ def create_app(database_path: str | Path | None = None) -> FastAPI:
     def learning_history(session_id: UUID4, request: Request, response: Response):
         response.headers["Cache-Control"] = "no-store"
         return SessionHistory(session_id=session_id, events=request.app.state.store.list_events(str(session_id)))
+
+    @application.post("/api/tutor/guide", response_model=TutorReply)
+    async def tutor_guide(payload: TutorRequest, request: Request):
+        try:
+            return await guide(payload, request.app.state.store, request.app.state.tutor_client)
+        except TutorError as error:
+            raise HTTPException(status_code=error.status, detail=str(error)) from error
 
     @application.get("/api/sessions/{session_id}/export")
     def learning_export(session_id: UUID4, request: Request, format: Literal["json", "csv"] = "json"):

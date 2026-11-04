@@ -83,9 +83,12 @@ def prepare_event(
 ) -> LearningEvent:
     if request.stage == "run" and (run is None or run.params != case.prediction.params):
         raise ValueError("The saved run does not match the exercise parameters")
+    if request.stage == "observe" and run is not None and run.params == case.transfer.params:
+        raise ValueError("Use different parameters for the comparison run")
     outcome = {
         "predict": "recorded",
         "run": "completed",
+        "observe": "completed",
         "reflect": "recorded",
         "export": "completed",
         "error": "failed",

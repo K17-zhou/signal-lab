@@ -1,0 +1,28 @@
+.tutor-panel .tutor-reply {
+  border-top: 1px solid var(--border);
+  margin-top: 14px;
+  padding-top: 6px;
+}
+.tutor-panel .tutor-reply p { white-space: pre-wrap; overflow-wrap: anywhere; }
+.tutor-evidence { display: flex; flex-wrap: wrap; gap: 8px; }
+.tutor-chip {
+  color: #254cdd;
+  background: #eef3ff;
+  border: 1px solid #b8c9fc;
+  padding: 7px 11px;
+  border-radius: 7px;
+  min-height: 36px;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+.tutor-chip:hover { background: #dfe9ff; }
+.tutor-proposal { margin-top: 14px; padding: 12px; border-radius: 9px; background: #f5f8ff; }
+.tutor-proposal h3 { margin: 0; font-size: 15px; }
+.tutor-highlight {
+  margin: 8px 0 0;
+  padding: 8px 12px;
+  border: 1px solid #a9baff;
+  background: #eef3ff;
+  border-radius: 8px;
+  font-size: 14px;
+}

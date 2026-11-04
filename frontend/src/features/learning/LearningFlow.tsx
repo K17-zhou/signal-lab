@@ -2,6 +2,9 @@ import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { runExperiment } from '../../api';
 import type { ExperimentRun, SamplingParams } from '../../api';
 import { RunSummary } from '../lab/RunSummary';
+import { TutorPanel } from '../tutor/TutorPanel';
+import { evidenceLabels, evidenceValue } from '../tutor/evidence';
+import type { EvidenceKey } from '../tutor/evidence';
 import { answerText, CaseParameters, elapsedSince, QuestionForm } from './LearningQuestion';
 import { appendLearningEvent, LearningRequestError, loadLearning, loadLearningRun } from './learningApi';
 import type { LearningEventDraft } from './learningApi';
@@ -52,6 +55,8 @@ function LearningSession({ sessionId, onNewSession }: { sessionId: string; onNew
   const [run, setRun] = useState<ExperimentRun | null>(null);
   const [runError, setRunError] = useState<string | null>(null);
   const [runAttempt, setRunAttempt] = useState(0);
+  const [highlight, setHighlight] = useState<{ runId: string; key: EvidenceKey } | null>(null);
+  const summary = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -67,21 +72,23 @@ function LearningSession({ sessionId, onNewSession }: { sessionId: string; onNew
   const events = data?.events.filter((event) => event.case_id === exercise?.case_id) ?? [];
   const prediction = events.find((event) => event.stage === 'predict');
   const runId = events.find((event) => event.stage === 'run')?.run_id;
+  const observation = events.filter((event) => event.stage === 'observe').at(-1);
+  const currentRunId = observation?.run_id ?? runId;
   const transfer = events.find((event) => event.stage === 'transfer');
   const reflections = events.filter((event) => event.stage === 'reflect');
-  const displayedRun = run && run.run_id === runId ? run : null;
+  const displayedRun = run && run.run_id === currentRunId ? run : null;
   const locked = busy || retry !== null;
 
   useEffect(() => {
-    if (!runId || runId === run?.run_id) return;
+    if (!currentRunId || currentRunId === run?.run_id) return;
     const controller = new AbortController();
-    loadLearningRun(runId, controller.signal).then((result) => {
+    loadLearningRun(currentRunId, controller.signal).then((result) => {
       if (!controller.signal.aborted) setRun(result);
     }).catch((failure: unknown) => {
       if (!controller.signal.aborted) setRunError(errorMessage(failure));
     });
     return () => controller.abort();
-  }, [runId, run?.run_id, runAttempt]);
+  }, [currentRunId, run?.run_id, runAttempt]);
 
   if (loadError) return <div className="learning-notice request-error" role="alert">
     <p>{loadError}</p>
@@ -122,7 +129,7 @@ function LearningSession({ sessionId, onNewSession }: { sessionId: string; onNew
     finally { setBusy(false); }
   }
 
-  async function runCase(params: SamplingParams) {
+  async function runCase(params: SamplingParams, stage: 'run' | 'observe' = 'run') {
     const started = performance.now();
     let result: ExperimentRun;
     try {
@@ -131,8 +138,8 @@ function LearningSession({ sessionId, onNewSession }: { sessionId: string; onNew
       await save(makeEvent('error', elapsedSince(started), { note: errorMessage(failure) }));
       throw failure;
     }
+    await save(makeEvent(stage, elapsedSince(started), { run_id: result.run_id }));
     setRun(result);
-    await save(makeEvent('run', elapsedSince(started), { run_id: result.run_id }));
   }
 
   const activeStep = !prediction ? 0 : !runId ? 1 : 2;
@@ -182,10 +189,23 @@ function LearningSession({ sessionId, onNewSession }: { sessionId: string; onNew
         </section>
       <div className="results-column learning-result">
         {displayedRun ? <>
-          <RunSummary run={displayedRun} />
+          <div ref={summary} tabIndex={-1} aria-label="当前运行证据">
+            {observation && <p className="case-goal">当前图表显示对照实验</p>}
+            <RunSummary run={displayedRun} />
+            {highlight?.runId === displayedRun.run_id && <p className="tutor-highlight" role="status">
+              {evidenceLabels[highlight.key]} · {evidenceValue(displayedRun, highlight.key)}
+            </p>}
+          </div>
           <Suspense fallback={<div className="chart-loading panel">正在准备实验图表…</div>}>
             <SignalPlots run={displayedRun} />
           </Suspense>
+          <TutorPanel key={displayedRun.run_id} sessionId={sessionId} run={displayedRun} disabled={locked}
+            onEvidence={(key) => {
+              setHighlight({ runId: displayedRun.run_id, key });
+              summary.current?.focus({ preventScroll: true });
+              summary.current?.scrollIntoView?.({ block: 'nearest' });
+            }}
+            onConfirm={(params) => void perform(() => runCase(params, 'observe'))} />
           <section className="panel learning-card">
             <p className="learning-run-id">实验记录 <code>{displayedRun.run_id}</code></p>
             <ReflectionForm key={reflections.at(-1)?.event_id ?? displayedRun.run_id} disabled={locked} onSave={(note, elapsedMs) =>

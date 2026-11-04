@@ -4,7 +4,7 @@ from datetime import datetime
 import math
 from typing import Annotated, Literal, Self
 
-from pydantic import UUID4, BaseModel, ConfigDict, Field, model_validator
+from pydantic import UUID4, BaseModel, ConfigDict, Field, StringConstraints, model_validator
 
 
 class FrozenRecord(BaseModel):
@@ -63,7 +63,7 @@ class NumericAnswer(FrozenRecord):
 
 
 AssessmentAnswer = Annotated[ChoiceAnswer | NumericAnswer, Field(discriminator="kind")]
-LearningStage = Literal["predict", "run", "reflect", "transfer", "export", "error"]
+LearningStage = Literal["predict", "run", "observe", "reflect", "transfer", "export", "error"]
 LearningOutcome = Literal["recorded", "completed", "correct", "incorrect", "failed"]
 
 
@@ -87,7 +87,7 @@ class LearningEventRequest(FrozenRecord):
     def check_stage_fields(self) -> Self:
         if (self.stage in ("predict", "transfer")) != (self.answer is not None):
             raise ValueError("Only prediction and transfer events require an answer")
-        if self.stage in ("run", "reflect", "transfer") and self.run_id is None:
+        if self.stage in ("run", "observe", "reflect", "transfer") and self.run_id is None:
             raise ValueError("This stage requires a saved run")
         if self.stage == "predict" and self.run_id is not None:
             raise ValueError("A prediction must precede the experiment")
@@ -106,3 +106,29 @@ class LearningEvent(LearningEventRequest):
 class SessionHistory(FrozenRecord):
     session_id: UUID4
     events: list[LearningEvent]
+
+
+EvidenceKey = Literal[
+    "frequency_hz", "sample_rate_hz", "amplitude", "phase_rad", "alias_frequency_hz",
+    "sampling_state", "sample_rms", "peak_frequency_hz", "reconstruction_rmse", "warnings",
+]
+
+
+class EvidenceRef(FrozenRecord):
+    run_id: str
+    metric_key: EvidenceKey
+
+
+class TutorRequest(FrozenRecord):
+    session_id: UUID4
+    run_id: UUID4
+    message: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=400)]
+    prediction: AssessmentAnswer | None = None
+    mode: Literal["B", "C"] = "C"
+
+
+class TutorReply(FrozenRecord):
+    explanation: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=1200)]
+    evidence: list[EvidenceRef] = Field(max_length=5)
+    next_experiment: ExperimentRequest | None
+    misconception_code: str | None = Field(max_length=64)

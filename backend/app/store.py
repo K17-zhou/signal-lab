@@ -36,7 +36,10 @@ class Store:
                 "CREATE INDEX IF NOT EXISTS learning_session ON learning_events(session_id, case_id, stage)"
             )
             connection.execute(
-                "CREATE UNIQUE INDEX IF NOT EXISTS learning_run ON learning_events(run_id) WHERE stage = 'run'"
+                """
+                CREATE UNIQUE INDEX IF NOT EXISTS learning_run_owner
+                ON learning_events(run_id) WHERE stage IN ('run', 'observe')
+                """
             )
             connection.commit()
 
@@ -84,16 +87,27 @@ class Store:
             ))
             if event.stage in stages:
                 raise LearningConflict("This stage already has a saved record")
-            if event.stage == "run":
-                if "predict" not in stages:
-                    raise LearningConflict("Save the prediction before recording a run")
+            if event.stage in ("run", "observe"):
+                prerequisite = "predict" if event.stage == "run" else "run"
+                if prerequisite not in stages:
+                    raise LearningConflict("Save the previous learning step before recording this run")
                 owner = connection.execute(
-                    "SELECT 1 FROM learning_events WHERE stage = 'run' AND run_id = ?", (run_id,)
+                    "SELECT 1 FROM learning_events WHERE stage IN ('run', 'observe') AND run_id = ?", (run_id,)
                 ).fetchone()
                 if owner:
                     raise LearningConflict("This run already belongs to a learning case")
             elif run_id is not None and stages.get("run") != run_id:
-                raise LearningConflict("This run is not recorded for the session and case")
+                observation = None
+                if event.stage != "transfer":
+                    observation = connection.execute(
+                        """
+                        SELECT 1 FROM learning_events
+                        WHERE session_id = ? AND case_id = ? AND stage = 'observe' AND run_id = ?
+                        """,
+                        (session_id, event.case_id, run_id),
+                    ).fetchone()
+                if not observation:
+                    raise LearningConflict("This run is not recorded for this learning step")
 
             connection.execute(
                 """

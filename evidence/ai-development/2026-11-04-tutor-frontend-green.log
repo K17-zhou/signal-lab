@@ -1,0 +1,18 @@
+
+> signal-lab-frontend@0.1.0 test
+> vitest --run
+
+
+ RUN  v5.1.0 C:/Users/k2230/Desktop/Study/资料/传智杯/frontend
+
+
+ Test Files  4 passed (4)
+      Tests  13 passed (13)
+   Start at  11:27:22
+   Duration  3.20s (environment 67%, setup 16%, tests 13%, transform 3%, import 1%)
+
+npm notice
+npm notice New major version of npm available! 11.13.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

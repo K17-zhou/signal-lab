@@ -23,7 +23,7 @@ export interface LearningEventDraft {
   event_id: string;
   session_id: string;
   case_id: string;
-  stage: 'predict' | 'run' | 'reflect' | 'transfer' | 'error';
+  stage: 'predict' | 'run' | 'observe' | 'reflect' | 'transfer' | 'error';
   elapsed_ms: number;
   run_id?: string;
   answer?: AssessmentAnswer;

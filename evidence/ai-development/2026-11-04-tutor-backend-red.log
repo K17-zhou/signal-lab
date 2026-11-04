@@ -1,0 +1,64 @@
+EEEEEEEEEE                                                               [100%]
+=================================== ERRORS ====================================
+_ ERROR at setup of test_context_uses_saved_prediction_and_has_no_answer_keys _
+tests\test_tutor.py:58: in tutoring
+    with TestClient(create_app(tmp_path / "tutor.sqlite3", tutor_client=model)) as client:
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: create_app() got an unexpected keyword argument 'tutor_client'
+_______ ERROR at setup of test_wrong_or_foreign_run_never_reaches_model _______
+tests\test_tutor.py:58: in tutoring
+    with TestClient(create_app(tmp_path / "tutor.sqlite3", tutor_client=model)) as client:
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: create_app() got an unexpected keyword argument 'tutor_client'
+_ ERROR at setup of test_model_cannot_return_invalid_evidence_or_parameters[foreign-evidence] _
+tests\test_tutor.py:58: in tutoring
+    with TestClient(create_app(tmp_path / "tutor.sqlite3", tutor_client=model)) as client:
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: create_app() got an unexpected keyword argument 'tutor_client'
+_ ERROR at setup of test_model_cannot_return_invalid_evidence_or_parameters[unknown-field] _
+tests\test_tutor.py:58: in tutoring
+    with TestClient(create_app(tmp_path / "tutor.sqlite3", tutor_client=model)) as client:
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: create_app() got an unexpected keyword argument 'tutor_client'
+_ ERROR at setup of test_model_cannot_return_invalid_evidence_or_parameters[non-json] _
+tests\test_tutor.py:58: in tutoring
+    with TestClient(create_app(tmp_path / "tutor.sqlite3", tutor_client=model)) as client:
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: create_app() got an unexpected keyword argument 'tutor_client'
+_ ERROR at setup of test_model_cannot_return_invalid_evidence_or_parameters[invalid-params] _
+tests\test_tutor.py:58: in tutoring
+    with TestClient(create_app(tmp_path / "tutor.sqlite3", tutor_client=model)) as client:
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: create_app() got an unexpected keyword argument 'tutor_client'
+_ ERROR at setup of test_model_cannot_return_invalid_evidence_or_parameters[empty-evidence] _
+tests\test_tutor.py:58: in tutoring
+    with TestClient(create_app(tmp_path / "tutor.sqlite3", tutor_client=model)) as client:
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: create_app() got an unexpected keyword argument 'tutor_client'
+_______ ERROR at setup of test_timeout_leaves_the_experiment_available ________
+tests\test_tutor.py:58: in tutoring
+    with TestClient(create_app(tmp_path / "tutor.sqlite3", tutor_client=model)) as client:
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: create_app() got an unexpected keyword argument 'tutor_client'
+_ ERROR at setup of test_confirmed_observation_preserves_the_formal_run_and_prediction _
+tests\test_tutor.py:58: in tutoring
+    with TestClient(create_app(tmp_path / "tutor.sqlite3", tutor_client=model)) as client:
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: create_app() got an unexpected keyword argument 'tutor_client'
+_ ERROR at setup of test_mode_b_wraps_plain_feedback_without_inventing_evidence _
+tests\test_tutor.py:58: in tutoring
+    with TestClient(create_app(tmp_path / "tutor.sqlite3", tutor_client=model)) as client:
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: create_app() got an unexpected keyword argument 'tutor_client'
+=========================== short test summary info ===========================
+ERROR tests/test_tutor.py::test_context_uses_saved_prediction_and_has_no_answer_keys
+ERROR tests/test_tutor.py::test_wrong_or_foreign_run_never_reaches_model - Ty...
+ERROR tests/test_tutor.py::test_model_cannot_return_invalid_evidence_or_parameters[foreign-evidence]
+ERROR tests/test_tutor.py::test_model_cannot_return_invalid_evidence_or_parameters[unknown-field]
+ERROR tests/test_tutor.py::test_model_cannot_return_invalid_evidence_or_parameters[non-json]
+ERROR tests/test_tutor.py::test_model_cannot_return_invalid_evidence_or_parameters[invalid-params]
+ERROR tests/test_tutor.py::test_model_cannot_return_invalid_evidence_or_parameters[empty-evidence]
+ERROR tests/test_tutor.py::test_timeout_leaves_the_experiment_available - Typ...
+ERROR tests/test_tutor.py::test_confirmed_observation_preserves_the_formal_run_and_prediction
+ERROR tests/test_tutor.py::test_mode_b_wraps_plain_feedback_without_inventing_evidence
+10 errors in 3.04s
