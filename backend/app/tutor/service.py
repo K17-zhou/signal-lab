@@ -11,12 +11,20 @@ from app.tutor.client import TutorClient, TutorTransportError
 
 
 TIMEOUT_SECONDS = 30
-THEORY = (
-    "周期正弦取样后，折叠频率取到0至采样率的一半。"
-    "采样率严格大于信号频率的两倍时，本实验的周期重建可恢复原正弦。"
-    "恰好两倍是边界，样本与初相位有关，不能一概保证恢复。"
-    "样本接近零时，主峰为空表示没有可辨的峰。理论折叠频率不等于测得主峰。"
-    "插值密度和曲线光滑度不增加采样信息。采样后的滤波不能区分折叠到同一频率的成分。"
+SAMPLING_THEORY = {
+    "well_sampled": "本次运行满足充分采样条件。采样率严格大于信号频率的两倍，本实验的周期重建可恢复原正弦。",
+    "undersampled": (
+        "本次运行属于欠采样。原频率与折叠频率可能产生相同样本，重建曲线即使光滑且通过样本也不能证明恢复。"
+        "增加插值点不产生独立样本，采样后滤波不能区分折叠到同一频率的成分。"
+    ),
+    "nyquist_boundary": (
+        "本次运行位于奈奎斯特边界。此时正弦样本为 (-1)^n × 振幅 × sin(初相位)。"
+        "初相位为零时样本近零，初相位为 π/2 时正负交替，两种情况都不能保证唯一恢复。"
+    ),
+}
+METRIC_GUIDE = (
+    "理论折叠频率直接读取 run.metrics.alias_frequency_hz，实测主峰读取 run.metrics.peak_frequency_hz。"
+    "主峰为空表示没有可辨主峰，理论值仍按记录读取。"
 )
 
 
@@ -57,7 +65,7 @@ async def guide(request: TutorRequest, store: Store, client: TutorClient | None)
             "params": case.prediction.params.model_dump(mode="json"),
             "options": [option.model_dump(mode="json") for option in case.prediction.options],
         },
-        "theory": THEORY,
+        "theory": SAMPLING_THEORY[run.metrics.sampling_state] + METRIC_GUIDE,
         "message": request.message,
         "mode": request.mode,
     }

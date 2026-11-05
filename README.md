@@ -61,13 +61,17 @@ Pop-Location
 
 ## 本地 AI 指导
 
-本项目选择 Qwen3-1.7B Q4_K_M 量化权重和便携版 llama.cpp。模型文件为 1,282,439,264 字节。启动配置为 2048 token 上下文、单并发和 4 个 CPU 线程，推理服务只监听 `127.0.0.1:8081`。 [模型仓库](https://huggingface.co/ggml-org/Qwen3-1.7B-GGUF) · [llama.cpp 接口](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+本项目使用便携版 llama.cpp，默认加载 Qwen3.5-4B 的 Q4_K_M 权重。配置为 2048 token 上下文、单并发、4 个 CPU 线程和关闭思考模式，推理服务默认监听 `127.0.0.1:8081`。 [llama.cpp 接口](https://github.com/ggml-org/llama.cpp/blob/b11814/tools/server/README.md)
 
 1. 将 Windows Vulkan 版 llama.cpp b11814 解压到 `.cache/runtimes/llama-b11814/`，使 `llama-server.exe` 位于该目录下。本机项目的便携运行器已就绪。 [运行包](https://github.com/ggml-org/llama.cpp/releases/download/b11814/llama-b11814-bin-win-vulkan-x64.zip)
-2. 将 `Qwen3-1.7B-Q4_K_M.gguf` 放到项目的 `.cache/models/`。启动脚本会验证长度和 SHA256。 [固定版本权重](https://huggingface.co/ggml-org/Qwen3-1.7B-GGUF/resolve/daeb8e2d528a760970442092f6bf1e55c3b659eb/Qwen3-1.7B-Q4_K_M.gguf?download=true)
-3. 在项目目录启动 `.\scripts\start-tutor.ps1`。可加 `-Cpu` 选用 CPU。另开一个项目目录终端启动 `.\scripts\start.ps1`，然后完成一次预测和实验，点击“获取 AI 指导”。
+2. 将默认权重放在 `model/Qwen3.5-4B-Q4_K_M.gguf`，启动时会校验长度和 SHA-256。 [Qwen3.5-4B 固定权重](https://huggingface.co/unsloth/Qwen3.5-4B-GGUF/blob/e87f176479d0855a907a41277aca2f8ee7a09523/Qwen3.5-4B-Q4_K_M.gguf)
+3. 在项目根目录运行启动脚本。可用 `-ModelPath` 指定绝对路径或相对项目根目录的路径，也可用 `-Cpu` 选择 CPU。脚本仍接受两种已登记的旧版 Q4_K_M 权重。 [Qwen3-4B-Instruct-2507](https://huggingface.co/unsloth/Qwen3-4B-Instruct-2507-GGUF/blob/a06e946bb6b655725eafa393f4a9745d460374c9/Qwen3-4B-Instruct-2507-Q4_K_M.gguf) · [Qwen3-1.7B](https://huggingface.co/ggml-org/Qwen3-1.7B-GGUF/blob/daeb8e2d528a760970442092f6bf1e55c3b659eb/Qwen3-1.7B-Q4_K_M.gguf)
 
-应用默认使用模型别名 `qwen3-1.7b` 和端口 8081。可通过启动应用前的进程环境变量设置 `SIGNAL_LAB_TUTOR_PORT`、`SIGNAL_LAB_TUTOR_MODEL`。当前验收已完成固定响应联调，真实 Qwen 推理、质量和资源用量待权重就绪后实测。
+```powershell
+.\scripts\start-tutor.ps1
+```
+
+另开一个项目目录终端启动 `.\scripts\start.ps1`，完成一次预测和实验后点击“获取 AI 指导”。应用和模型服务默认使用统一别名 `signal-lab-tutor`。更改模型端口时，在应用终端设置 `SIGNAL_LAB_TUTOR_PORT` 与 `-Port` 一致。使用自定义别名时，在两个终端设置同一 `SIGNAL_LAB_TUTOR_MODEL`。实际测量值以界面中的实验记录和证据引用为准。
 
 ## 标准案例与限制
 
@@ -86,11 +90,11 @@ Pop-Location
 
 ## 文档与证据
 
-- [最新进度与接续入口](docs/progress/2026-11-04.md)
+- [最新进度与接续入口](docs/progress/2026-11-05.md)
 - [执行计划](docs/superpowers/plans/2026-11-03-signal-lab-plan.md)
 - [设计基线](docs/superpowers/specs/2026-11-03-signal-lab-design.md)
 - [AI开发证据索引](evidence/ai-development/index.md)
 - [网页与API实际开发记录](evidence/ai-development/2026-11-03-interactive-lab.md)
 - [引导学习与判题开发记录](evidence/ai-development/2026-11-04-guided-learning.md)
-- [本地 AI 接入与交接记录](evidence/ai-development/2026-11-04-local-tutor.md)
+- [本地 AI 真机验收](evidence/ai-development/2026-11-05-tutor-real.md)
 - 本地测试环境以backend/requirements.lock.txt锁定；.venv、临时缓存、导出的大数组不进入Git。

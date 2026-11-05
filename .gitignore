@@ -1,5 +1,6 @@
 .venv/
 .cache/
+/model/*.gguf
 .superpowers/
 .pytest_cache/
 __pycache__/

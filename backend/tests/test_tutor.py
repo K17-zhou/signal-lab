@@ -2,12 +2,14 @@
 
 import json
 import time
+from unittest.mock import Mock
 from uuid import uuid4
 
 from fastapi.testclient import TestClient
 import pytest
 
 from app.main import create_app
+from app.tutor.client import TutorClient
 
 
 class ModelStub:
@@ -76,6 +78,7 @@ def test_context_uses_saved_prediction_and_has_no_answer_keys(tutoring):
     assert context["prediction"] == {"kind": "numeric", "value": 22.0, "unit": "Hz"}
     assert context["run"]["metrics"]["peak_frequency_hz"] == pytest.approx(40)
     assert set(context) == {"run", "prediction", "exercise", "theory", "message", "mode"}
+    assert "本次运行属于欠采样" in context["theory"]
     assert set(context["exercise"]) == {"title", "goal", "prompt", "params", "options"}
     assert "series" not in context["run"]
     assert "transfer" not in json.dumps(context, ensure_ascii=False)
@@ -134,6 +137,7 @@ def test_confirmed_observation_preserves_the_formal_run_and_prediction(tutoring)
     assert model.contexts[-1]["prediction"]["value"] == 22
     assert model.contexts[-1]["exercise"]["params"]["sample_rate_hz"] == 110
     assert model.contexts[-1]["run"]["params"]["sample_rate_hz"] == 200
+    assert "本次运行满足充分采样条件" in model.contexts[-1]["theory"]
     answer = {"kind": "numeric", "value": 30.5, "unit": "Hz"}
     assert event(client, session, "transfer", run_id=comparison, answer=answer).status_code == 409
     assert event(client, session, "transfer", run_id=request["run_id"], answer=answer).json()["outcome"] == "correct"
@@ -152,3 +156,20 @@ def test_mode_b_wraps_plain_feedback_without_inventing_evidence(tutoring):
     assert response.json()["evidence"] == []
     assert response.json()["next_experiment"] is None
     assert model.contexts[-1]["mode"] == "B"
+
+
+def test_structured_client_sends_schema_in_llama_cpp_envelope(monkeypatch):
+    connection = Mock()
+    response = connection.getresponse.return_value
+    response.status = 200
+    response.read.return_value = b'{"choices":[{"message":{"content":"{}"}}]}'
+    monkeypatch.setattr("app.tutor.client.HTTPConnection", Mock(return_value=connection))
+    run_id = str(uuid4())
+
+    TutorClient("signal-lab-tutor").complete({"mode": "C", "run": {"run_id": run_id}})
+
+    payload = json.loads(connection.request.call_args.args[2])
+    assert payload["response_format"]["type"] == "json_schema"
+    schema = payload["response_format"]["json_schema"]["schema"]
+    assert schema["$defs"]["EvidenceRef"]["properties"]["run_id"] == {"const": run_id}
+    assert schema["properties"]["evidence"]["minItems"] == 1
