@@ -25,30 +25,29 @@ class ModelStub:
         if self.raw is not None:
             return self.raw
         return json.dumps({
-            "explanation": "采样频率不足时，原信号和折叠后的信号会产生相同样本。",
+            "focus": "sampling",
             "evidence": [{"run_id": context["run"]["run_id"], "metric_key": "peak_frequency_hz"}],
             "next_experiment": {
                 "experiment_type": "sampling_aliasing",
                 "params": {"frequency_hz": 70, "sample_rate_hz": 200},
             },
-            "misconception_code": None,
             **self.change,
         })
 
 
-def start_run(client, frequency=70, rate=110):
+def start_run(client, frequency=70, rate=110, **params):
     result = client.post("/api/experiments/run", json={
         "experiment_type": "sampling_aliasing",
-        "params": {"frequency_hz": frequency, "sample_rate_hz": rate},
+        "params": {"frequency_hz": frequency, "sample_rate_hz": rate, **params},
     })
     assert result.status_code == 200
     return result.json()["run_id"]
 
 
-def event(client, session_id, stage, **fields):
+def event(client, session_id, stage, case_id="alias-frequency", **fields):
     return client.post("/api/events", json={
         "event_id": str(uuid4()), "session_id": session_id,
-        "case_id": "alias-frequency", "stage": stage, "elapsed_ms": 10,
+        "case_id": case_id, "stage": stage, "elapsed_ms": 10,
         **fields,
     })
 
@@ -72,6 +71,9 @@ def test_context_uses_saved_prediction_and_has_no_answer_keys(tutoring):
     })
     assert response.status_code == 200
     result = response.json()
+    assert "你的原预测是 22 Hz" in result["explanation"]
+    assert "理论折叠频率为 40 Hz" in result["explanation"]
+    assert "观测主峰为 40 Hz" in result["explanation"]
     assert result["evidence"] == [{"run_id": request["run_id"], "metric_key": "peak_frequency_hz"}]
     assert result["next_experiment"]["params"]["sample_rate_hz"] == 200
     context = model.contexts[0]
@@ -93,7 +95,10 @@ def test_wrong_or_foreign_run_never_reaches_model(tutoring):
     assert model.contexts == []
 
 
-@pytest.mark.parametrize("failure", ["foreign-evidence", "unknown-field", "non-json", "invalid-params", "empty-evidence"])
+@pytest.mark.parametrize("failure", [
+    "foreign-evidence", "unknown-field", "non-json", "invalid-params", "empty-evidence",
+    "unverified-explanation", "unknown-focus",
+])
 def test_model_cannot_return_invalid_evidence_or_parameters(tutoring, failure):
     client, model, request = tutoring
     if failure == "foreign-evidence":
@@ -106,8 +111,12 @@ def test_model_cannot_return_invalid_evidence_or_parameters(tutoring, failure):
         model.change["next_experiment"] = {
             "experiment_type": "sampling_aliasing", "params": {"frequency_hz": 70, "sample_rate_hz": 0},
         }
-    else:
+    elif failure == "empty-evidence":
         model.change["evidence"] = []
+    elif failure == "unverified-explanation":
+        model.change["explanation"] = "理论折叠频率为 999 Hz。"
+    else:
+        model.change["focus"] = "invented"
     response = client.post("/api/tutor/guide", json=request)
     assert response.status_code == 502
     assert response.json()["detail"] == "invalid_tutor_reply"
@@ -134,6 +143,11 @@ def test_confirmed_observation_preserves_the_formal_run_and_prediction(tutoring)
     response = client.post("/api/tutor/guide", json={**request, "run_id": comparison})
     assert response.status_code == 200
     assert response.json()["evidence"][0]["run_id"] == comparison
+    explanation = response.json()["explanation"]
+    assert "原题采样率为 110 Hz" in explanation
+    assert "你的原预测是 22 Hz" in explanation
+    assert "本次采样率为 200 Hz" in explanation
+    assert "观测主峰为 70 Hz" in explanation
     assert model.contexts[-1]["prediction"]["value"] == 22
     assert model.contexts[-1]["exercise"]["params"]["sample_rate_hz"] == 110
     assert model.contexts[-1]["run"]["params"]["sample_rate_hz"] == 200
@@ -145,6 +159,44 @@ def test_confirmed_observation_preserves_the_formal_run_and_prediction(tutoring)
     assert [row["stage"] for row in history] == ["predict", "run", "observe", "transfer"]
     assert history[0]["answer"]["value"] == 22
     assert history[1]["run_id"] == request["run_id"]
+
+
+@pytest.mark.parametrize(("phase", "observed"), [
+    (0.0, "未检测到可辨主峰"),
+    (1.5707963267948966, "观测主峰为 50 Hz"),
+])
+def test_nyquist_boundary_separates_folded_frequency_from_observed_peak(tutoring, phase, observed):
+    client, _, request = tutoring
+    run_id = start_run(client, frequency=50, rate=100, phase_rad=phase)
+    assert event(client, request["session_id"], "observe", run_id=run_id).status_code == 200
+
+    response = client.post("/api/tutor/guide", json={**request, "run_id": run_id})
+
+    assert response.status_code == 200
+    explanation = response.json()["explanation"]
+    assert "理论折叠频率为 50 Hz" in explanation
+    assert observed in explanation
+    assert "无法保证唯一恢复" in explanation
+
+
+@pytest.mark.parametrize(("case_id", "frequency", "rate", "option", "expected"), [
+    ("smoothness", 90, 125, "enough", "光滑且经过样本不足以证明恢复"),
+    ("post-filter", 95, 140, "recover", "采样后低通无法按原始来源分离"),
+])
+def test_generic_focus_keeps_the_exercises_specific_guidance(tutoring, case_id, frequency, rate, option, expected):
+    client, _, _ = tutoring
+    session = str(uuid4())
+    answer = {"kind": "choice", "option_id": option}
+    assert event(client, session, "predict", case_id, answer=answer).status_code == 200
+    run_id = start_run(client, frequency=frequency, rate=rate)
+    assert event(client, session, "run", case_id, run_id=run_id).status_code == 200
+
+    response = client.post("/api/tutor/guide", json={
+        "session_id": session, "run_id": run_id, "message": "解释这道题的现象。",
+    })
+
+    assert response.status_code == 200
+    assert expected in response.json()["explanation"]
 
 
 def test_mode_b_wraps_plain_feedback_without_inventing_evidence(tutoring):
@@ -173,3 +225,5 @@ def test_structured_client_sends_schema_in_llama_cpp_envelope(monkeypatch):
     schema = payload["response_format"]["json_schema"]["schema"]
     assert schema["$defs"]["EvidenceRef"]["properties"]["run_id"] == {"const": run_id}
     assert schema["properties"]["evidence"]["minItems"] == 1
+    assert "explanation" not in schema["properties"]
+    assert "phase" in schema["properties"]["focus"]["enum"]

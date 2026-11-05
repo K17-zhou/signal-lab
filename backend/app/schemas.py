@@ -127,6 +127,15 @@ class TutorRequest(FrozenRecord):
     mode: Literal["B", "C"] = "C"
 
 
+TutorFocus = Literal["sampling", "phase", "interpolation", "smoothness", "post_filter"]
+
+
+class TutorSelection(FrozenRecord):
+    focus: TutorFocus
+    evidence: list[EvidenceRef] = Field(min_length=1, max_length=5)
+    next_experiment: ExperimentRequest | None
+
+
 class TutorReply(FrozenRecord):
     explanation: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=1200)]
     evidence: list[EvidenceRef] = Field(max_length=5)

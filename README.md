@@ -71,7 +71,7 @@ Pop-Location
 .\scripts\start-tutor.ps1
 ```
 
-另开一个项目目录终端启动 `.\scripts\start.ps1`，完成一次预测和实验后点击“获取 AI 指导”。应用和模型服务默认使用统一别名 `signal-lab-tutor`。更改模型端口时，在应用终端设置 `SIGNAL_LAB_TUTOR_PORT` 与 `-Port` 一致。使用自定义别名时，在两个终端设置同一 `SIGNAL_LAB_TUTOR_MODEL`。实际测量值以界面中的实验记录和证据引用为准。
+另开一个项目目录终端启动 `.\scripts\start.ps1`，完成一次预测和实验后点击“获取 AI 指导”。本地模型选择观察重点、引用字段和对照参数，程序根据实验记录和已保存预测生成科学说明。应用和模型服务默认使用统一别名 `signal-lab-tutor`。更改模型端口时，在应用终端设置 `SIGNAL_LAB_TUTOR_PORT` 与 `-Port` 一致。使用自定义别名时，在两个终端设置同一 `SIGNAL_LAB_TUTOR_MODEL`。
 
 ## 标准案例与限制
 
@@ -96,5 +96,5 @@ Pop-Location
 - [AI开发证据索引](evidence/ai-development/index.md)
 - [网页与API实际开发记录](evidence/ai-development/2026-11-03-interactive-lab.md)
 - [引导学习与判题开发记录](evidence/ai-development/2026-11-04-guided-learning.md)
-- [本地 AI 真机验收](evidence/ai-development/2026-11-05-tutor-real.md)
+- [本地 AI 科学正文与交互验收](evidence/ai-development/2026-11-05-tutor-grounded.md)
 - 本地测试环境以backend/requirements.lock.txt锁定；.venv、临时缓存、导出的大数组不进入Git。
