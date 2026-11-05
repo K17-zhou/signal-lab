@@ -1,5 +1,5 @@
 import type { Draft, ParamKey } from './parameters';
-import { FIELDS } from './parameters';
+import { FIELDS, FILTER_FIELD } from './parameters';
 
 interface Props {
   draft: Draft;
@@ -10,22 +10,26 @@ interface Props {
 }
 
 export function ParameterPanel({ draft, pending, onChange, onRun, onReset }: Props) {
-  return <form className="parameter-panel panel" noValidate onSubmit={(event) => { event.preventDefault(); onRun(); }}>
+  const filtering = 'cutoff_hz' in draft;
+  const fields = filtering ? [FILTER_FIELD] : FIELDS;
+  const values: Partial<Record<ParamKey, string>> = draft;
+  return <form className={`parameter-panel panel${filtering ? ' filter-parameter-panel' : ''}`} noValidate onSubmit={(event) => { event.preventDefault(); onRun(); }}>
     <h2>实验参数</h2>
     <div className="parameter-fields">
-      {FIELDS.map((field) => {
-        const raw = Number(draft[field.key]);
-        const sliderValue = draft[field.key].trim() && Number.isFinite(raw) ? Math.max(field.min, Math.min(field.max, raw)) : field.min;
+      {fields.map((field) => {
+        const value = values[field.key] ?? '';
+        const raw = Number(value);
+        const sliderValue = value.trim() && Number.isFinite(raw) ? Math.max(field.min, Math.min(field.max, raw)) : field.min;
         return <div className="parameter-field" key={field.key}>
           <div className="field-top">
             <label htmlFor={field.key}>{field.label}</label>
             <div className="field-value">
-              <input id={field.key} type="number" value={draft[field.key]} min={field.min} max={field.max} step={field.key === 'phase_rad' ? 'any' : field.step}
+              <input id={field.key} type="number" value={value} min={field.min} max={field.max} step={field.step}
                 onChange={(event) => onChange(field.key, event.target.value)} />
               {field.unit ? <span>{field.unit}</span> : null}
             </div>
           </div>
-          <input className="range" aria-label={`${field.label}滑块`} type="range" min={field.min} max={field.max} step={field.key === 'phase_rad' ? 'any' : field.step}
+          <input className="range" aria-label={`${field.label}滑块`} type="range" min={field.min} max={field.max} step={field.step}
             value={sliderValue} onChange={(event) => onChange(field.key, event.target.value)} />
           <div className="field-limits"><span>{field.minLabel}</span><span>{field.maxLabel}</span></div>
         </div>;

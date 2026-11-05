@@ -4,7 +4,12 @@ from contextlib import closing
 from pathlib import Path
 import sqlite3
 
-from app.schemas import ExperimentRun, LearningEvent
+from pydantic import TypeAdapter
+
+from app.schemas import ExperimentResult, LearningEvent
+
+
+_RUN_ADAPTER = TypeAdapter(ExperimentResult)
 
 
 class LearningConflict(ValueError):
@@ -43,7 +48,7 @@ class Store:
             )
             connection.commit()
 
-    def put_run(self, run: ExperimentRun) -> None:
+    def put_run(self, run: ExperimentResult) -> None:
         with closing(sqlite3.connect(self.path, timeout=5)) as connection:
             try:
                 connection.execute(
@@ -54,12 +59,12 @@ class Store:
             except sqlite3.IntegrityError as error:
                 raise ValueError("An experiment with this run_id already exists") from error
 
-    def get_run(self, run_id: str) -> ExperimentRun | None:
+    def get_run(self, run_id: str) -> ExperimentResult | None:
         with closing(sqlite3.connect(self.path, timeout=5)) as connection:
             row = connection.execute(
                 "SELECT payload FROM runs WHERE run_id = ?", (run_id,)
             ).fetchone()
-        return ExperimentRun.model_validate_json(row[0]) if row else None
+        return _RUN_ADAPTER.validate_json(row[0]) if row else None
 
     def append_event(self, event: LearningEvent) -> LearningEvent:
         event_id = str(event.event_id)

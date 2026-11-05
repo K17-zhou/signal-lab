@@ -10,6 +10,8 @@ from fastapi.testclient import TestClient
 import pytest
 
 from app.main import create_app
+from app.learning import score_answer
+from app.schemas import NumericAnswer
 
 
 CASE = "alias-frequency"
@@ -188,7 +190,7 @@ def test_public_catalog_has_new_transfer_parameters_and_no_answer_keys(tmp_path)
         response = client.get("/api/learning/cases")
         assert response.status_code == 200
         cases = response.json()
-        assert len(cases) == 6
+        assert len(cases) == 7
         for case in cases:
             assert case["prediction"]["params"] != case["transfer"]["params"]
             for question in (case["prediction"], case["transfer"]):
@@ -196,3 +198,36 @@ def test_public_catalog_has_new_transfer_parameters_and_no_answer_keys(tmp_path)
                 assert "answer" not in question
                 for option in question.get("options", []):
                     assert set(option) == {"option_id", "label"}
+
+
+def test_filter_transfer_scores_a_ratio_and_preserves_the_real_run(tmp_path):
+    session = str(uuid4())
+    case = "lowpass-gain"
+    with TestClient(create_app(tmp_path / "lab.sqlite3")) as client:
+        prediction = event(session, "predict", case=case, answer=numeric(0.4, "ratio"))
+        assert append(client, prediction)["outcome"] == "recorded"
+        response = client.post("/api/experiments/run", json={
+            "experiment_type": "lowpass_filter", "params": {"cutoff_hz": 60},
+        })
+        assert response.status_code == 200, response.text
+        run_id = response.json()["run_id"]
+        append(client, event(session, "run", case=case, run_id=run_id))
+        wrong_unit = event(session, "transfer", case=case, run_id=run_id, answer=numeric(0.28))
+        assert client.post("/api/events", json=wrong_unit).status_code == 422
+        answer = event(session, "transfer", case=case, run_id=run_id, answer=numeric(0.28, "ratio"))
+        assert append(client, answer)["outcome"] == "correct"
+        export = client.get(f"/api/sessions/{session}/export").json()
+        assert export["events"][-1]["answer"] == numeric(0.28, "ratio")
+        assert export["cases"][case]["transfer"]["params"] == {"cutoff_hz": 90}
+        assert export["runs"][run_id]["metrics"]["gain_120hz"] == pytest.approx(0.05380920, abs=0.005)
+
+
+@pytest.mark.parametrize(("value", "correct"), [
+    (0.25845479, True),
+    (0.29845479, True),
+    (0.25845478, False),
+    (0.29845480, False),
+])
+def test_filter_scoring_includes_exact_decimal_tolerance_bounds(value, correct):
+    result = score_answer("lowpass-gain-transfer", NumericAnswer(kind="numeric", value=value, unit="ratio"))
+    assert result.correct is correct

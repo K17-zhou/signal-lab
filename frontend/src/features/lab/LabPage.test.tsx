@@ -1,5 +1,7 @@
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import type { FilteringRun } from '../../api';
+import { buildPlotOptions } from './plots';
 
 // Browser QA checks the actual ECharts drawing; JSDOM tests the real page's
 // request ordering, validation and error states without its missing layout APIs.
@@ -15,6 +17,11 @@ const safe = {
   ...aliased, run_id: 'run-B', params: { ...aliased.params, frequency_hz: 50, sample_rate_hz: 400 },
   metrics: { ...aliased.metrics, alias_frequency_hz: 50, peak_frequency_hz: 50, sampling_state: 'well_sampled', reconstruction_rmse: 0 },
   warnings: ['PERIODIC_SIGNAL_MODEL'],
+};
+const filtered: FilteringRun = {
+  run_id: 'run-filter', experiment_type: 'lowpass_filter', engine_version: 'test-transport',
+  params: { cutoff_hz: 60 }, series: [], warnings: [],
+  metrics: { gain_20hz: 0.99993001, gain_120hz: 0.0538092, steady_state_start_s: 1, steady_state_end_s: 2 },
 };
 
 function deferred<T>() {
@@ -76,5 +83,28 @@ describe('LabPage', () => {
     await waitFor(() => expect(screen.getByRole('alert')).toHaveTextContent('上次成功结果'));
     expect(screen.getByText('run-A')).toBeVisible();
     expect(screen.queryByText('run-B')).not.toBeInTheDocument();
+  });
+
+  it('runs the low-pass preset and preserves its last valid result on invalid cutoff input', async () => {
+    const fetchMock = vi.fn().mockResolvedValueOnce(response(aliased)).mockResolvedValueOnce(response(filtered));
+    vi.stubGlobal('fetch', fetchMock);
+    const { LabPage } = await import('./LabPage');
+    render(<LabPage />);
+    await screen.findByText('run-A');
+    fireEvent.click(screen.getByRole('button', { name: '低通滤波' }));
+    await screen.findByText('run-filter');
+    expect(JSON.parse(fetchMock.mock.calls[1][1].body)).toEqual({
+      experiment_type: 'lowpass_filter', params: { cutoff_hz: 60 },
+    });
+    expect(screen.getByRole('region', { name: '实验结果' })).toHaveTextContent('0.0538');
+    fireEvent.change(screen.getByRole('spinbutton', { name: '截止频率' }), { target: { value: '500' } });
+    fireEvent.click(screen.getByRole('button', { name: '运行实验' }));
+    expect(await screen.findByRole('alert')).toHaveTextContent('30 Hz');
+    expect(screen.getByText('run-filter')).toBeVisible();
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it('uses whole-number amplitude bounds for the two-tone time chart', () => {
+    expect(buildPlotOptions(filtered).time.yAxis).toMatchObject({ min: -2, max: 2 });
   });
 });

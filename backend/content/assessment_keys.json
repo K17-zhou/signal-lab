@@ -10,5 +10,7 @@
   "filter-predict": {"answer": {"kind": "choice", "option_id": "cannot-recover"}, "misconception_code": "filter_after_aliasing", "explanation_key": "filtering_order"},
   "filter-transfer": {"answer": {"kind": "choice", "option_id": "same-frequency"}, "misconception_code": "filter_after_aliasing", "explanation_key": "filtering_order"},
   "phase-predict": {"answer": {"kind": "choice", "option_id": "near-zero"}, "misconception_code": "sampling_phase_ignored", "explanation_key": "boundary_phase"},
-  "phase-transfer": {"answer": {"kind": "choice", "option_id": "alternating"}, "misconception_code": "sampling_phase_ignored", "explanation_key": "boundary_phase"}
+  "phase-transfer": {"answer": {"kind": "choice", "option_id": "alternating"}, "misconception_code": "sampling_phase_ignored", "explanation_key": "boundary_phase"},
+  "lowpass-gain-predict": {"answer": {"kind": "numeric", "value": 0.05380920, "unit": "ratio"}, "tolerance": 0.02, "misconception_code": "filter_gain", "explanation_key": "butterworth_gain"},
+  "lowpass-gain-transfer": {"answer": {"kind": "numeric", "value": 0.27845479, "unit": "ratio"}, "tolerance": 0.02, "misconception_code": "filter_gain", "explanation_key": "butterworth_gain"}
 }

@@ -2,6 +2,7 @@
 
 import csv
 from datetime import UTC, datetime
+from decimal import Decimal
 from io import StringIO
 import json
 from pathlib import Path
@@ -12,12 +13,13 @@ from pydantic import TypeAdapter
 from app.schemas import (
     AssessmentAnswer,
     ChoiceAnswer,
-    ExperimentRun,
+    ExperimentParams,
+    ExperimentResult,
     FrozenRecord,
     LearningEvent,
     LearningEventRequest,
     NumericAnswer,
-    SamplingParams,
+    NumericUnit,
     ScoreResult,
 )
 
@@ -30,9 +32,9 @@ class LearningOption(FrozenRecord):
 class LearningQuestion(FrozenRecord):
     question_id: str
     prompt: str
-    params: SamplingParams
+    params: ExperimentParams
     kind: Literal["numeric", "choice"]
-    unit: Literal["Hz"] | None = None
+    unit: NumericUnit | None = None
     options: tuple[LearningOption, ...] = ()
 
 
@@ -68,7 +70,8 @@ def score_answer(case_id: str, answer: AssessmentAnswer) -> ScoreResult:
     if isinstance(expected, ChoiceAnswer) and isinstance(answer, ChoiceAnswer):
         correct = expected.option_id == answer.option_id
     elif isinstance(expected, NumericAnswer) and isinstance(answer, NumericAnswer):
-        correct = expected.unit == answer.unit and abs(expected.value - answer.value) <= key.tolerance
+        difference = abs(Decimal(str(expected.value)) - Decimal(str(answer.value)))
+        correct = expected.unit == answer.unit and difference <= Decimal(str(key.tolerance))
     else:
         raise ValueError("Answer does not match the registered question type")
     return ScoreResult(
@@ -79,8 +82,10 @@ def score_answer(case_id: str, answer: AssessmentAnswer) -> ScoreResult:
 
 
 def prepare_event(
-    request: LearningEventRequest, case: LearningCase, run: ExperimentRun | None
+    request: LearningEventRequest, case: LearningCase, run: ExperimentResult | None
 ) -> LearningEvent:
+    if run is not None and type(run.params) is not type(case.prediction.params):
+        raise ValueError("The saved run does not match the experiment type")
     if request.stage == "run" and (run is None or run.params != case.prediction.params):
         raise ValueError("The saved run does not match the exercise parameters")
     if request.stage == "observe" and run is not None and run.params == case.transfer.params:
@@ -98,6 +103,8 @@ def prepare_event(
         question = case.prediction if request.stage == "predict" else case.transfer
         if request.answer.kind != question.kind:
             raise ValueError("Answer does not match the question type")
+        if isinstance(request.answer, NumericAnswer) and request.answer.unit != question.unit:
+            raise ValueError("Answer does not match the question unit")
         if isinstance(request.answer, ChoiceAnswer) and request.answer.option_id not in {
             option.option_id for option in question.options
         }:

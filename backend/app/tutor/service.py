@@ -94,6 +94,8 @@ async def guide(request: TutorRequest, store: Store, client: TutorClient | None)
     run = store.get_run(str(request.run_id))
     if run is None:
         raise TutorError("tutor_run_not_found", 404)
+    if run.experiment_type != "sampling_aliasing":
+        raise TutorError("tutor_requires_sampling_run", 422)
     if client is None:
         raise TutorError("tutor_unavailable", 502)
     case = CASES_BY_ID[binding.case_id]

@@ -1,8 +1,19 @@
-import type { ExperimentRun } from '../../api';
+import type { ExperimentResult } from '../../api';
 import { formatFrequency } from './format';
 
-export function RunSummary({ run }: { run: ExperimentRun | null }) {
+export function RunSummary({ run }: { run: ExperimentResult | null }) {
   if (!run) return <section className="run-summary neutral" aria-label="实验结果"><strong>等待实验结果</strong><p>运行实验后，查看真实计算结果。</p></section>;
+  if (run.experiment_type === 'lowpass_filter') {
+    const { metrics, params } = run;
+    return <section className="run-summary safe" aria-label="实验结果" aria-live="polite">
+      <div className="summary-explanation"><strong>低通滤波结果</strong><p>四阶 Butterworth 单向滤波会产生相移。幅度增益取自 {metrics.steady_state_start_s}–{metrics.steady_state_end_s} 秒稳态窗口。</p></div>
+      <dl className="metrics">
+        <div><dt>截止频率</dt><dd>{params.cutoff_hz} <span>Hz</span></dd></div>
+        <div><dt>20 Hz 增益</dt><dd>{metrics.gain_20hz.toFixed(4)} <span>倍</span></dd></div>
+        <div><dt>120 Hz 增益</dt><dd>{metrics.gain_120hz.toFixed(4)} <span>倍</span></dd></div>
+      </dl>
+    </section>;
+  }
   const { metrics, params, warnings } = run;
   const degenerate = warnings.includes('DEGENERATE_SAMPLES');
   const peakLabel = metrics.peak_frequency_hz === null ? '无有效主峰' : `${formatFrequency(metrics.peak_frequency_hz)} Hz`;

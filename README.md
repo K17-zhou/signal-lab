@@ -5,9 +5,9 @@
 ## 当前能做什么
 
 - 运行一秒周期正弦信号的采样、混叠、单边幅度谱和周期重建。
-- 在网页切换四个标准案例、调整参数、对照波形与频谱，导出当前运行JSON。
-- 在引导学习中完成六组采样练习，依次保存预测、运行实验和提交新参数迁移题。迁移题由服务端判分。
-- 在实验运行后请求本地模型指导。可点按反馈引用跳回本次运行的实测数据，确认建议参数后生成单独的对照运行。
+- 在网页切换四个采样标准案例和低通滤波实验，调整参数、对照波形与频谱，导出当前运行 JSON。
+- 在引导学习中完成六组采样练习和一组滤波练习，依次保存预测、运行实验和提交新参数迁移题。迁移题由服务端判分。
+- 在采样实验运行后请求本地模型指导。可点按反馈引用跳回本次运行的实测数据，确认建议参数后生成单独的对照运行。
 - 在同一标签页刷新后恢复已保存的学习进度。观察记录、耗时、真实运行及判题结果可导出为JSON和CSV。
 - 将成功运行追加保存到SQLite，并按运行编号查询；快速切换时仅显示最新请求结果。
 - 区分正常采样、欠采样、奈奎斯特边界、采样全零等退化情况。
@@ -53,7 +53,7 @@ Pop-Location
 
 `artifacts/sampling-foundation/summary.json`是指标摘要；S1.json到S4.json包含完整曲线数据。这些是解析周期模型的计算结果，不是真人学习效果或硬件测量。
 
-运行和学习记录默认保存在项目内`.cache/signal-lab.sqlite3`，可通过`SIGNAL_LAB_DB_PATH`指定其他路径。`POST /api/experiments/run`接受`experiment_type: "sampling_aliasing"`及`params`，`GET /api/experiments/{run_id}`取回同一记录。自由实验刷新时会生成一次默认运行。[API文档](http://127.0.0.1:8000/docs)
+运行和学习记录默认保存在项目内`.cache/signal-lab.sqlite3`，可通过`SIGNAL_LAB_DB_PATH`指定其他路径。`POST /api/experiments/run` 接受 `sampling_aliasing` 或 `lowpass_filter` 类型及对应 `params`。低通滤波参数为 `cutoff_hz`，范围为 30–200 Hz。`GET /api/experiments/{run_id}` 取回同一记录。自由实验刷新时会生成一次默认采样运行。 [API 文档](http://127.0.0.1:8000/docs)
 
 进入引导学习后选择案例，填写预测并保存，再运行本题实验。可记录观察并完成迁移题。顶部的JSON和CSV链接导出当前会话全部案例的记录。浏览器在同一标签页保存匿名会话编号，新建会话会从空进度开始。[打开引导学习](http://127.0.0.1:8000/#learn)
 
@@ -82,11 +82,12 @@ Pop-Location
 | S3 | 50Hz / 100Hz，初相位0 | 奈奎斯特边界，样本几乎全零，实测主峰为null |
 | S4 | 100Hz / 100Hz，初相位0 | 欠采样折叠到DC、样本退化；不属于奈奎斯特边界 |
 
-- 当前只支持整数频率、整数采样率和固定1秒周期模型；参数范围见[设计基线](docs/superpowers/specs/2026-11-03-signal-lab-design.md)。
+- 采样实验使用整数频率、整数采样率和固定 1 秒周期模型。 [设计基线](docs/superpowers/specs/2026-11-03-signal-lab-design.md)
+- 低通滤波使用四阶数字 Butterworth 滤波器，对双频信号做单向滤波。时域图包含启动瞬态和相移，稳态幅度增益取自最后 1 秒。
 - Fourier重建具有周期假设；不推广为任意真实信号的完美恢复。
 - 欠采样直接在原信号上取样，不经过会抑制混叠的降采样滤波器。
 - 同一参数得到同一数值结果，每次运行编号不同。数值正确不等同教学效果已验证。
-- 本地指导通过本机模型服务运行。真实模型验收记录将补充在开发证据中。
+- 本地指导通过本机模型服务运行。 [真实模型验收记录](evidence/ai-development/2026-11-05-tutor-grounded.md)
 
 ## 文档与证据
 
@@ -97,4 +98,5 @@ Pop-Location
 - [网页与API实际开发记录](evidence/ai-development/2026-11-03-interactive-lab.md)
 - [引导学习与判题开发记录](evidence/ai-development/2026-11-04-guided-learning.md)
 - [本地 AI 科学正文与交互验收](evidence/ai-development/2026-11-05-tutor-grounded.md)
+- [低通滤波与迁移题验收](evidence/ai-development/2026-11-05-lowpass-filtering.md)
 - 本地测试环境以backend/requirements.lock.txt锁定；.venv、临时缓存、导出的大数组不进入Git。

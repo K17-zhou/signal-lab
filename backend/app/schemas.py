@@ -18,10 +18,24 @@ class SamplingParams(FrozenRecord):
     phase_rad: float = Field(default=0.0, strict=True, ge=-math.pi, le=math.pi)
 
 
+class FilteringParams(FrozenRecord):
+    cutoff_hz: float = Field(strict=True, ge=30, le=200)
+
+
+ExperimentParams = SamplingParams | FilteringParams
+
+
 class ExperimentRequest(FrozenRecord):
-    # Filtering is deliberately not enabled before the optional P1 task.
     experiment_type: Literal["sampling_aliasing"]
     params: SamplingParams
+
+
+class FilteringRequest(FrozenRecord):
+    experiment_type: Literal["lowpass_filter"]
+    params: FilteringParams
+
+
+ExperimentInput = Annotated[ExperimentRequest | FilteringRequest, Field(discriminator="experiment_type")]
 
 
 class PlotSeries(FrozenRecord):
@@ -51,15 +65,38 @@ class ExperimentRun(FrozenRecord):
     warnings: list[str]
 
 
+class FilteringMetrics(FrozenRecord):
+    gain_20hz: float
+    gain_120hz: float
+    steady_state_start_s: float
+    steady_state_end_s: float
+
+
+class FilteringRun(FrozenRecord):
+    run_id: str
+    experiment_type: Literal["lowpass_filter"]
+    params: FilteringParams
+    engine_version: str
+    series: list[PlotSeries]
+    metrics: FilteringMetrics
+    warnings: list[str]
+
+
+ExperimentResult = Annotated[ExperimentRun | FilteringRun, Field(discriminator="experiment_type")]
+
+
 class ChoiceAnswer(FrozenRecord):
     kind: Literal["choice"]
     option_id: str = Field(min_length=1, max_length=64)
 
 
+NumericUnit = Literal["Hz", "ratio"]
+
+
 class NumericAnswer(FrozenRecord):
     kind: Literal["numeric"]
     value: float = Field(strict=True)
-    unit: Literal["Hz"]
+    unit: NumericUnit
 
 
 AssessmentAnswer = Annotated[ChoiceAnswer | NumericAnswer, Field(discriminator="kind")]

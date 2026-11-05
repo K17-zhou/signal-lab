@@ -66,9 +66,9 @@ def test_nonfinite_json_returns_a_serializable_422_not_a_server_error(tmp_path, 
         assert token not in response.text
 
 
-def test_disabled_filter_and_unknown_run_are_explicit(tmp_path):
+def test_unknown_experiment_and_run_are_explicit(tmp_path):
     with TestClient(make_app(tmp_path / "lab.sqlite3")) as client:
-        response = client.post("/api/experiments/run", json={"experiment_type": "lowpass_filter", "params": {"cutoff_hz": 60}})
+        response = client.post("/api/experiments/run", json={"experiment_type": "unknown", "params": {"cutoff_hz": 60}})
         assert response.status_code == 422
         assert client.get("/api/experiments/not-a-run").status_code == 404
 

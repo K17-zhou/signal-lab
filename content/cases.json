@@ -98,5 +98,20 @@
       "prompt": "改变初相位和频率后，预测新的样本形态。",
       "options": [{"option_id": "near-zero", "label": "接近零"}, {"option_id": "alternating", "label": "交替取正负值"}]
     }
+  },
+  {
+    "case_id": "lowpass-gain",
+    "title": "低通滤波怎样改变幅度",
+    "goal": "比较 20 Hz 和 120 Hz 的幅度增益，观察滤波的衰减和相移。",
+    "prediction": {
+      "question_id": "lowpass-gain-predict", "kind": "numeric", "unit": "ratio",
+      "params": {"cutoff_hz": 60},
+      "prompt": "截止频率为 60 Hz 时，预测 120 Hz 分量滤波后的幅度约为输入的几倍。请用小数填写幅度比。"
+    },
+    "transfer": {
+      "question_id": "lowpass-gain-transfer", "kind": "numeric", "unit": "ratio",
+      "params": {"cutoff_hz": 90},
+      "prompt": "如果把截止频率提高到 90 Hz，120 Hz 分量滤波后的幅度约为输入的几倍？可用 G = 1/√(1 + r⁸) 估算，其中 r = tan(πf/1000) ÷ tan(πfc/1000)，f 为分量频率，fc 为截止频率。"
+    }
   }
 ]

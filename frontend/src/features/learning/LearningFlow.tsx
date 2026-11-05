@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { runExperiment } from '../../api';
-import type { ExperimentRun, SamplingParams } from '../../api';
+import type { ExperimentParams, ExperimentResult } from '../../api';
 import { RunSummary } from '../lab/RunSummary';
 import { TutorPanel } from '../tutor/TutorPanel';
 import { evidenceLabels, evidenceValue } from '../tutor/evidence';
@@ -52,7 +52,7 @@ function LearningSession({ sessionId, onNewSession }: { sessionId: string; onNew
   const [busy, setBusy] = useState(false);
   const [retry, setRetry] = useState<LearningEventDraft | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [run, setRun] = useState<ExperimentRun | null>(null);
+  const [run, setRun] = useState<ExperimentResult | null>(null);
   const [runError, setRunError] = useState<string | null>(null);
   const [runAttempt, setRunAttempt] = useState(0);
   const [highlight, setHighlight] = useState<{ runId: string; key: EvidenceKey } | null>(null);
@@ -129,9 +129,9 @@ function LearningSession({ sessionId, onNewSession }: { sessionId: string; onNew
     finally { setBusy(false); }
   }
 
-  async function runCase(params: SamplingParams, stage: 'run' | 'observe' = 'run') {
+  async function runCase(params: ExperimentParams, stage: 'run' | 'observe' = 'run') {
     const started = performance.now();
-    let result: ExperimentRun;
+    let result: ExperimentResult;
     try {
       result = await runExperiment(params, AbortSignal.timeout(15000));
     } catch (failure) {
@@ -192,20 +192,20 @@ function LearningSession({ sessionId, onNewSession }: { sessionId: string; onNew
           <div ref={summary} tabIndex={-1} aria-label="当前运行证据">
             {observation && <p className="case-goal">当前图表显示对照实验</p>}
             <RunSummary run={displayedRun} />
-            {highlight?.runId === displayedRun.run_id && <p className="tutor-highlight" role="status">
+            {displayedRun.experiment_type === 'sampling_aliasing' && highlight?.runId === displayedRun.run_id && <p className="tutor-highlight" role="status">
               {evidenceLabels[highlight.key]} · {evidenceValue(displayedRun, highlight.key)}
             </p>}
           </div>
           <Suspense fallback={<div className="chart-loading panel">正在准备实验图表…</div>}>
             <SignalPlots run={displayedRun} />
           </Suspense>
-          <TutorPanel key={displayedRun.run_id} sessionId={sessionId} run={displayedRun} disabled={locked}
+          {displayedRun.experiment_type === 'sampling_aliasing' && <TutorPanel key={displayedRun.run_id} sessionId={sessionId} run={displayedRun} disabled={locked}
             onEvidence={(key) => {
               setHighlight({ runId: displayedRun.run_id, key });
               summary.current?.focus({ preventScroll: true });
               summary.current?.scrollIntoView?.({ block: 'nearest' });
             }}
-            onConfirm={(params) => void perform(() => runCase(params, 'observe'))} />
+            onConfirm={(params) => void perform(() => runCase(params, 'observe'))} />}
           <section className="panel learning-card">
             <p className="learning-run-id">实验记录 <code>{displayedRun.run_id}</code></p>
             <ReflectionForm key={reflections.at(-1)?.event_id ?? displayedRun.run_id} disabled={locked} onSave={(note, elapsedMs) =>

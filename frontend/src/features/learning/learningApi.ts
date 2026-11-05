@@ -1,13 +1,14 @@
-import type { ExperimentRun, SamplingParams } from '../../api';
+import type { ExperimentParams, ExperimentResult } from '../../api';
 
-export type AssessmentAnswer = { kind: 'choice'; option_id: string } | { kind: 'numeric'; value: number; unit: 'Hz' };
+type NumericUnit = 'Hz' | 'ratio';
+export type AssessmentAnswer = { kind: 'choice'; option_id: string } | { kind: 'numeric'; value: number; unit: NumericUnit };
 
 export interface LearningQuestion {
   question_id: string;
   prompt: string;
-  params: SamplingParams;
+  params: ExperimentParams;
   kind: AssessmentAnswer['kind'];
-  unit: 'Hz' | null;
+  unit: NumericUnit | null;
   options: { option_id: string; label: string }[];
 }
 
@@ -64,7 +65,7 @@ export async function loadLearning(sessionId: string, signal: AbortSignal) {
 }
 
 export function loadLearningRun(runId: string, signal: AbortSignal) {
-  return requestJson<ExperimentRun>('/api/experiments/' + runId, { signal });
+  return requestJson<ExperimentResult>('/api/experiments/' + runId, { signal });
 }
 
 export function appendLearningEvent(event: LearningEventDraft) {

@@ -15,7 +15,7 @@ from app.experiments.runner import run_experiment
 from app.experiments.sampling import ENGINE_VERSION
 from app.learning import CASES, CASES_BY_ID, LearningCase, export_csv, prepare_event
 from app.schemas import (
-    ExperimentRequest, ExperimentRun, LearningEvent, LearningEventRequest, SessionHistory, TutorReply, TutorRequest,
+    ExperimentInput, ExperimentResult, LearningEvent, LearningEventRequest, SessionHistory, TutorReply, TutorRequest,
 )
 from app.store import LearningConflict, Store
 from app.tutor.client import TutorClient
@@ -49,13 +49,13 @@ def create_app(database_path: str | Path | None = None, *, tutor_client: TutorCl
     def health():
         return {"status": "ok", "engine_version": ENGINE_VERSION}
 
-    @application.post("/api/experiments/run", response_model=ExperimentRun)
-    def compute(payload: ExperimentRequest, request: Request):
+    @application.post("/api/experiments/run", response_model=ExperimentResult)
+    def compute(payload: ExperimentInput, request: Request):
         run = run_experiment(payload)
         request.app.state.store.put_run(run)
         return run
 
-    @application.get("/api/experiments/{run_id}", response_model=ExperimentRun)
+    @application.get("/api/experiments/{run_id}", response_model=ExperimentResult)
     def retrieve(run_id: str, request: Request):
         run = request.app.state.store.get_run(run_id)
         if run is None:
