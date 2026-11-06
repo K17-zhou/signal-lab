@@ -16,15 +16,16 @@
 
 ## Windows运行
 
-本轮实测Python 3.13.13、Node.js v24.16.0。项目声明Python>=3.12，但其他Python版本尚未实测；前端构建需要Node>=22.12（当前依赖要求）。
+从冻结源码目录启动。实测环境为 Python 3.13.13、Node.js 24.16.0、npm 11.13.0 和 PowerShell 7.6.9。项目声明 Python ≥3.12，前端构建需要 Node.js ≥22.12。运行浏览器验收还需要本机 Chrome。 [复现记录](evaluation/reproduction.md)
 
-在项目根目录的PowerShell中执行：
+在项目根目录打开 PowerShell 并执行以下命令。
 
 ```powershell
-# 使用项目内临时目录，适用于本次沙箱默认TEMP不可写的情况。
 New-Item -ItemType Directory -Force .cache/tmp | Out-Null
 $env:TEMP = (Resolve-Path .cache/tmp).Path
 $env:TMP = $env:TEMP
+$env:PIP_CACHE_DIR = Join-Path $PWD.Path '.cache/pip'
+$env:npm_config_cache = Join-Path $PWD.Path '.cache/npm'
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r .\backend\requirements.lock.txt
 
@@ -36,16 +37,17 @@ Pop-Location
 
 打开[本机实验页面](http://127.0.0.1:8000)。脚本先构建前端，再启动同源API和网页，按Ctrl+C停止。已构建后可用`.\scripts\start.ps1 -SkipBuild`；端口占用时加`-Port 8001`。仅监听本机，不需要模型密钥。开发时可在backend启动Uvicorn，在frontend运行`npm.cmd run dev`，Vite会把`/api`转发到8000端口。
 
-验证与命令行案例导出：
+打开实验页面，点「正常采样」。参数应为 50 Hz 和 400 Hz，频谱主峰为 50 Hz。执行以下命令可跑完后端测试、前端测试、生产构建和 Chrome 流程。退出码为 0 表示全部通过。测试结果在终端输出，测试服务日志和截图在脚本输出的项目内目录。
+
+```powershell
+.\scripts\check.ps1
+```
+
+可以单独导出标准案例数据。
 
 ```powershell
 Push-Location backend
-..\.venv\Scripts\python.exe -m pytest -q
 ..\.venv\Scripts\python.exe -m app.demo --output ..\artifacts\sampling-foundation
-Pop-Location
-Push-Location frontend
-npm.cmd run test -- --run
-npm.cmd run build
 Pop-Location
 ```
 
@@ -63,15 +65,17 @@ Pop-Location
 
 本项目使用便携版 llama.cpp，默认加载 Qwen3.5-4B 的 Q4_K_M 权重。配置为 2048 token 上下文、单并发、4 个 CPU 线程和关闭思考模式，推理服务默认监听 `127.0.0.1:8081`。 [llama.cpp 接口](https://github.com/ggml-org/llama.cpp/blob/b11814/tools/server/README.md)
 
-1. 将 Windows Vulkan 版 llama.cpp b11814 解压到 `.cache/runtimes/llama-b11814/`，使 `llama-server.exe` 位于该目录下。本机项目的便携运行器已就绪。 [运行包](https://github.com/ggml-org/llama.cpp/releases/download/b11814/llama-b11814-bin-win-vulkan-x64.zip)
-2. 将默认权重放在 `model/Qwen3.5-4B-Q4_K_M.gguf`，启动时会校验长度和 SHA-256。 [Qwen3.5-4B 固定权重](https://huggingface.co/unsloth/Qwen3.5-4B-GGUF/blob/e87f176479d0855a907a41277aca2f8ee7a09523/Qwen3.5-4B-Q4_K_M.gguf)
+1. 下载 Windows Vulkan 版 llama.cpp b11814，核对 ZIP 的 SHA-256 为 `0df9335f755538317d59b3442d9b28d68635742f381cdec743221c8dca7a4040`。解压到 `.cache/runtimes/llama-b11814/`，使 `llama-server.exe` 位于该目录下。 [运行包](https://github.com/ggml-org/llama.cpp/releases/download/b11814/llama-b11814-bin-win-vulkan-x64.zip)
+2. 将固定权重放在 `model/Qwen3.5-4B-Q4_K_M.gguf`，文件大小为 2,740,937,888 字节。启动脚本会核对长度和 SHA-256。 [Qwen3.5-4B 固定权重](https://huggingface.co/unsloth/Qwen3.5-4B-GGUF/resolve/e87f176479d0855a907a41277aca2f8ee7a09523/Qwen3.5-4B-Q4_K_M.gguf)
 3. 在项目根目录运行启动脚本。可用 `-ModelPath` 指定绝对路径或相对项目根目录的路径，也可用 `-Cpu` 选择 CPU。脚本仍接受两种已登记的旧版 Q4_K_M 权重。 [Qwen3-4B-Instruct-2507](https://huggingface.co/unsloth/Qwen3-4B-Instruct-2507-GGUF/blob/a06e946bb6b655725eafa393f4a9745d460374c9/Qwen3-4B-Instruct-2507-Q4_K_M.gguf) · [Qwen3-1.7B](https://huggingface.co/ggml-org/Qwen3-1.7B-GGUF/blob/daeb8e2d528a760970442092f6bf1e55c3b659eb/Qwen3-1.7B-Q4_K_M.gguf)
 
 ```powershell
 .\scripts\start-tutor.ps1
 ```
 
-另开一个项目目录终端启动 `.\scripts\start.ps1`，完成一次预测和实验后点击“获取 AI 指导”。本地模型选择观察重点、引用字段和对照参数，程序根据实验记录和已保存预测生成科学说明。应用和模型服务默认使用统一别名 `signal-lab-tutor`。更改模型端口时，在应用终端设置 `SIGNAL_LAB_TUTOR_PORT` 与 `-Port` 一致。使用自定义别名时，在两个终端设置同一 `SIGNAL_LAB_TUTOR_MODEL`。
+打开引导学习，保留默认案例，填入 22 Hz 并保存预测。运行本题实验后确认实测主峰为 40 Hz，再点「获取 AI 指导」。本地模型选择观察重点、引用字段和对照参数，程序根据实验记录和已保存预测生成科学说明。应用和模型服务默认使用统一别名 `signal-lab-tutor`。更改模型端口时，在应用终端设置 `SIGNAL_LAB_TUTOR_PORT` 与 `-Port` 一致。使用自定义别名时，在两个终端设置同一 `SIGNAL_LAB_TUTOR_MODEL`。
+
+现场复现可提前备好已校验的权重和运行包。全量下载若中途断开，可对同一个部分文件用 `curl.exe --continue-at -` 续传。 [计时和续传命令](evaluation/reproduction.md)
 
 ## 标准案例与限制
 
@@ -101,4 +105,5 @@ Pop-Location
 - [低通滤波与迁移题验收](evidence/ai-development/2026-11-05-lowpass-filtering.md)
 - [B/C 现场试用方案](evaluation/protocol.md)
 - [对照与试用状态](evaluation/results.md)
+- [独立目录复现与留出用例验收](evaluation/reproduction.md)
 - 本地测试环境以backend/requirements.lock.txt锁定；.venv、临时缓存、导出的大数组不进入Git。

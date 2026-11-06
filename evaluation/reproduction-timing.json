@@ -1,0 +1,174 @@
+{
+  "date": "2026-11-06",
+  "timezone": "Asia/Shanghai",
+  "source_commit": "037b22f620c090e88c16d4d4cfa5cb898f5bb163",
+  "source_acquisition": "local_git_archive",
+  "same_host_fresh_directories": true,
+  "preinstalled_system_tools": [
+    "Python 3.13.13",
+    "Node.js 24.16.0",
+    "npm 11.13.0",
+    "PowerShell 7.6.9",
+    "Chrome 157.0.8103.38",
+    "NVIDIA Vulkan driver"
+  ],
+  "cold": {
+    "target_seconds": 600,
+    "target_met": false,
+    "wall_elapsed_seconds": 1046.173,
+    "active_elapsed_seconds": 879.444,
+    "first_attempt": {
+      "commit": "037b22f",
+      "outcome": "failed",
+      "phases_seconds": {
+        "source_archive_and_extract": 1.524,
+        "configure_paths_and_loopback": 0.011,
+        "create_venv": 7.733,
+        "pip_install_cold": 116.122,
+        "npm_ci_cold": 13.869,
+        "production_build_start_and_s1": 12.517
+      },
+      "core_elapsed_seconds": 151.784,
+      "s1": {
+        "alias_frequency_hz": 50.0,
+        "sampling_state": "well_sampled",
+        "sample_rms": 0.7071067811865468,
+        "peak_frequency_hz": 50.0,
+        "reconstruction_rmse": 1.017979817388849E-14
+      },
+      "failure": "Model download failed verification.",
+      "total_elapsed_seconds": 453.584
+    },
+    "initial_download": {
+      "http_status": 200,
+      "received_bytes": 1124640366,
+      "curl_exit": 56,
+      "elapsed_seconds": 301.76549,
+      "error": "schannel: server closed abruptly (missing close_notify)"
+    },
+    "resume": {
+      "commit": "037b22f620c090e88c16d4d4cfa5cb898f5bb163",
+      "outcome": "failed",
+      "phases_seconds": {
+        "complete_weight_download_with_resume": 360.454,
+        "download_extract_verify_runtime": 12.124,
+        "restart_production_app": 7.462
+      },
+      "network": {
+        "initial_bytes": 1124640366,
+        "resume_attempts": [
+          {
+            "attempt": 1,
+            "curl_exit": 56,
+            "before": 1124640366,
+            "after": 2534523874,
+            "output": [
+              "curl: (56) schannel: server closed abruptly (missing close_notify)",
+              "HTTP 206; bytes 1409883508; seconds 301.892479"
+            ]
+          },
+          {
+            "attempt": 2,
+            "curl_exit": 0,
+            "before": 2534523874,
+            "after": 2740937888,
+            "output": [
+              "HTTP 206; bytes 206414014; seconds 58.404981"
+            ]
+          }
+        ]
+      },
+      "runtime_binary_sha256": "d34949c1716ef5624a49ee2b35f4b52a33a371dc1e36d7a6d7e416cf2041dd44",
+      "runtime_archive_bytes": 36867710,
+      "runtime_archive_sha256": "0df9335f755538317d59b3442d9b28d68635742f381cdec743221c8dca7a4040",
+      "failure": "Only 3545 MiB GPU memory is free.",
+      "wall_seconds_since_clean_directory_created": 931.548,
+      "total_elapsed_seconds": 380.176
+    },
+    "final": {
+      "commit": "037b22f620c090e88c16d4d4cfa5cb898f5bb163",
+      "outcome": "passed",
+      "phases_seconds": {
+        "verify_runtime_against_pinned_hashes": 0.091,
+        "restart_production_app": 4.97,
+        "verify_weight_and_start_llama": 12.158,
+        "warm_model": 13.451,
+        "first_real_guide": 9.819
+      },
+      "runtime_archive_sha256": "0df9335f755538317d59b3442d9b28d68635742f381cdec743221c8dca7a4040",
+      "runtime_binary_sha256": "d34949c1716ef5624a49ee2b35f4b52a33a371dc1e36d7a6d7e416cf2041dd44",
+      "gpu_free_mib_before_start": 6302,
+      "guide": {
+        "evidence": [
+          {
+            "run_id": "ebde8d42-2ccf-4a1f-a5a0-bf9937a9f2bf",
+            "metric_key": "alias_frequency_hz"
+          },
+          {
+            "run_id": "ebde8d42-2ccf-4a1f-a5a0-bf9937a9f2bf",
+            "metric_key": "peak_frequency_hz"
+          },
+          {
+            "run_id": "ebde8d42-2ccf-4a1f-a5a0-bf9937a9f2bf",
+            "metric_key": "sampling_state"
+          }
+        ],
+        "explanation": "你的原预测是 22 Hz。本次采样率为 110 Hz，信号频率为 70 Hz，振幅为 1，初相位为 0 rad。理论折叠频率为 40 Hz。观测主峰为 40 Hz。本次运行属于欠采样。原信号和折叠信号可能产生相同样本，因此这些样本无法唯一确定原信号。",
+        "observed_peak_hz": 40.0,
+        "run_id": "ebde8d42-2ccf-4a1f-a5a0-bf9937a9f2bf"
+      },
+      "model_bytes": 2740937888,
+      "model_sha256": "00fe7986ff5f6b463e62455821146049db6f9313603938a70800d1fb69ef11a4",
+      "wall_seconds_since_clean_directory_created": 1046.173,
+      "total_elapsed_seconds": 45.684
+    }
+  },
+  "with_prepared_model_and_runtime": {
+    "commit": "037b22f",
+    "outcome": "passed",
+    "artifacts": "pre-staged",
+    "phases_seconds": {
+      "source_archive_and_extract": 1.706,
+      "configure_paths_and_loopback": 0.014,
+      "create_venv": 7.021,
+      "pip_install_cold": 98.752,
+      "npm_ci_cold": 18.807,
+      "production_build_start_and_s1": 13.533,
+      "stage_prepared_model_and_runtime": 2.015,
+      "verify_weight_and_start_llama": 15.857,
+      "warm_model": 12.748,
+      "first_real_guide": 9.542
+    },
+    "core_elapsed_seconds": 139.842,
+    "s1": {
+      "alias_frequency_hz": 50.0,
+      "sampling_state": "well_sampled",
+      "sample_rms": 0.7071067811865468,
+      "peak_frequency_hz": 50.0,
+      "reconstruction_rmse": 1.017979817388849E-14
+    },
+    "model_bytes": 2740937888,
+    "runtime_binary_sha256": "d34949c1716ef5624a49ee2b35f4b52a33a371dc1e36d7a6d7e416cf2041dd44",
+    "gpu_free_mib_before_start": 6342,
+    "guide": {
+      "run_id": "8ddf0426-dec6-43bd-a178-adb21fc239b0",
+      "evidence": [
+        {
+          "run_id": "8ddf0426-dec6-43bd-a178-adb21fc239b0",
+          "metric_key": "alias_frequency_hz"
+        },
+        {
+          "run_id": "8ddf0426-dec6-43bd-a178-adb21fc239b0",
+          "metric_key": "peak_frequency_hz"
+        },
+        {
+          "run_id": "8ddf0426-dec6-43bd-a178-adb21fc239b0",
+          "metric_key": "sampling_state"
+        }
+      ],
+      "explanation": "你的原预测是 22 Hz。本次采样率为 110 Hz，信号频率为 70 Hz，振幅为 1，初相位为 0 rad。理论折叠频率为 40 Hz。观测主峰为 40 Hz。本次运行属于欠采样。原信号和折叠信号可能产生相同样本，因此这些样本无法唯一确定原信号。",
+      "observed_peak_hz": 40.0
+    },
+    "total_elapsed_seconds": 180.006
+  }
+}
