@@ -203,3 +203,49 @@ def test_pending_guidance_cannot_be_exported_until_recovery(study_files):
         assert recovered["status"] == 500 and recovered["error_code"] == "tutor_interrupted"
         assert recovered["elapsed_ms"] is None
         assert transfer(restarted, session, case, run).status_code == 200
+
+
+def test_holdout_i09_withholds_transfer_parameters_from_guidance(study):
+    client, model, sessions = study
+    session = sessions["C"]
+    state = client.get(f"/api/evaluation/sessions/{session}").json()
+    assert state["study"]["form"] == "Y"
+    case = next(case for case in state["cases"] if case["case_id"] == "study-y-boundary")
+    case_id = case["case_id"]
+    prediction = {"kind": "choice", "option_id": "near-zero"}
+    saved = post_event(client, session, case_id, "predict", answer=prediction)
+    assert saved.status_code == 200
+    run = compute(client, case["prediction"]["params"])
+    assert post_event(client, session, case_id, "run", run_id=run["run_id"]).status_code == 200
+
+    def propose_transfer(context):
+        assert set(context) == {"run", "prediction", "exercise", "theory", "message", "mode"}
+        assert context["run"] == {key: value for key, value in run.items() if key != "series"}
+        assert context["prediction"] == prediction
+        assert context["exercise"] == {
+            "title": case["title"],
+            "goal": case["goal"],
+            **{key: case["prediction"][key] for key in ("prompt", "params", "options")},
+        }
+        serialized = json.dumps(context, ensure_ascii=False, sort_keys=True)
+        assert case["transfer"]["question_id"] not in serialized
+        assert case["transfer"]["prompt"] not in serialized
+        assert json.dumps(case["transfer"]["params"], sort_keys=True) not in serialized
+        assert json.dumps({"kind": "choice", "option_id": "alternating"}, sort_keys=True) not in serialized
+        return json.dumps({
+            "focus": "phase",
+            "evidence": [{"run_id": run["run_id"], "metric_key": "sample_rms"}],
+            "next_experiment": {"experiment_type": "sampling_aliasing", "params": case["transfer"]["params"]},
+        })
+
+    model.complete = propose_transfer
+    guide = client.post("/api/tutor/guide", json={
+        "session_id": session, "run_id": run["run_id"], "message": "解释边界相位", "mode": "C",
+    })
+    assert guide.status_code == 200 and guide.json()["next_experiment"] is None
+    duplicate = compute(client, case["transfer"]["params"])
+    assert post_event(client, session, case_id, "observe", run_id=duplicate["run_id"]).status_code == 409
+    restored = client.get(f"/api/evaluation/sessions/{session}").json()
+    assert restored["study"]["form"] == "Y"
+    assert [event["stage"] for event in restored["events"]] == ["predict", "run"]
+    assert restored["events"][0] == saved.json()

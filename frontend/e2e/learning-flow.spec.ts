@@ -72,6 +72,7 @@ test('C evidence focuses the correct run and the confirmed comparison survives r
   await page.getByRole('button', { name: '观测主峰 51 Hz' }).click();
   await expect(page.getByLabel('当前运行证据')).toBeFocused();
   await expect(page.getByText('观测主峰 · 51 Hz')).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
   await page.screenshot({ path: testInfo.outputPath('synthetic-c.jpg'), fullPage: true });
   await page.getByRole('button', { name: '确认运行对照实验' }).click();
   await expect(page.getByRole('img', { name: '单边频谱：主峰81Hz' })).toBeVisible();
