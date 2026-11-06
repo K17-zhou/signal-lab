@@ -1,0 +1,730 @@
+{
+  "summary": {
+    "source": "synthetic",
+    "model": "Qwen3.5-4B Q4_K_M / llama.cpp b11814 / Vulkan0",
+    "sample_size_human": 0,
+    "synthetic_sessions": 4,
+    "case_runs": 12,
+    "tutor_success": 12,
+    "confirmed_comparisons": 3,
+    "transfer_outcomes": {
+      "correct": 10,
+      "incorrect": 2
+    },
+    "median_success_ms_by_mode": {
+      "B": 2087.5,
+      "C": 4154.0
+    }
+  },
+  "cases": [
+    {
+      "pilot": "P01",
+      "mode": "B",
+      "form": "X",
+      "period": 1,
+      "case_id": "study-x-safe",
+      "prediction": {
+        "kind": "numeric",
+        "value": 37.0,
+        "unit": "Hz"
+      },
+      "params": {
+        "frequency_hz": 32,
+        "sample_rate_hz": 156,
+        "amplitude": 1.0,
+        "phase_rad": 0.0
+      },
+      "metrics": {
+        "alias_frequency_hz": 32.0,
+        "sampling_state": "well_sampled",
+        "sample_rms": 0.7071067811865479,
+        "peak_frequency_hz": 32.0,
+        "reconstruction_rmse": 6.062003434787067e-15
+      },
+      "run_id": "86167d22-be34-425b-94fb-9ebe2c268357",
+      "tutor_status": 200,
+      "tutor_reply": {
+        "explanation": "你的预测 37Hz 与实测主峰 32Hz 不符。因采样率 156Hz 远大于信号频率 32Hz 的两倍，满足奈奎斯特准则，无混叠发生，故主峰保持原频率 32Hz。建议对比原信号与重建曲线，观察误差是否极小（RMSE 约 6e-15），以验证恢复效果。",
+        "evidence": [],
+        "next_experiment": null,
+        "misconception_code": null
+      },
+      "comparison": null,
+      "transfer": {
+        "kind": "numeric",
+        "value": 49.0,
+        "unit": "Hz"
+      },
+      "expected_outcome": "incorrect",
+      "elapsed_ms": 2333,
+      "stages": [
+        "predict",
+        "run",
+        "transfer"
+      ]
+    },
+    {
+      "pilot": "P01",
+      "mode": "B",
+      "form": "X",
+      "period": 1,
+      "case_id": "study-x-alias",
+      "prediction": {
+        "kind": "numeric",
+        "value": 52.0,
+        "unit": "Hz"
+      },
+      "params": {
+        "frequency_hz": 77,
+        "sample_rate_hz": 124,
+        "amplitude": 1.0,
+        "phase_rad": 0.0
+      },
+      "metrics": {
+        "alias_frequency_hz": 47.0,
+        "sampling_state": "undersampled",
+        "sample_rms": 0.7071067811865472,
+        "peak_frequency_hz": 47.0,
+        "reconstruction_rmse": 0.9999999999999998
+      },
+      "run_id": "a0c116ca-8c23-4de8-b406-ee26b6c33c30",
+      "tutor_status": 200,
+      "tutor_reply": {
+        "explanation": "当前实验欠采样，理论折叠频率为 47Hz，实测主峰亦为 47Hz，与原题一致。因采样率低于两倍信号频率，高频成分混叠至低频区，导致无法区分原频率。下一步应观察重建误差，验证混叠后信号不可恢复的特性。",
+        "evidence": [],
+        "next_experiment": null,
+        "misconception_code": null
+      },
+      "comparison": null,
+      "transfer": {
+        "kind": "numeric",
+        "value": 53.0,
+        "unit": "Hz"
+      },
+      "expected_outcome": "correct",
+      "elapsed_ms": 1638,
+      "stages": [
+        "predict",
+        "run",
+        "transfer"
+      ]
+    },
+    {
+      "pilot": "P01",
+      "mode": "B",
+      "form": "X",
+      "period": 1,
+      "case_id": "study-x-boundary",
+      "prediction": {
+        "kind": "choice",
+        "option_id": "alternating"
+      },
+      "params": {
+        "frequency_hz": 43,
+        "sample_rate_hz": 86,
+        "amplitude": 1.0,
+        "phase_rad": 0.0
+      },
+      "metrics": {
+        "alias_frequency_hz": 43.0,
+        "sampling_state": "nyquist_boundary",
+        "sample_rms": 1.3713031881120502e-14,
+        "peak_frequency_hz": null,
+        "reconstruction_rmse": 0.7071067811865476
+      },
+      "run_id": "19247ea6-98de-42db-8d06-eaa577e65ae0",
+      "tutor_status": 200,
+      "tutor_reply": {
+        "explanation": "当前实验频率 43Hz 恰为奈奎斯特边界，初相位 0.0 导致样本 RMS 接近零，这与理论预测“接近零”一致，而非你预测的“交替”。由于处于临界点，样本信息极度匮乏，无法唯一恢复原信号。建议下一步观察改变初相位（如设为 π/2）后的样本形态，验证是否变为正负交替，以理解相位对采样结果的决定性影响。",
+        "evidence": [],
+        "next_experiment": null,
+        "misconception_code": null
+      },
+      "comparison": null,
+      "transfer": {
+        "kind": "choice",
+        "option_id": "alternating"
+      },
+      "expected_outcome": "correct",
+      "elapsed_ms": 3437,
+      "stages": [
+        "predict",
+        "run",
+        "transfer"
+      ]
+    },
+    {
+      "pilot": "P01",
+      "mode": "C",
+      "form": "Y",
+      "period": 2,
+      "case_id": "study-y-safe",
+      "prediction": {
+        "kind": "numeric",
+        "value": 43.0,
+        "unit": "Hz"
+      },
+      "params": {
+        "frequency_hz": 38,
+        "sample_rate_hz": 172,
+        "amplitude": 1.0,
+        "phase_rad": 0.0
+      },
+      "metrics": {
+        "alias_frequency_hz": 38.0,
+        "sampling_state": "well_sampled",
+        "sample_rms": 0.7071067811865478,
+        "peak_frequency_hz": 38.0,
+        "reconstruction_rmse": 7.354889860886714e-15
+      },
+      "run_id": "3a421e51-9b68-4bb3-91f5-97f751b8b5f1",
+      "tutor_status": 200,
+      "tutor_reply": {
+        "explanation": "你的原预测是 43 Hz。本次采样率为 172 Hz，信号频率为 38 Hz，振幅为 1，初相位为 0 rad。理论折叠频率为 38 Hz。观测主峰为 38 Hz。本次运行满足充分采样条件。采样率严格大于信号频率的两倍，本实验的周期重建可恢复原正弦。",
+        "evidence": [
+          {
+            "run_id": "3a421e51-9b68-4bb3-91f5-97f751b8b5f1",
+            "metric_key": "sampling_state"
+          },
+          {
+            "run_id": "3a421e51-9b68-4bb3-91f5-97f751b8b5f1",
+            "metric_key": "peak_frequency_hz"
+          },
+          {
+            "run_id": "3a421e51-9b68-4bb3-91f5-97f751b8b5f1",
+            "metric_key": "alias_frequency_hz"
+          }
+        ],
+        "next_experiment": null,
+        "misconception_code": null
+      },
+      "comparison": null,
+      "transfer": {
+        "kind": "numeric",
+        "value": 46.0,
+        "unit": "Hz"
+      },
+      "expected_outcome": "correct",
+      "elapsed_ms": 3890,
+      "stages": [
+        "predict",
+        "run",
+        "transfer"
+      ]
+    },
+    {
+      "pilot": "P01",
+      "mode": "C",
+      "form": "Y",
+      "period": 2,
+      "case_id": "study-y-alias",
+      "prediction": {
+        "kind": "numeric",
+        "value": 56.0,
+        "unit": "Hz"
+      },
+      "params": {
+        "frequency_hz": 81,
+        "sample_rate_hz": 132,
+        "amplitude": 1.0,
+        "phase_rad": 0.0
+      },
+      "metrics": {
+        "alias_frequency_hz": 51.0,
+        "sampling_state": "undersampled",
+        "sample_rms": 0.7071067811865476,
+        "peak_frequency_hz": 51.0,
+        "reconstruction_rmse": 1.0
+      },
+      "run_id": "01ebb851-1542-4191-981b-50e22243d7d7",
+      "tutor_status": 200,
+      "tutor_reply": {
+        "explanation": "你的原预测是 56 Hz。本次采样率为 132 Hz，信号频率为 81 Hz，振幅为 1，初相位为 0 rad。理论折叠频率为 51 Hz。观测主峰为 51 Hz。本次运行属于欠采样。原信号和折叠信号可能产生相同样本，因此这些样本无法唯一确定原信号。",
+        "evidence": [
+          {
+            "run_id": "01ebb851-1542-4191-981b-50e22243d7d7",
+            "metric_key": "alias_frequency_hz"
+          },
+          {
+            "run_id": "01ebb851-1542-4191-981b-50e22243d7d7",
+            "metric_key": "peak_frequency_hz"
+          },
+          {
+            "run_id": "01ebb851-1542-4191-981b-50e22243d7d7",
+            "metric_key": "sampling_state"
+          }
+        ],
+        "next_experiment": {
+          "experiment_type": "sampling_aliasing",
+          "params": {
+            "frequency_hz": 81,
+            "sample_rate_hz": 200,
+            "amplitude": 1.0,
+            "phase_rad": 0.0
+          }
+        },
+        "misconception_code": null
+      },
+      "comparison": {
+        "run_id": "aefbec5c-11b2-4cb6-94fa-27d85ab6c223",
+        "params": {
+          "frequency_hz": 81,
+          "sample_rate_hz": 200,
+          "amplitude": 1.0,
+          "phase_rad": 0.0
+        },
+        "metrics": {
+          "alias_frequency_hz": 81.0,
+          "sampling_state": "well_sampled",
+          "sample_rms": 0.7071067811865475,
+          "peak_frequency_hz": 81.0,
+          "reconstruction_rmse": 1.556981813280255e-14
+        }
+      },
+      "transfer": {
+        "kind": "numeric",
+        "value": 55.0,
+        "unit": "Hz"
+      },
+      "expected_outcome": "correct",
+      "elapsed_ms": 4590,
+      "stages": [
+        "predict",
+        "run",
+        "observe",
+        "transfer"
+      ]
+    },
+    {
+      "pilot": "P01",
+      "mode": "C",
+      "form": "Y",
+      "period": 2,
+      "case_id": "study-y-boundary",
+      "prediction": {
+        "kind": "choice",
+        "option_id": "alternating"
+      },
+      "params": {
+        "frequency_hz": 47,
+        "sample_rate_hz": 94,
+        "amplitude": 1.0,
+        "phase_rad": 0.0
+      },
+      "metrics": {
+        "alias_frequency_hz": 47.0,
+        "sampling_state": "nyquist_boundary",
+        "sample_rms": 1.1682033136758677e-14,
+        "peak_frequency_hz": null,
+        "reconstruction_rmse": 0.7071067811865475
+      },
+      "run_id": "05758d8d-7e23-42cd-9b90-3f6cbea89476",
+      "tutor_status": 200,
+      "tutor_reply": {
+        "explanation": "你的原预测是“交替取正负值”。本次采样率为 94 Hz，信号频率为 47 Hz，振幅为 1，初相位为 0 rad。理论折叠频率为 47 Hz。本次样本接近零，未检测到可辨主峰。本次运行位于奈奎斯特边界。样本取决于初相位，即使观测到主峰，也无法保证唯一恢复原信号。在两倍采样边界，初相位为零时样本接近零，初相位为 π/2 时样本正负交替。",
+        "evidence": [
+          {
+            "run_id": "05758d8d-7e23-42cd-9b90-3f6cbea89476",
+            "metric_key": "sampling_state"
+          },
+          {
+            "run_id": "05758d8d-7e23-42cd-9b90-3f6cbea89476",
+            "metric_key": "sample_rms"
+          },
+          {
+            "run_id": "05758d8d-7e23-42cd-9b90-3f6cbea89476",
+            "metric_key": "reconstruction_rmse"
+          }
+        ],
+        "next_experiment": null,
+        "misconception_code": null
+      },
+      "comparison": null,
+      "transfer": {
+        "kind": "choice",
+        "option_id": "near-zero"
+      },
+      "expected_outcome": "incorrect",
+      "elapsed_ms": 3949,
+      "stages": [
+        "predict",
+        "run",
+        "transfer"
+      ]
+    },
+    {
+      "pilot": "P02",
+      "mode": "C",
+      "form": "X",
+      "period": 1,
+      "case_id": "study-x-safe",
+      "prediction": {
+        "kind": "numeric",
+        "value": 37.0,
+        "unit": "Hz"
+      },
+      "params": {
+        "frequency_hz": 32,
+        "sample_rate_hz": 156,
+        "amplitude": 1.0,
+        "phase_rad": 0.0
+      },
+      "metrics": {
+        "alias_frequency_hz": 32.0,
+        "sampling_state": "well_sampled",
+        "sample_rms": 0.7071067811865479,
+        "peak_frequency_hz": 32.0,
+        "reconstruction_rmse": 6.062003434787067e-15
+      },
+      "run_id": "b86a467e-51f6-4cfa-bd9c-da9ff7c6caa4",
+      "tutor_status": 200,
+      "tutor_reply": {
+        "explanation": "你的原预测是 37 Hz。本次采样率为 156 Hz，信号频率为 32 Hz，振幅为 1，初相位为 0 rad。理论折叠频率为 32 Hz。观测主峰为 32 Hz。本次运行满足充分采样条件。采样率严格大于信号频率的两倍，本实验的周期重建可恢复原正弦。",
+        "evidence": [
+          {
+            "run_id": "b86a467e-51f6-4cfa-bd9c-da9ff7c6caa4",
+            "metric_key": "sample_rate_hz"
+          },
+          {
+            "run_id": "b86a467e-51f6-4cfa-bd9c-da9ff7c6caa4",
+            "metric_key": "peak_frequency_hz"
+          },
+          {
+            "run_id": "b86a467e-51f6-4cfa-bd9c-da9ff7c6caa4",
+            "metric_key": "sampling_state"
+          }
+        ],
+        "next_experiment": {
+          "experiment_type": "sampling_aliasing",
+          "params": {
+            "frequency_hz": 32,
+            "sample_rate_hz": 80,
+            "amplitude": 1.0,
+            "phase_rad": 0.0
+          }
+        },
+        "misconception_code": null
+      },
+      "comparison": {
+        "run_id": "2b0288d1-ae8b-4abc-aebd-19b09c417cc5",
+        "params": {
+          "frequency_hz": 32,
+          "sample_rate_hz": 80,
+          "amplitude": 1.0,
+          "phase_rad": 0.0
+        },
+        "metrics": {
+          "alias_frequency_hz": 32.0,
+          "sampling_state": "well_sampled",
+          "sample_rms": 0.7071067811865481,
+          "peak_frequency_hz": 32.0,
+          "reconstruction_rmse": 6.32678190577224e-15
+        }
+      },
+      "transfer": {
+        "kind": "numeric",
+        "value": 44.0,
+        "unit": "Hz"
+      },
+      "expected_outcome": "correct",
+      "elapsed_ms": 4359,
+      "stages": [
+        "predict",
+        "run",
+        "observe",
+        "transfer"
+      ]
+    },
+    {
+      "pilot": "P02",
+      "mode": "C",
+      "form": "X",
+      "period": 1,
+      "case_id": "study-x-alias",
+      "prediction": {
+        "kind": "numeric",
+        "value": 52.0,
+        "unit": "Hz"
+      },
+      "params": {
+        "frequency_hz": 77,
+        "sample_rate_hz": 124,
+        "amplitude": 1.0,
+        "phase_rad": 0.0
+      },
+      "metrics": {
+        "alias_frequency_hz": 47.0,
+        "sampling_state": "undersampled",
+        "sample_rms": 0.7071067811865472,
+        "peak_frequency_hz": 47.0,
+        "reconstruction_rmse": 0.9999999999999998
+      },
+      "run_id": "9d3fec76-ce69-4219-8064-23aa2c3d47c6",
+      "tutor_status": 200,
+      "tutor_reply": {
+        "explanation": "你的原预测是 52 Hz。本次采样率为 124 Hz，信号频率为 77 Hz，振幅为 1，初相位为 0 rad。理论折叠频率为 47 Hz。观测主峰为 47 Hz。本次运行属于欠采样。原信号和折叠信号可能产生相同样本，因此这些样本无法唯一确定原信号。",
+        "evidence": [
+          {
+            "run_id": "9d3fec76-ce69-4219-8064-23aa2c3d47c6",
+            "metric_key": "alias_frequency_hz"
+          },
+          {
+            "run_id": "9d3fec76-ce69-4219-8064-23aa2c3d47c6",
+            "metric_key": "peak_frequency_hz"
+          },
+          {
+            "run_id": "9d3fec76-ce69-4219-8064-23aa2c3d47c6",
+            "metric_key": "sampling_state"
+          }
+        ],
+        "next_experiment": {
+          "experiment_type": "sampling_aliasing",
+          "params": {
+            "frequency_hz": 77,
+            "sample_rate_hz": 200,
+            "amplitude": 1.0,
+            "phase_rad": 0.0
+          }
+        },
+        "misconception_code": null
+      },
+      "comparison": {
+        "run_id": "a3a44203-c4bd-4645-8d3d-dcbeb174b69a",
+        "params": {
+          "frequency_hz": 77,
+          "sample_rate_hz": 200,
+          "amplitude": 1.0,
+          "phase_rad": 0.0
+        },
+        "metrics": {
+          "alias_frequency_hz": 77.0,
+          "sampling_state": "well_sampled",
+          "sample_rms": 0.7071067811865476,
+          "peak_frequency_hz": 77.0,
+          "reconstruction_rmse": 1.3926870215994547e-14
+        }
+      },
+      "transfer": {
+        "kind": "numeric",
+        "value": 53.0,
+        "unit": "Hz"
+      },
+      "expected_outcome": "correct",
+      "elapsed_ms": 4482,
+      "stages": [
+        "predict",
+        "run",
+        "observe",
+        "transfer"
+      ]
+    },
+    {
+      "pilot": "P02",
+      "mode": "C",
+      "form": "X",
+      "period": 1,
+      "case_id": "study-x-boundary",
+      "prediction": {
+        "kind": "choice",
+        "option_id": "alternating"
+      },
+      "params": {
+        "frequency_hz": 43,
+        "sample_rate_hz": 86,
+        "amplitude": 1.0,
+        "phase_rad": 0.0
+      },
+      "metrics": {
+        "alias_frequency_hz": 43.0,
+        "sampling_state": "nyquist_boundary",
+        "sample_rms": 1.3713031881120502e-14,
+        "peak_frequency_hz": null,
+        "reconstruction_rmse": 0.7071067811865476
+      },
+      "run_id": "41efcdf2-5f4e-4230-a171-6eaac0552221",
+      "tutor_status": 200,
+      "tutor_reply": {
+        "explanation": "你的原预测是“交替取正负值”。本次采样率为 86 Hz，信号频率为 43 Hz，振幅为 1，初相位为 0 rad。理论折叠频率为 43 Hz。本次样本接近零，未检测到可辨主峰。本次运行位于奈奎斯特边界。样本取决于初相位，即使观测到主峰，也无法保证唯一恢复原信号。在两倍采样边界，初相位为零时样本接近零，初相位为 π/2 时样本正负交替。",
+        "evidence": [
+          {
+            "run_id": "41efcdf2-5f4e-4230-a171-6eaac0552221",
+            "metric_key": "sampling_state"
+          },
+          {
+            "run_id": "41efcdf2-5f4e-4230-a171-6eaac0552221",
+            "metric_key": "sample_rms"
+          },
+          {
+            "run_id": "41efcdf2-5f4e-4230-a171-6eaac0552221",
+            "metric_key": "reconstruction_rmse"
+          }
+        ],
+        "next_experiment": null,
+        "misconception_code": null
+      },
+      "comparison": null,
+      "transfer": {
+        "kind": "choice",
+        "option_id": "alternating"
+      },
+      "expected_outcome": "correct",
+      "elapsed_ms": 3512,
+      "stages": [
+        "predict",
+        "run",
+        "transfer"
+      ]
+    },
+    {
+      "pilot": "P02",
+      "mode": "B",
+      "form": "Y",
+      "period": 2,
+      "case_id": "study-y-safe",
+      "prediction": {
+        "kind": "numeric",
+        "value": 43.0,
+        "unit": "Hz"
+      },
+      "params": {
+        "frequency_hz": 38,
+        "sample_rate_hz": 172,
+        "amplitude": 1.0,
+        "phase_rad": 0.0
+      },
+      "metrics": {
+        "alias_frequency_hz": 38.0,
+        "sampling_state": "well_sampled",
+        "sample_rms": 0.7071067811865478,
+        "peak_frequency_hz": 38.0,
+        "reconstruction_rmse": 7.354889860886714e-15
+      },
+      "run_id": "56317478-fc48-4098-a54c-f48e751f6fe6",
+      "tutor_status": 200,
+      "tutor_reply": {
+        "explanation": "本次实验输入频率 38Hz，采样率 172Hz，满足奈奎斯特准则，实测主峰确为 38Hz，与理论一致。你预测的 43Hz 未出现，说明无混叠。建议观察重建误差（RMSE 极小），验证正弦波恢复质量，并尝试改变相位看样本变化。",
+        "evidence": [],
+        "next_experiment": null,
+        "misconception_code": null
+      },
+      "comparison": null,
+      "transfer": {
+        "kind": "numeric",
+        "value": 46.0,
+        "unit": "Hz"
+      },
+      "expected_outcome": "correct",
+      "elapsed_ms": 1933,
+      "stages": [
+        "predict",
+        "run",
+        "transfer"
+      ]
+    },
+    {
+      "pilot": "P02",
+      "mode": "B",
+      "form": "Y",
+      "period": 2,
+      "case_id": "study-y-alias",
+      "prediction": {
+        "kind": "numeric",
+        "value": 56.0,
+        "unit": "Hz"
+      },
+      "params": {
+        "frequency_hz": 81,
+        "sample_rate_hz": 132,
+        "amplitude": 1.0,
+        "phase_rad": 0.0
+      },
+      "metrics": {
+        "alias_frequency_hz": 51.0,
+        "sampling_state": "undersampled",
+        "sample_rms": 0.7071067811865476,
+        "peak_frequency_hz": 51.0,
+        "reconstruction_rmse": 1.0
+      },
+      "run_id": "0f384a5c-c9d1-40e7-b659-c585fe82dd6e",
+      "tutor_status": 200,
+      "tutor_reply": {
+        "explanation": "当前实验频率 81Hz 低于奈奎斯特频率，发生混叠，理论折叠频率为 51Hz，实测主峰亦为 51Hz。你的预测 56Hz 偏离了理论值。由于欠采样，频谱折叠导致无法区分原频率与混叠频率。下一步应观察增加采样率后主峰是否回归 81Hz，以验证混叠消除。",
+        "evidence": [],
+        "next_experiment": null,
+        "misconception_code": null
+      },
+      "comparison": null,
+      "transfer": {
+        "kind": "numeric",
+        "value": 55.0,
+        "unit": "Hz"
+      },
+      "expected_outcome": "correct",
+      "elapsed_ms": 2091,
+      "stages": [
+        "predict",
+        "run",
+        "transfer"
+      ]
+    },
+    {
+      "pilot": "P02",
+      "mode": "B",
+      "form": "Y",
+      "period": 2,
+      "case_id": "study-y-boundary",
+      "prediction": {
+        "kind": "choice",
+        "option_id": "alternating"
+      },
+      "params": {
+        "frequency_hz": 47,
+        "sample_rate_hz": 94,
+        "amplitude": 1.0,
+        "phase_rad": 0.0
+      },
+      "metrics": {
+        "alias_frequency_hz": 47.0,
+        "sampling_state": "nyquist_boundary",
+        "sample_rms": 1.1682033136758677e-14,
+        "peak_frequency_hz": null,
+        "reconstruction_rmse": 0.7071067811865475
+      },
+      "run_id": "95cc2b50-3799-4fcb-8764-f9d35a211e43",
+      "tutor_status": 200,
+      "tutor_reply": {
+        "explanation": "当前实验频率 47Hz 恰为奈奎斯特边界，初相位 0.0 时样本 RMS 趋近于零，符合“接近零”预测，而非“交替”。理论指出相位决定形态，此处样本退化。建议观察相位为 π/2 时的实验，验证样本是否正负交替，以确认相位对采样结果的决定性影响。",
+        "evidence": [],
+        "next_experiment": null,
+        "misconception_code": null
+      },
+      "comparison": null,
+      "transfer": {
+        "kind": "choice",
+        "option_id": "alternating"
+      },
+      "expected_outcome": "correct",
+      "elapsed_ms": 2084,
+      "stages": [
+        "predict",
+        "run",
+        "transfer"
+      ]
+    }
+  ],
+  "validation": {
+    "date": "2026-11-06",
+    "interpretation": "Software rehearsal with scripted answers and real local model inference",
+    "assignment_scope": "Isolated copies of P01 and P02, four condition and form combinations",
+    "numeric_reference": "Analytic sampling fold and boundary phase",
+    "confirmed_factual_findings": [
+      {
+        "mode": "B",
+        "case_id": "study-y-alias",
+        "incorrect_claim": "81 Hz is below the Nyquist frequency",
+        "nyquist_frequency_hz": 66,
+        "observed_peak_hz": 51
+      }
+    ]
+  }
+}
