@@ -156,12 +156,15 @@ class EvidenceRef(FrozenRecord):
     metric_key: EvidenceKey
 
 
+TutorMode = Literal["B", "C"]
+
+
 class TutorRequest(FrozenRecord):
     session_id: UUID4
     run_id: UUID4
     message: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=400)]
     prediction: AssessmentAnswer | None = None
-    mode: Literal["B", "C"] = "C"
+    mode: TutorMode = "C"
 
 
 TutorFocus = Literal["sampling", "phase", "interpolation", "smoothness", "post_filter"]
@@ -178,3 +181,12 @@ class TutorReply(FrozenRecord):
     evidence: list[EvidenceRef] = Field(max_length=5)
     next_experiment: ExperimentRequest | None
     misconception_code: str | None = Field(max_length=64)
+
+
+class StudyTutorCall(FrozenRecord):
+    case_id: str
+    run_id: str
+    elapsed_ms: int | None = None
+    status: int | None = None
+    reply: TutorReply | None = None
+    error_code: str | None = None

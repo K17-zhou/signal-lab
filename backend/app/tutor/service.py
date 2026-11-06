@@ -1,16 +1,20 @@
 """Construct the minimum teaching context and validate model output."""
 
 import asyncio
+from time import perf_counter
 
 from pydantic import ValidationError
 
-from app.learning import CASES_BY_ID, LearningCase
-from app.schemas import AssessmentAnswer, ExperimentRun, TutorFocus, TutorReply, TutorRequest, TutorSelection
+from app.learning import CASES, CASES_BY_ID, LearningCase
+from app.schemas import (
+    AssessmentAnswer, ExperimentRun, StudyTutorCall, TutorFocus, TutorMode, TutorReply, TutorRequest, TutorSelection,
+)
 from app.store import Store
 from app.tutor.client import TutorClient, TutorTransportError
 
 
 TIMEOUT_SECONDS = 30
+STUDY_QUESTION = "结合我的预测与本次实验解释观测结果，并提示下一步该观察什么。"
 SAMPLING_THEORY = {
     "well_sampled": "本次运行满足充分采样条件。采样率严格大于信号频率的两倍，本实验的周期重建可恢复原正弦。",
     "undersampled": (
@@ -85,8 +89,13 @@ def explain_run(
     return "".join(parts)
 
 
-async def guide(request: TutorRequest, store: Store, client: TutorClient | None) -> TutorReply:
-    events = store.list_events(str(request.session_id))
+async def guide(
+    request: TutorRequest, store: Store, client: TutorClient | None, *, condition: TutorMode | None = None,
+) -> TutorReply:
+    if condition is not None and request.mode != condition:
+        raise TutorError("tutor_condition_locked", 409)
+    session = str(request.session_id)
+    events = store.list_events(session)
     binding = next((event for event in events if event.run_id == request.run_id
                     and event.stage in ("run", "observe")), None)
     if binding is None:
@@ -96,9 +105,9 @@ async def guide(request: TutorRequest, store: Store, client: TutorClient | None)
         raise TutorError("tutor_run_not_found", 404)
     if run.experiment_type != "sampling_aliasing":
         raise TutorError("tutor_requires_sampling_run", 422)
-    if client is None:
-        raise TutorError("tutor_unavailable", 502)
     case = CASES_BY_ID[binding.case_id]
+    if condition is None and case not in CASES:
+        raise TutorError("tutor_study_assignment_required", 409)
     prediction = next((event.answer for event in events if event.case_id == case.case_id
                        and event.stage == "predict"), None)
     context = {
@@ -112,9 +121,52 @@ async def guide(request: TutorRequest, store: Store, client: TutorClient | None)
             "options": [option.model_dump(mode="json") for option in case.prediction.options],
         },
         "theory": SAMPLING_THEORY[run.metrics.sampling_state] + METRIC_GUIDE + "".join(FOCUS_GUIDE.values()),
-        "message": request.message,
+        "message": STUDY_QUESTION if condition is not None else request.message,
         "mode": request.mode,
     }
+    if condition is None:
+        return await _generate_reply(context, run, case, prediction, client)
+
+    if binding.stage != "run":
+        raise TutorError("tutor_initial_run_required", 409)
+    prior = store.get_study_tutor_call(session, case.case_id)
+    if prior is not None:
+        if prior.reply is not None:
+            return prior.reply
+        if prior.status is None:
+            raise TutorError("tutor_call_pending", 409)
+        raise TutorError(prior.error_code or "tutor_unavailable", prior.status)
+    if any(event.case_id == case.case_id and event.stage == "transfer" for event in events):
+        raise TutorError("tutor_case_closed", 409)
+
+    call = StudyTutorCall(case_id=case.case_id, run_id=run.run_id)
+    if not store.reserve_study_tutor_call(session, call):
+        raise TutorError("tutor_call_pending", 409)
+    started = perf_counter()
+    reply = None
+    status, error_code = 500, "tutor_interrupted"
+    try:
+        reply = await _generate_reply(context, run, case, prediction, client)
+        status, error_code = 200, None
+        return reply
+    except TutorError as error:
+        status, error_code = error.status, str(error)
+        raise
+    finally:
+        saved = store.save_study_tutor_call(session, call.model_copy(update={
+            "elapsed_ms": round((perf_counter() - started) * 1000),
+            "status": status, "reply": reply, "error_code": error_code,
+        }))
+        if not saved:
+            raise TutorError("tutor_call_closed", 409)
+
+
+async def _generate_reply(
+    context: dict, run: ExperimentRun, case: LearningCase,
+    prediction: AssessmentAnswer | None, client: TutorClient | None,
+) -> TutorReply:
+    if client is None:
+        raise TutorError("tutor_unavailable", 502)
     try:
         raw = await asyncio.wait_for(asyncio.to_thread(client.complete, context), TIMEOUT_SECONDS)
     except TimeoutError as error:
@@ -122,7 +174,7 @@ async def guide(request: TutorRequest, store: Store, client: TutorClient | None)
     except TutorTransportError as error:
         raise TutorError("tutor_unavailable", 502) from error
     try:
-        if request.mode == "B":
+        if context["mode"] == "B":
             return TutorReply(explanation=raw, evidence=[], next_experiment=None, misconception_code=None)
         selection = TutorSelection.model_validate_json(raw)
         reply = TutorReply(

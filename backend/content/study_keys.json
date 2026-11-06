@@ -1,0 +1,14 @@
+{
+  "study-x-safe-predict": {"answer": {"kind": "numeric", "value": 32, "unit": "Hz"}, "tolerance": 0.5, "misconception_code": "sampling_condition", "explanation_key": "frequency_folding"},
+  "study-x-safe-transfer": {"answer": {"kind": "numeric", "value": 44, "unit": "Hz"}, "tolerance": 0.5, "misconception_code": "sampling_condition", "explanation_key": "frequency_folding"},
+  "study-x-alias-predict": {"answer": {"kind": "numeric", "value": 47, "unit": "Hz"}, "tolerance": 0.5, "misconception_code": "apparent_frequency", "explanation_key": "frequency_folding"},
+  "study-x-alias-transfer": {"answer": {"kind": "numeric", "value": 53, "unit": "Hz"}, "tolerance": 0.5, "misconception_code": "apparent_frequency", "explanation_key": "frequency_folding"},
+  "study-x-boundary-predict": {"answer": {"kind": "choice", "option_id": "near-zero"}, "misconception_code": "sampling_phase_ignored", "explanation_key": "boundary_phase"},
+  "study-x-boundary-transfer": {"answer": {"kind": "choice", "option_id": "alternating"}, "misconception_code": "sampling_phase_ignored", "explanation_key": "boundary_phase"},
+  "study-y-safe-predict": {"answer": {"kind": "numeric", "value": 38, "unit": "Hz"}, "tolerance": 0.5, "misconception_code": "sampling_condition", "explanation_key": "frequency_folding"},
+  "study-y-safe-transfer": {"answer": {"kind": "numeric", "value": 46, "unit": "Hz"}, "tolerance": 0.5, "misconception_code": "sampling_condition", "explanation_key": "frequency_folding"},
+  "study-y-alias-predict": {"answer": {"kind": "numeric", "value": 51, "unit": "Hz"}, "tolerance": 0.5, "misconception_code": "apparent_frequency", "explanation_key": "frequency_folding"},
+  "study-y-alias-transfer": {"answer": {"kind": "numeric", "value": 55, "unit": "Hz"}, "tolerance": 0.5, "misconception_code": "apparent_frequency", "explanation_key": "frequency_folding"},
+  "study-y-boundary-predict": {"answer": {"kind": "choice", "option_id": "near-zero"}, "misconception_code": "sampling_phase_ignored", "explanation_key": "boundary_phase"},
+  "study-y-boundary-transfer": {"answer": {"kind": "choice", "option_id": "alternating"}, "misconception_code": "sampling_phase_ignored", "explanation_key": "boundary_phase"}
+}

@@ -1,0 +1,132 @@
+{
+  "X": [
+    {
+      "case_id": "study-x-safe",
+      "title": "比较输入频率与主峰",
+      "goal": "根据给定的信号和采样率预测单边频谱的主峰。",
+      "prediction": {
+        "question_id": "study-x-safe-predict",
+        "kind": "numeric",
+        "unit": "Hz",
+        "params": {"frequency_hz": 32, "sample_rate_hz": 156, "amplitude": 1, "phase_rad": 0},
+        "prompt": "按给定参数采样，单边频谱中观测到的主峰频率是多少？"
+      },
+      "transfer": {
+        "question_id": "study-x-safe-transfer",
+        "kind": "numeric",
+        "unit": "Hz",
+        "params": {"frequency_hz": 44, "sample_rate_hz": 184, "amplitude": 1, "phase_rad": 0},
+        "prompt": "把信号频率和采样率换成下列数值，预测新的单边频谱主峰频率。"
+      }
+    },
+    {
+      "case_id": "study-x-alias",
+      "title": "观察采样后的频率读数",
+      "goal": "判断观测主峰与输入信号频率之间的关系。",
+      "prediction": {
+        "question_id": "study-x-alias-predict",
+        "kind": "numeric",
+        "unit": "Hz",
+        "params": {"frequency_hz": 77, "sample_rate_hz": 124, "amplitude": 1, "phase_rad": 0},
+        "prompt": "按给定参数采样，单边频谱中观测到的主峰频率是多少？"
+      },
+      "transfer": {
+        "question_id": "study-x-alias-transfer",
+        "kind": "numeric",
+        "unit": "Hz",
+        "params": {"frequency_hz": 85, "sample_rate_hz": 138, "amplitude": 1, "phase_rad": 0},
+        "prompt": "把信号频率和采样率换成下列数值，预测新的单边频谱主峰频率。"
+      }
+    },
+    {
+      "case_id": "study-x-boundary",
+      "title": "边界处的样本形态",
+      "goal": "比较奈奎斯特边界上不同初相位对应的样本序列。",
+      "prediction": {
+        "question_id": "study-x-boundary-predict",
+        "kind": "choice",
+        "params": {"frequency_hz": 43, "sample_rate_hz": 86, "amplitude": 1, "phase_rad": 0},
+        "prompt": "按给定参数在奈奎斯特边界采样，预测样本序列的形态。",
+        "options": [
+          {"option_id": "near-zero", "label": "接近零"},
+          {"option_id": "alternating", "label": "交替取正负值"}
+        ]
+      },
+      "transfer": {
+        "question_id": "study-x-boundary-transfer",
+        "kind": "choice",
+        "params": {"frequency_hz": 57, "sample_rate_hz": 114, "amplitude": 1, "phase_rad": 1.5707963267948966},
+        "prompt": "换用下列信号频率、采样率和初相位，预测新的边界样本序列形态。",
+        "options": [
+          {"option_id": "near-zero", "label": "接近零"},
+          {"option_id": "alternating", "label": "交替取正负值"}
+        ]
+      }
+    }
+  ],
+  "Y": [
+    {
+      "case_id": "study-y-safe",
+      "title": "比较输入频率与主峰",
+      "goal": "根据给定的信号和采样率预测单边频谱的主峰。",
+      "prediction": {
+        "question_id": "study-y-safe-predict",
+        "kind": "numeric",
+        "unit": "Hz",
+        "params": {"frequency_hz": 38, "sample_rate_hz": 172, "amplitude": 1, "phase_rad": 0},
+        "prompt": "按给定参数采样，单边频谱中观测到的主峰频率是多少？"
+      },
+      "transfer": {
+        "question_id": "study-y-safe-transfer",
+        "kind": "numeric",
+        "unit": "Hz",
+        "params": {"frequency_hz": 46, "sample_rate_hz": 192, "amplitude": 1, "phase_rad": 0},
+        "prompt": "把信号频率和采样率换成下列数值，预测新的单边频谱主峰频率。"
+      }
+    },
+    {
+      "case_id": "study-y-alias",
+      "title": "观察采样后的频率读数",
+      "goal": "判断观测主峰与输入信号频率之间的关系。",
+      "prediction": {
+        "question_id": "study-y-alias-predict",
+        "kind": "numeric",
+        "unit": "Hz",
+        "params": {"frequency_hz": 81, "sample_rate_hz": 132, "amplitude": 1, "phase_rad": 0},
+        "prompt": "按给定参数采样，单边频谱中观测到的主峰频率是多少？"
+      },
+      "transfer": {
+        "question_id": "study-y-alias-transfer",
+        "kind": "numeric",
+        "unit": "Hz",
+        "params": {"frequency_hz": 91, "sample_rate_hz": 146, "amplitude": 1, "phase_rad": 0},
+        "prompt": "把信号频率和采样率换成下列数值，预测新的单边频谱主峰频率。"
+      }
+    },
+    {
+      "case_id": "study-y-boundary",
+      "title": "边界处的样本形态",
+      "goal": "比较奈奎斯特边界上不同初相位对应的样本序列。",
+      "prediction": {
+        "question_id": "study-y-boundary-predict",
+        "kind": "choice",
+        "params": {"frequency_hz": 47, "sample_rate_hz": 94, "amplitude": 1, "phase_rad": 0},
+        "prompt": "按给定参数在奈奎斯特边界采样，预测样本序列的形态。",
+        "options": [
+          {"option_id": "near-zero", "label": "接近零"},
+          {"option_id": "alternating", "label": "交替取正负值"}
+        ]
+      },
+      "transfer": {
+        "question_id": "study-y-boundary-transfer",
+        "kind": "choice",
+        "params": {"frequency_hz": 61, "sample_rate_hz": 122, "amplitude": 1, "phase_rad": 1.5707963267948966},
+        "prompt": "换用下列信号频率、采样率和初相位，预测新的边界样本序列形态。",
+        "options": [
+          {"option_id": "near-zero", "label": "接近零"},
+          {"option_id": "alternating", "label": "交替取正负值"}
+        ]
+      }
+    }
+  ]
+}

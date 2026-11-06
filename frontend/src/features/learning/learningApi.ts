@@ -1,4 +1,5 @@
 import type { ExperimentParams, ExperimentResult } from '../../api';
+import type { StudyTutorCall, TutorMode } from '../tutor/TutorPanel';
 
 type NumericUnit = 'Hz' | 'ratio';
 export type AssessmentAnswer = { kind: 'choice'; option_id: string } | { kind: 'numeric'; value: number; unit: NumericUnit };
@@ -39,6 +40,13 @@ export interface LearningEvent extends Omit<LearningEventDraft, 'run_id' | 'answ
   timestamp: string;
 }
 
+interface LearningState {
+  cases: LearningCase[];
+  events: LearningEvent[];
+  study?: { condition: TutorMode; order_index: number };
+  tutor_calls?: StudyTutorCall[];
+}
+
 export class LearningRequestError extends Error {
   constructor(readonly status: number) {
     super(status === 409 ? '这一步已有保存记录，请刷新页面查看。'
@@ -56,7 +64,8 @@ async function requestJson<T>(url: string, options?: RequestInit): Promise<T> {
   return response.json() as Promise<T>;
 }
 
-export async function loadLearning(sessionId: string, signal: AbortSignal) {
+export async function loadLearning(sessionId: string, signal: AbortSignal, assigned = false): Promise<LearningState> {
+  if (assigned) return requestJson<LearningState>('/api/evaluation/sessions/' + encodeURIComponent(sessionId), { signal });
   const [cases, history] = await Promise.all([
     requestJson<LearningCase[]>('/api/learning/cases', { signal }),
     requestJson<{ events: LearningEvent[] }>('/api/sessions/' + sessionId + '/events', { signal }),

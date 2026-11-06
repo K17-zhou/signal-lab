@@ -57,10 +57,17 @@ _ROOT = Path(__file__).resolve().parents[2]
 CASES = TypeAdapter(list[LearningCase]).validate_json(
     (_ROOT / "content" / "cases.json").read_bytes()
 )
-CASES_BY_ID = {case.case_id: case for case in CASES}
-_KEYS = TypeAdapter(dict[str, AssessmentKey]).validate_json(
+STUDY_FORMS = TypeAdapter(dict[Literal["X", "Y"], list[LearningCase]]).validate_json(
+    (_ROOT / "evaluation" / "forms.json").read_bytes()
+)
+CASES_BY_ID = {case.case_id: case for case in (*CASES, *STUDY_FORMS["X"], *STUDY_FORMS["Y"])}
+_key_adapter = TypeAdapter(dict[str, AssessmentKey])
+_KEYS = _key_adapter.validate_json(
     (_ROOT / "backend" / "content" / "assessment_keys.json").read_bytes()
 )
+_KEYS.update(_key_adapter.validate_json(
+    (_ROOT / "backend" / "content" / "study_keys.json").read_bytes()
+))
 
 
 def score_answer(case_id: str, answer: AssessmentAnswer) -> ScoreResult:

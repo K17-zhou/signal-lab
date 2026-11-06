@@ -47,3 +47,17 @@ it('keeps a failed request actionable and shows no experiment suggestion', async
   expect(screen.queryByRole('button', { name: '确认运行对照实验' })).not.toBeInTheDocument();
   expect(screen.getByRole('button', { name: '获取 AI 指导' })).toBeEnabled();
 });
+
+it('renders plain B feedback without evidence controls or an extra request', async () => {
+  const plain = { explanation: '请核对观测主峰。', evidence: [], next_experiment: null };
+  const request = vi.fn(async (_url: string, _init: RequestInit) => Response.json(plain));
+  vi.stubGlobal('fetch', request);
+  render(<TutorPanel sessionId="saved-session" run={run} disabled={false} mode="B"
+    study={{ onSettled: () => {} }} onEvidence={vi.fn()} onConfirm={vi.fn()} />);
+  fireEvent.click(screen.getByRole('button', { name: '获取 AI 指导' }));
+  expect(await screen.findByText(plain.explanation)).toBeVisible();
+  expect(JSON.parse(String(request.mock.calls[0][1].body)).mode).toBe('B');
+  expect(screen.queryByRole('button', { name: '观测主峰 40 Hz' })).not.toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: '确认运行对照实验' })).not.toBeInTheDocument();
+  expect(screen.getByRole('button', { name: '获取 AI 指导' })).toBeDisabled();
+});

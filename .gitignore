@@ -15,5 +15,7 @@ node_modules/
 !.env.example
 artifacts/
 evidence/private/
+evaluation/raw/*
+!evaluation/raw/.gitkeep
 *.sqlite3
 *.db

@@ -4,12 +4,15 @@ import { LabPage } from './features/lab/LabPage';
 const LearningFlow = lazy(() => import('./features/learning/LearningFlow').then((module) => ({ default: module.LearningFlow })));
 
 export function App() {
-  const [learning, setLearning] = useState(() => window.location.hash === '#learn');
+  const [hash, setHash] = useState(() => window.location.hash);
   useEffect(() => {
-    const navigate = () => setLearning(window.location.hash === '#learn');
+    const navigate = () => setHash(window.location.hash);
     window.addEventListener('hashchange', navigate);
     return () => window.removeEventListener('hashchange', navigate);
   }, []);
-  if (!learning) return <LabPage />;
-  return <Suspense fallback={<main className="page" role="status">正在加载引导学习…</main>}><LearningFlow /></Suspense>;
+  if (hash !== '#learn' && !hash.startsWith('#learn?')) return <LabPage />;
+  const studySessionId = new URLSearchParams(hash.slice('#learn'.length)).get('study') ?? undefined;
+  return <Suspense fallback={<main className="page" role="status">正在加载引导学习…</main>}>
+    <LearningFlow key={studySessionId ?? 'practice'} studySessionId={studySessionId} />
+  </Suspense>;
 }

@@ -91,7 +91,7 @@ Pop-Location
 
 ## 文档与证据
 
-- [最新进度与接续入口](docs/progress/2026-11-05.md)
+- [最新进度与接续入口](docs/progress/2026-11-06.md)
 - [执行计划](docs/superpowers/plans/2026-11-03-signal-lab-plan.md)
 - [设计基线](docs/superpowers/specs/2026-11-03-signal-lab-design.md)
 - [AI开发证据索引](evidence/ai-development/index.md)
@@ -99,4 +99,6 @@ Pop-Location
 - [引导学习与判题开发记录](evidence/ai-development/2026-11-04-guided-learning.md)
 - [本地 AI 科学正文与交互验收](evidence/ai-development/2026-11-05-tutor-grounded.md)
 - [低通滤波与迁移题验收](evidence/ai-development/2026-11-05-lowpass-filtering.md)
+- [B/C 现场试用方案](evaluation/protocol.md)
+- [对照与试用状态](evaluation/results.md)
 - 本地测试环境以backend/requirements.lock.txt锁定；.venv、临时缓存、导出的大数组不进入Git。
