@@ -1,0 +1,15 @@
+{
+  "version": "comparison-policy-v2",
+  "reason": "恢复对照新增固定原信号和数值验算，v1 I08 的跨信号提议在 v2 中应被过滤。旧冻结清单及其哈希保持原样。",
+  "I08": {
+    "formal_params": {"frequency_hz": 70, "sample_rate_hz": 110, "amplitude": 1, "phase_rad": 0},
+    "comparison_params": {"frequency_hz": 70, "sample_rate_hz": 200, "amplitude": 1, "phase_rad": 0},
+    "expected_formal_peak_hz": 40,
+    "expected_comparison_peak_hz": 70,
+    "stub_evidence_metric": "peak_frequency_hz",
+    "expected_foreign_citation_status": 502,
+    "expected_foreign_citation_detail": "invalid_tutor_reply",
+    "expected_saved_runs": 2,
+    "expected_compute_requests": 2
+  }
+}

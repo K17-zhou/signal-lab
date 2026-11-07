@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type { LearningEvent, LearningEventDraft } from '../src/features/learning/learningApi';
 
-test('I08 rejects a real older run citation after the comparison is confirmed', async ({ page }, testInfo) => {
+test('I08 v2 filters the legacy proposal and rejects an older run citation after a validated comparison', async ({ page }, testInfo) => {
   let computeRequests = 0;
   page.on('request', (request) => {
     if (request.method() === 'POST' && request.url().endsWith('/api/experiments/run')) computeRequests += 1;
@@ -11,10 +11,19 @@ test('I08 rejects a real older run citation after the comparison is confirmed', 
   await page.getByRole('button', { name: '保存预测', exact: true }).click();
   await page.getByRole('button', { name: '运行本题实验', exact: true }).click();
   await expect(page.getByRole('img', { name: '单边频谱：主峰40Hz' })).toBeVisible();
+  await page.getByRole('textbox', { name: '你的问题（选填）' }).fill('I08 v1 旧版提议');
+  const [legacy] = await Promise.all([
+    page.waitForResponse((item) => item.url().endsWith('/api/tutor/guide')),
+    page.getByRole('button', { name: '获取 AI 指导' }).click(),
+  ]);
+  expect(legacy.status()).toBe(200);
+  expect((await legacy.json()).next_experiment).toBeNull();
+  await expect(page.getByRole('button', { name: '确认运行对照实验' })).toHaveCount(0);
+  expect(computeRequests).toBe(1);
   await page.getByRole('textbox', { name: '你的问题（选填）' }).fill('I08 原始对照');
   await page.getByRole('button', { name: '获取 AI 指导' }).click();
   await page.getByRole('button', { name: '确认运行对照实验' }).click();
-  await expect(page.getByRole('img', { name: '单边频谱：主峰48Hz' })).toBeVisible();
+  await expect(page.getByRole('img', { name: '单边频谱：主峰70Hz' })).toBeVisible();
   await page.getByRole('textbox', { name: '你的问题（选填）' }).fill('I08 引用旧运行');
   const [response] = await Promise.all([
     page.waitForResponse((item) => item.url().endsWith('/api/tutor/guide')),
@@ -25,7 +34,7 @@ test('I08 rejects a real older run citation after the comparison is confirmed', 
   await expect(page.getByRole('alert')).toContainText('未通过证据校验');
   await expect(page.getByRole('button', { name: '确认运行对照实验' })).toHaveCount(0);
   await expect(page.getByText('已保存预测：22 Hz')).toBeVisible();
-  await expect(page.getByRole('img', { name: '单边频谱：主峰48Hz' })).toBeVisible();
+  await expect(page.getByRole('img', { name: '单边频谱：主峰70Hz' })).toBeVisible();
   const href = await page.getByRole('link', { name: '导出 JSON' }).getAttribute('href');
   const report = await (await page.request.get(href!)).json();
   expect(report.events.map((event: LearningEvent) => event.stage)).toEqual(['predict', 'run', 'observe']);

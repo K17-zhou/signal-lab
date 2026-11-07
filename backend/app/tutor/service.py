@@ -1,13 +1,16 @@
 """Construct the minimum teaching context and validate model output."""
 
 import asyncio
+import math
 from time import perf_counter
 
 from pydantic import ValidationError
 
+from app.experiments import sampling
 from app.learning import CASES, CASES_BY_ID, LearningCase
 from app.schemas import (
-    AssessmentAnswer, ExperimentRun, StudyTutorCall, TutorFocus, TutorMode, TutorReply, TutorRequest, TutorSelection,
+    AssessmentAnswer, ExperimentRequest, ExperimentRun, StudyTutorCall,
+    TutorFocus, TutorMode, TutorReply, TutorRequest, TutorSelection,
 )
 from app.store import Store
 from app.tutor.client import TutorClient, TutorTransportError
@@ -41,6 +44,13 @@ METRIC_GUIDE = (
     "理论折叠频率直接读取 run.metrics.alias_frequency_hz，实测主峰读取 run.metrics.peak_frequency_hz。"
     "主峰为空表示没有可辨主峰，理论值仍按记录读取。"
 )
+PHASE_COMPARISON_CASES = frozenset({
+    "sampling-phase", "nyquist-boundary", "study-x-boundary", "study-y-boundary",
+})
+# Relative to amplitude: well above floating-point noise in the periodic engine,
+# well below a meaningful reconstruction error or a visible phase-sample change.
+RECOVERY_RELATIVE_RMSE = 1e-8
+PHASE_SAMPLE_CHANGE_RELATIVE_RMS = 1e-6
 
 
 class TutorError(RuntimeError):
@@ -54,6 +64,75 @@ def validate_evidence(reply: TutorReply, run: ExperimentRun) -> bool:
     return bool(reply.evidence) and all(
         item.run_id == run.run_id and item.metric_key in fields for item in reply.evidence
     )
+
+
+def _allows_phase_comparison(run: ExperimentRun, case: LearningCase) -> bool:
+    return (
+        case.case_id in PHASE_COMPARISON_CASES
+        and run.params.sample_rate_hz == 2 * run.params.frequency_hz
+        and run.metrics.sampling_state == "nyquist_boundary"
+    )
+
+
+def _comparison_guide(run: ExperimentRun, case: LearningCase) -> str:
+    params = run.params
+    guide = (
+        "本次允许的对照目标：固定当前信号频率、振幅和初相位，仅提高采样率，"
+        f"新采样率须严格大于 {max(params.sample_rate_hz, 2 * params.frequency_hz)} Hz，"
+        "用主峰和重建误差检验充分采样下的原频率。"
+    )
+    if _allows_phase_comparison(run, case):
+        guide += (
+            "本题还允许边界相位观察：固定当前频率、采样率和振幅，仅改变初相位，"
+            "比较样本取值的变化；这不证明唯一恢复。"
+        )
+    return guide
+
+
+def _validated_comparison_goal(
+    run: ExperimentRun, case: LearningCase, proposal: ExperimentRequest | None,
+) -> str | None:
+    """Keep only the model's own isolated, numerically verified teaching control."""
+    if proposal is None or proposal.params in (run.params, case.transfer.params):
+        return None
+    current, proposed = run.params, proposal.params
+    if (proposed.frequency_hz != current.frequency_hz
+            or proposed.amplitude != current.amplitude):
+        return None
+
+    if (proposed.phase_rad == current.phase_rad
+            and proposed.sample_rate_hz > max(current.sample_rate_hz, 2 * current.frequency_hz)):
+        control = sampling.build_sampling_run(proposed)
+        metrics = control.metrics
+        if (metrics.sampling_state != "well_sampled"
+                or metrics.peak_frequency_hz is None
+                or not math.isclose(metrics.peak_frequency_hz, current.frequency_hz, rel_tol=0, abs_tol=1e-9)
+                or metrics.reconstruction_rmse > current.amplitude * RECOVERY_RELATIVE_RMSE):
+            return None
+        return (
+            "对照目的：保持信号频率、振幅和初相位不变，仅提高采样率，"
+            f"使其严格大于两倍频率（{2 * current.frequency_hz} Hz）。"
+            f"周期模型计算验证主峰为 {metrics.peak_frequency_hz:g} Hz，"
+            f"重建误差 RMSE 为 {metrics.reconstruction_rmse:.2g}；请运行对照并核对。"
+        )
+
+    if (_allows_phase_comparison(run, case)
+            and proposed.sample_rate_hz == current.sample_rate_hz
+            and proposed.phase_rad != current.phase_rad):
+        control = sampling.build_sampling_run(proposed)
+        if control.metrics.sampling_state != "nyquist_boundary":
+            return None
+        before = next(series.y for series in run.series if series.name == "samples")
+        after = next(series.y for series in control.series if series.name == "samples")
+        sample_change = math.sqrt(sum((a - b) ** 2 for a, b in zip(after, before, strict=True)) / len(before))
+        if sample_change <= current.amplitude * PHASE_SAMPLE_CHANGE_RELATIVE_RMS:
+            return None
+        return (
+            "对照目的：保持频率、采样率和振幅不变，仅改变初相位，观察边界样本取值如何变化。"
+            "周期模型已验证样本发生变化；采样率仍恰好为两倍频率，"
+            "即使出现主峰，也无法保证唯一恢复原信号。"
+        )
+    return None
 
 
 def explain_run(
@@ -120,7 +199,8 @@ async def guide(
             "params": case.prediction.params.model_dump(mode="json"),
             "options": [option.model_dump(mode="json") for option in case.prediction.options],
         },
-        "theory": SAMPLING_THEORY[run.metrics.sampling_state] + METRIC_GUIDE + "".join(FOCUS_GUIDE.values()),
+        "theory": (SAMPLING_THEORY[run.metrics.sampling_state] + METRIC_GUIDE
+                   + "".join(FOCUS_GUIDE.values()) + _comparison_guide(run, case)),
         "message": STUDY_QUESTION if condition is not None else request.message,
         "mode": request.mode,
     }
@@ -185,6 +265,7 @@ async def _generate_reply(
         raise TutorError("invalid_tutor_reply", 502) from error
     if not validate_evidence(reply, run):
         raise TutorError("invalid_tutor_reply", 502)
-    if reply.next_experiment and reply.next_experiment.params in (run.params, case.transfer.params):
+    goal = _validated_comparison_goal(run, case, reply.next_experiment)
+    if goal is None:
         return reply.model_copy(update={"next_experiment": None})
-    return reply
+    return reply.model_copy(update={"explanation": reply.explanation + goal})

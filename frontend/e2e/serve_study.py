@@ -22,7 +22,9 @@ class SyntheticTutor:
     def __init__(self):
         with (ROOT / "evaluation" / "case_manifest.csv").open(encoding="utf-8", newline="") as source:
             row = next(row for row in csv.DictReader(source) if row["case_id"] == "I08")
-        self.i08 = json.loads(row["input"])
+        self.i08_v1 = json.loads(row["input"])
+        with (ROOT / "evaluation" / "comparison-policy-v2.json").open(encoding="utf-8") as source:
+            self.i08 = json.load(source)["I08"]
         self.i08_original_run = None
 
     def complete(self, context):
@@ -31,6 +33,12 @@ class SyntheticTutor:
         message = context["message"]
         if message == "验收模型离线":
             raise TutorTransportError("Synthetic offline model")
+        if message == "I08 v1 旧版提议":
+            return json.dumps({
+                "focus": "sampling",
+                "evidence": [{"run_id": run["run_id"], "metric_key": self.i08_v1["stub_evidence_metric"]}],
+                "next_experiment": {"experiment_type": "sampling_aliasing", "params": self.i08_v1["comparison_params"]},
+            })
         if message == "I08 原始对照":
             assert run["params"] == self.i08["formal_params"]
             self.i08_original_run = run["run_id"]
