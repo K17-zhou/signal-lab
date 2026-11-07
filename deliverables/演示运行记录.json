@@ -1,0 +1,155 @@
+{
+  "capture_date": "2026-11-07",
+  "purpose": "synthetic demonstration with real browser, computation and Qwen model",
+  "source_commit": "8aff7d9ce6a1ad5dc7523bcdb8b662ec1864e698",
+  "guide_elapsed_seconds": 11.592,
+  "study": {
+    "condition": "C",
+    "form": "Y",
+    "order_index": 2,
+    "cohort": "pilot",
+    "model_config": "qwen35-4b-q4km-demo"
+  },
+  "events": [
+    {
+      "event_id": "e55dba97-dbbc-4932-bf45-4b552ab4e6d0",
+      "session_id": "00000000-0000-4000-8000-000000000982",
+      "case_id": "study-y-alias",
+      "stage": "predict",
+      "run_id": null,
+      "answer": {
+        "kind": "numeric",
+        "value": 22,
+        "unit": "Hz"
+      },
+      "note": null,
+      "elapsed_ms": 33,
+      "outcome": "recorded",
+      "timestamp": "2026-11-07T02:35:39.178229Z"
+    },
+    {
+      "event_id": "4cdaef44-8ddd-40c8-9bcf-6a1366c302cb",
+      "session_id": "00000000-0000-4000-8000-000000000982",
+      "case_id": "study-y-alias",
+      "stage": "run",
+      "run_id": "79fccd65-327c-4f23-b298-5e673d93a9e1",
+      "answer": null,
+      "note": null,
+      "elapsed_ms": 25,
+      "outcome": "completed",
+      "timestamp": "2026-11-07T02:35:39.864457Z"
+    },
+    {
+      "event_id": "de8c7f33-71a0-4287-8136-2b831cc6e51a",
+      "session_id": "00000000-0000-4000-8000-000000000982",
+      "case_id": "study-y-alias",
+      "stage": "observe",
+      "run_id": "24ecba75-4f16-4a89-8c99-f699803c6915",
+      "answer": null,
+      "note": null,
+      "elapsed_ms": 26,
+      "outcome": "completed",
+      "timestamp": "2026-11-07T02:35:54.767072Z"
+    },
+    {
+      "event_id": "db216a2b-1ea3-4c20-8472-4e1d6465572c",
+      "session_id": "00000000-0000-4000-8000-000000000982",
+      "case_id": "study-y-alias",
+      "stage": "transfer",
+      "run_id": "79fccd65-327c-4f23-b298-5e673d93a9e1",
+      "answer": {
+        "kind": "numeric",
+        "value": 55,
+        "unit": "Hz"
+      },
+      "note": null,
+      "elapsed_ms": 2581,
+      "outcome": "correct",
+      "timestamp": "2026-11-07T02:35:55.47993Z"
+    }
+  ],
+  "original": {
+    "run_id": "79fccd65-327c-4f23-b298-5e673d93a9e1",
+    "experiment_type": "sampling_aliasing",
+    "params": {
+      "frequency_hz": 81,
+      "sample_rate_hz": 132,
+      "amplitude": 1,
+      "phase_rad": 0
+    },
+    "engine_version": "sampling-periodic-v1",
+    "metrics": {
+      "alias_frequency_hz": 51,
+      "sampling_state": "undersampled",
+      "sample_rms": 0.7071067811865476,
+      "peak_frequency_hz": 51,
+      "reconstruction_rmse": 1
+    },
+    "warnings": [
+      "PERIODIC_SIGNAL_MODEL",
+      "UNDERSAMPLED"
+    ]
+  },
+  "comparison": {
+    "run_id": "24ecba75-4f16-4a89-8c99-f699803c6915",
+    "experiment_type": "sampling_aliasing",
+    "params": {
+      "frequency_hz": 81,
+      "sample_rate_hz": 200,
+      "amplitude": 1,
+      "phase_rad": 0
+    },
+    "engine_version": "sampling-periodic-v1",
+    "metrics": {
+      "alias_frequency_hz": 81,
+      "sampling_state": "well_sampled",
+      "sample_rms": 0.7071067811865475,
+      "peak_frequency_hz": 81,
+      "reconstruction_rmse": 1.556981813280255E-14
+    },
+    "warnings": [
+      "PERIODIC_SIGNAL_MODEL"
+    ]
+  },
+  "guidance": {
+    "explanation": "你的原预测是 22 Hz。本次采样率为 132 Hz，信号频率为 81 Hz，振幅为 1，初相位为 0 rad。理论折叠频率为 51 Hz。观测主峰为 51 Hz。本次运行属于欠采样。原信号和折叠信号可能产生相同样本，因此这些样本无法唯一确定原信号。",
+    "evidence": [
+      {
+        "run_id": "79fccd65-327c-4f23-b298-5e673d93a9e1",
+        "metric_key": "alias_frequency_hz"
+      },
+      {
+        "run_id": "79fccd65-327c-4f23-b298-5e673d93a9e1",
+        "metric_key": "peak_frequency_hz"
+      },
+      {
+        "run_id": "79fccd65-327c-4f23-b298-5e673d93a9e1",
+        "metric_key": "sampling_state"
+      }
+    ],
+    "next_experiment": {
+      "experiment_type": "sampling_aliasing",
+      "params": {
+        "frequency_hz": 81,
+        "sample_rate_hz": 200,
+        "amplitude": 1,
+        "phase_rad": 0
+      }
+    },
+    "misconception_code": null
+  },
+  "captured_stages": [
+    "sampling",
+    "boundary",
+    "filter",
+    "predict",
+    "observe",
+    "guide",
+    "evidence",
+    "proposal",
+    "compare",
+    "transfer",
+    "restore"
+  ],
+  "guide_http_status": 200
+}

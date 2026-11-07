@@ -1,0 +1,273 @@
+{
+  "purpose": "Pre-chain context and actual model/tool inputs, separate from unchanged complete visible conversations.",
+  "created_on": "2026-11-07",
+  "source_commit_for_delivery": "8aff7d9ce6a1ad5dc7523bcdb8b662ec1864e698",
+  "private_source_labels": {
+    "main": "项目主记录，2026-11-03 14:43:09 北京时间开始",
+    "review2": "Task 2 独立审查记录，2026-11-03 20:43:03 北京时间开始",
+    "review3": "Task 3 独立审查记录，2026-11-04 11:01:53 北京时间开始"
+  },
+  "privacy": "No raw private JSONL, machine absolute paths, opaque dispatch payloads, internal reasoning or private memory metadata included.",
+  "records": [
+    {
+      "source": "main",
+      "line": 201,
+      "timestamp_utc": "2026-11-03T06:59:35.818Z",
+      "category": "用户目标",
+      "raw_jsonl_record_sha256": "cf10f8ac336141ab51eb9140033da1f91f66502281c07e9b3b5dfd23a5a1646f"
+    },
+    {
+      "source": "main",
+      "line": 384,
+      "timestamp_utc": "2026-11-03T07:26:05.054Z",
+      "category": "用户要求制定计划",
+      "raw_jsonl_record_sha256": "cbf5d5013dd0849f345d482bec56a5b65cbdd2c9965acdc103a432e397acde1e"
+    },
+    {
+      "source": "main",
+      "line": 575,
+      "timestamp_utc": "2026-11-03T08:11:41.337Z",
+      "category": "Codex交付计划和设计",
+      "raw_jsonl_record_sha256": "05cf51102d2be008bdc97f22644ca2656b9406eddfbf3f6bc8149b17f2dde102"
+    },
+    {
+      "source": "main",
+      "line": 593,
+      "timestamp_utc": "2026-11-03T11:19:00.048Z",
+      "category": "Codex解释产品与流程",
+      "raw_jsonl_record_sha256": "7cddc53d62c36f178955f6ace800c599486039f73f24f61628d433d89da91f18"
+    },
+    {
+      "source": "main",
+      "line": 600,
+      "timestamp_utc": "2026-11-03T11:19:45.068Z",
+      "category": "用户批准开始",
+      "raw_jsonl_record_sha256": "64a3782d47b9c3c1dc07c9c01a1c7296d6bcb418fc940d60c6dbbf6d8b60659c"
+    },
+    {
+      "source": "main",
+      "line": 893,
+      "timestamp_utc": "2026-11-03T11:41:24.538Z",
+      "category": "Task2上游建议",
+      "raw_jsonl_record_sha256": "9ff459a5a32895835252dd5c21ebde9ffdc957d26a82db34797f1430e2cf8a49"
+    },
+    {
+      "source": "main",
+      "line": 900,
+      "timestamp_utc": "2026-11-03T12:06:59.772Z",
+      "category": "Task2续办指令",
+      "raw_jsonl_record_sha256": "b6a086b3146632536861601f053279b6a5afe5869cbb2dcf0897f220d37eb441"
+    },
+    {
+      "source": "main",
+      "line": 1522,
+      "timestamp_utc": "2026-11-03T12:51:41.989Z",
+      "category": "Task3上游建议",
+      "raw_jsonl_record_sha256": "96e7c2eeb7a45f9ce0493462a619a6d1ad760977d8454ec20b4c8fb92f10aaef"
+    },
+    {
+      "source": "main",
+      "line": 1529,
+      "timestamp_utc": "2026-11-03T12:53:50.021Z",
+      "category": "用户要求记录与接续",
+      "raw_jsonl_record_sha256": "ff75bf49ca35071c36da02697ccb4ca37d50bbdf9ab3d9a18ede32602919f036"
+    },
+    {
+      "source": "main",
+      "line": 1571,
+      "timestamp_utc": "2026-11-03T12:56:50.164Z",
+      "category": "Codex交接回复",
+      "raw_jsonl_record_sha256": "22f352942ed6ec169760800b7d7e8c3a88f34d1c0275defd693e25ffc7c16fc1"
+    },
+    {
+      "source": "main",
+      "line": 1590,
+      "timestamp_utc": "2026-11-04T02:39:12.317Z",
+      "category": "Task3续办指令",
+      "raw_jsonl_record_sha256": "fe4d09f38d927e5c860482a3132187f8fea2bb3be520fc4bc6a3c3bb41b9ee1b"
+    },
+    {
+      "source": "main",
+      "line": 947,
+      "timestamp_utc": "2026-11-03T12:09:47.607Z",
+      "category": "Codex发送给图像工具的实际prompt",
+      "raw_jsonl_record_sha256": "6f3d32551ae9e90b440bbee60c11e06e29d95307bbbbb02cc41bb8b14be0f179"
+    },
+    {
+      "source": "main",
+      "line": 1401,
+      "timestamp_utc": "2026-11-03T12:43:03.058Z",
+      "category": "Codex审查派发调用，message为密文，未当作可读原话",
+      "raw_jsonl_record_sha256": "e7c198cf3458efce3443ee84a813956d38e234081f009f82453b804ae6890dad"
+    },
+    {
+      "source": "review2",
+      "line": 14,
+      "timestamp_utc": "2026-11-03T12:43:10.238Z",
+      "category": "审查Codex读取task-2-review.md的工具调用",
+      "raw_jsonl_record_sha256": "32cb178eb43754e7a9842bd6923b328cd4cd4aaae3b7977938e0423e03567a45"
+    },
+    {
+      "source": "review2",
+      "line": 16,
+      "timestamp_utc": "2026-11-03T12:43:11.478Z",
+      "category": "审查Codex实际收到的工具输出",
+      "raw_jsonl_record_sha256": "d7609c1e67fe61e70a83d4c36a201b0768785903d8f5a8767f4a70faade1667d"
+    },
+    {
+      "source": "review2",
+      "line": 73,
+      "timestamp_utc": "2026-11-03T12:45:09.182Z",
+      "category": "审查输出发现浮点显示问题",
+      "raw_jsonl_record_sha256": "3ad44f82c4c19c9309409cc437e34cb775b0bfc97c5d7dac1e7cd93b2bd67961"
+    },
+    {
+      "source": "main",
+      "line": 1594,
+      "timestamp_utc": "2026-11-04T02:39:29.208Z",
+      "category": "Task3开始时实际读取交接文件",
+      "raw_jsonl_record_sha256": "48d3a31521fdf602942fd5fc8a30d58e255df4f6f9cf0939f96d97a0aa843e45"
+    },
+    {
+      "source": "main",
+      "line": 1600,
+      "timestamp_utc": "2026-11-04T02:39:40.651Z",
+      "category": "Task3开始时实际读取设计和Task3计划",
+      "raw_jsonl_record_sha256": "301bcb756e8f8f67046caeac5b04ac8651f9f80b6f44cc9e2ffd14fce1fad123"
+    },
+    {
+      "source": "main",
+      "line": 1801,
+      "timestamp_utc": "2026-11-04T03:01:53.014Z",
+      "category": "Codex审查派发调用，message为密文，未当作可读原话",
+      "raw_jsonl_record_sha256": "c760040018402c894dd6de3a6a1e8b784e5e3faca4f25a3bddedef6d112af6b3"
+    },
+    {
+      "source": "review3",
+      "line": 14,
+      "timestamp_utc": "2026-11-04T03:02:00.820Z",
+      "category": "审查Codex实际请求读取计划",
+      "raw_jsonl_record_sha256": "a78e8b50cf08e7d75342d63e00ee083b866220cfc68f4c1ea7df576c6b1a13f8"
+    },
+    {
+      "source": "review3",
+      "line": 16,
+      "timestamp_utc": "2026-11-04T03:02:01.803Z",
+      "category": "审查Codex实际收到的计划工具输出",
+      "raw_jsonl_record_sha256": "5a7a41a59f982dec91b25dcc35338b38b2685431838284f377b5cdd2a65df23a"
+    },
+    {
+      "source": "review3",
+      "line": 69,
+      "timestamp_utc": "2026-11-04T03:03:47.722Z",
+      "category": "审查输出发现CSV上下文和超时问题",
+      "raw_jsonl_record_sha256": "8d24d77e722fcdc8f364cb20b596e719063ff62e986df49548b5ea5f3e964bd3"
+    }
+  ],
+  "artifacts": [
+    {
+      "attachment": "context/upstream-messages.json",
+      "source": "Selected visible messages before/between the existing complete chains. Paragraph selections are explicit.",
+      "transformations": [],
+      "bytes": 4502,
+      "sha256": "23c93deedd8fa67e5c13537a1dd2ae4490e67f09b9992dff616071c1fa446948"
+    },
+    {
+      "attachment": "context/approved-design-2026-11-03.txt",
+      "source": {
+        "git_commit": "fec9ee8ecaf58256fbf717847e807c20e396b4d6",
+        "repository_path": "docs/superpowers/specs/2026-11-03-signal-lab-design.md"
+      },
+      "transformations": [],
+      "bytes": 13202,
+      "sha256": "237cf7a0ceb62e53c5acea4e2613d198b4f7a2c8592feedf1195185add254d28"
+    },
+    {
+      "attachment": "context/approved-plan-2026-11-03.txt",
+      "source": {
+        "git_commit": "fec9ee8ecaf58256fbf717847e807c20e396b4d6",
+        "repository_path": "docs/superpowers/plans/2026-11-03-signal-lab-plan.md"
+      },
+      "transformations": [],
+      "bytes": 22522,
+      "sha256": "9c808273b2a43dc3fa1c61dd25df0e2c6e06c1eaf3fad2cf443db24963252a06"
+    },
+    {
+      "attachment": "context/handoff-2026-11-04.txt",
+      "source": {
+        "git_commit": "86558bf1b4eafc9df1599c08b16c8708934c1fa9",
+        "repository_path": "docs/progress/2026-11-04-handoff.md"
+      },
+      "transformations": [
+        "Replace one workspace machine path; retain other bytes."
+      ],
+      "bytes": 4320,
+      "sha256": "e07804929659061cc7d7dbbf214905a739b290552a2f30bd69c557466f2f8798"
+    },
+    {
+      "attachment": "context/task2-imagegen-prompt.txt",
+      "source": {
+        "source": "main",
+        "line": 947,
+        "field": "payload.input/const prompt"
+      },
+      "transformations": [
+        "Extract prompt variable only; append LF. No rewritten prompt content."
+      ],
+      "bytes": 3042,
+      "sha256": "4045dd4f5867b253f3579bc0eb991fd319b5280565c2dc8d7c5aba944ceb4ea2"
+    },
+    {
+      "attachment": "context/task2-review-input.txt",
+      "source": {
+        "source": "review2",
+        "line": 16,
+        "field": "payload.item.aggregated_output before Code Reviewer Prompt Template"
+      },
+      "transformations": [
+        "Normalize terminal CRCRLF/CRLF to LF. Replace one Workspace machine path."
+      ],
+      "bytes": 2158,
+      "sha256": "c5e11b5266995a6f8fa78939fdd55d6eae6329c5d70e9f9e2c7c25df97468967"
+    },
+    {
+      "attachment": "context/task3-review-input.txt",
+      "source": {
+        "source": "review3",
+        "line": 16,
+        "field": "payload.item.aggregated_output / Task 3 section only"
+      },
+      "transformations": [
+        "Extract one contiguous Task 3 section. Normalize terminal CRCRLF/CRLF to LF."
+      ],
+      "bytes": 1515,
+      "sha256": "ca73754565d5c7b588ad0e1207717d1a04f14a62e737e8a200f4f16fc58593f3"
+    },
+    {
+      "attachment": "context/task4-model-input-output.json",
+      "source": {
+        "repository_path": "evidence/ai-development/2026-11-05-tutor-grounded-samples.json",
+        "source_file_sha256": "10e2150e969e6c8d7e5344d8fc5b3d22e841687881ba5ee40688ed6cfcb6d39f",
+        "json_pointer": "/final_batch/rows/0"
+      },
+      "transformations": [
+        "JSON parse and pretty-print only; retain all fields of selected record."
+      ],
+      "bytes": 4259,
+      "sha256": "b0f598ebaebc4a1ef430d0673de3adcea86678f52c93e28506a1b967515e05fd"
+    },
+    {
+      "attachment": "context/mode-b-error-sample.json",
+      "source": {
+        "repository_path": "evidence/ai-development/2026-11-06-synthetic-pilot.json",
+        "source_file_sha256": "fb9f5172272baa41e19d68776cced4a76151ba5e954a484afa0a32a8bf3400ba",
+        "json_pointer": "/cases/10"
+      },
+      "transformations": [
+        "JSON parse and pretty-print only; retain all fields of selected record."
+      ],
+      "bytes": 1221,
+      "sha256": "0a3729e24fb4423b982992863e2ac1b1842b788c4455221cfe8e689a416a132c"
+    }
+  ]
+}

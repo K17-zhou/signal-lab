@@ -1,0 +1,11 @@
+信号实验工坊冻结版复验 · 2026-11-07（北京时间）
+源码 8aff7d9ce6a1ad5dc7523bcdb8b662ec1864e698
+命令 .\scripts\check.ps1 · 退出码 0
+以下是本次复验实际输出的结果行及服务关闭行。
+
+130 passed in 9.40s
+      Tests  16 passed (16)
+✓ built in 402ms
+(!) Some chunks are larger than 500 kB after minification. Consider:
+  9 passed (19.4s)
+INFO:     Application shutdown complete.

@@ -1,0 +1,17 @@
+# Task 2 review package
+
+Workspace: [本机路径已脱敏]
+Base: ce919e1
+Head: 6b4577eb516262ace311a5957b5475d88a60f80b
+
+The authorized continuation is Task 2 of docs/superpowers/plans/2026-11-03-signal-lab-plan.md. Spec: docs/superpowers/specs/2026-11-03-signal-lab-design.md. Task 1 is already independently reviewed. Later learning/AI/evaluation tasks are intentionally not implemented.
+
+Implemented: SQLite append-only run store, real FastAPI POST/GET/health, finite input error responses, React parameter/preset UI, ECharts SVG time/spectrum plots, latest request wins, pending/draft/error states, true run IDs, JSON download, local build/start script and evidence.
+
+Review primarily backend/app/main.py, store.py, tests/test_runs_api.py; frontend/src/api.ts and features/lab; package/lock/build configuration; scripts/start.ps1 and README. Judge reasonable expectations beyond enumerated tests. In particular request races, result ownership, scientific plot accuracy at Nyquist/DC and odd sampling rates, parameter edge cases, startup paths and persistence.
+
+Verification already run: backend 42 passing with warnings as errors, pip check clean; frontend 4 passing and tsc/Vite build exit0. Browser IAB on8000 checked four presets, actual SVGs, illegal201Hz draft retaining run, export JSON equality with GET, desktop1536x1024 and390x844. Screenshots evidence/screenshots/task2-{desktop,mobile,boundary}.jpg. Known build advisory: lazy chart chunk509.89kB(gzip173.56kB); do not suppress it merely for a clean log.
+
+If rerunning backend tests in this sandbox, set process-local TEMP and TMP to existing workspace .cache/tmp. Use .venv/Scripts/python.exe. No package installs or environment changes are needed. Don't use browser automation concurrently with root; rendered evidence may be inspected via view_image.
+
+Read-only review: do not modify source, index, HEAD or branch. Do not spawn subagents. Follow requesting-code-review/code-reviewer.md: Strengths; Critical/Important/Minor findings with file:line, reproducible triggers and impact; Declined to judge list with reasons; clear verdict. Distinguish actual findings from untested suggestions.

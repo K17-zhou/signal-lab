@@ -19,3 +19,7 @@ evaluation/raw/*
 !evaluation/raw/.gitkeep
 *.sqlite3
 *.db
+/测试/
+/deliverables/*.zip
+/deliverables/*.mp4
+/runtime/*.zip

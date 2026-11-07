@@ -1,0 +1,13 @@
+## Task 3: 预测、迁移题和真实记录（11/6余时–11/7前半，约5小时）
+
+**Files:** 创建content/cases.json、backend/content/assessment_keys.json、backend/app/learning.py、backend/tests/test_learning.py、frontend/src/features/learning/LearningFlow.tsx及LearningFlow.test.tsx；修改schemas.py、store.py、main.py。
+
+**Interfaces:** 消费实验run_id；产生LearningEvent(event_id+设计字段)、POST /api/events、GET /api/sessions/{id}/export?format=json或csv；score_answer(case_id: str, answer: AssessmentAnswer) -> ScoreResult执行客观判题。
+
+- [ ] 写失败测试：同一event_id重发只保存一次；刷新后原预测仍在；迁移题更换参数，前端内容不含标准答案。
+- [ ] 写判题边界断言：单选按option_id匹配；30Hz标准答案的30.5Hz通过、30.6Hz不通过；单位不为Hz的频率答案被拒绝；反思文字不产生自动得分。
+- [ ] 写导出断言：保留预测、实际run_id、答案、耗时与失败结果；其他会话数据不会混入；CSV能正确处理中文及换行。
+- [ ] 运行python -m pytest tests/test_learning.py -q和前端目标测试，确认失败。
+- [ ] 实现完整学习步骤、6类误区案例、服务端判题、记录恢复和导出；所有正式作答追加记录，不让模型覆写。
+- [ ] 重跑测试；在浏览器完成一次新会话到迁移题及导出，检查记录能逐条还原操作。
+- [ ] 提交，并保存这次学习流程从需求到修复的真实开发证据。

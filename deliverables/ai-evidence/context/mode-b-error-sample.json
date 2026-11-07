@@ -1,0 +1,46 @@
+{
+  "pilot": "P02",
+  "mode": "B",
+  "form": "Y",
+  "period": 2,
+  "case_id": "study-y-alias",
+  "prediction": {
+    "kind": "numeric",
+    "value": 56.0,
+    "unit": "Hz"
+  },
+  "params": {
+    "frequency_hz": 81,
+    "sample_rate_hz": 132,
+    "amplitude": 1.0,
+    "phase_rad": 0.0
+  },
+  "metrics": {
+    "alias_frequency_hz": 51.0,
+    "sampling_state": "undersampled",
+    "sample_rms": 0.7071067811865476,
+    "peak_frequency_hz": 51.0,
+    "reconstruction_rmse": 1.0
+  },
+  "run_id": "0f384a5c-c9d1-40e7-b659-c585fe82dd6e",
+  "tutor_status": 200,
+  "tutor_reply": {
+    "explanation": "当前实验频率 81Hz 低于奈奎斯特频率，发生混叠，理论折叠频率为 51Hz，实测主峰亦为 51Hz。你的预测 56Hz 偏离了理论值。由于欠采样，频谱折叠导致无法区分原频率与混叠频率。下一步应观察增加采样率后主峰是否回归 81Hz，以验证混叠消除。",
+    "evidence": [],
+    "next_experiment": null,
+    "misconception_code": null
+  },
+  "comparison": null,
+  "transfer": {
+    "kind": "numeric",
+    "value": 55.0,
+    "unit": "Hz"
+  },
+  "expected_outcome": "correct",
+  "elapsed_ms": 2091,
+  "stages": [
+    "predict",
+    "run",
+    "transfer"
+  ]
+}

@@ -1,0 +1,318 @@
+{
+  "source_commit": "8aff7d9ce6a1ad5dc7523bcdb8b662ec1864e698",
+  "source_paths_relative_to": "repository root",
+  "chains": {
+    "task2": {
+      "excerpt": "task2-ui.md",
+      "commits": [
+        "6b4577eb516262ace311a5957b5475d88a60f80b",
+        "fe74adecf85128f44407f4e27572450b932650ca"
+      ],
+      "conversation": {
+        "segment": "项目主记录",
+        "partial_export_manifest": "evidence/ai-development/2026-11-03-interactive-raw-export-manifest.json",
+        "partial_export_source_lines": [
+          900,
+          1412
+        ],
+        "message_source_lines": [
+          900,
+          903,
+          1448,
+          1497
+        ],
+        "tool_source_lines": [
+          1449,
+          1458,
+          1466,
+          1475
+        ],
+        "partial_export_sha256": "b680bccf712fbd2644967a66e1e7ecc46013de159bf33f731d0d16a3f50614b0",
+        "complete_visible_transcript": {
+          "attachment": "task2-prompt-chain.md",
+          "source_lines_inclusive": [
+            900,
+            1522
+          ],
+          "source_segment_sha256": "437429108a355292fdab17f9bf1a526e50ba4286e37e294761af94ef1b20f650",
+          "source_turns": [
+            {
+              "user_start_line": 900,
+              "final_reply_line": 1522,
+              "turn_completed_marker_line": 1525
+            }
+          ],
+          "visible_message_rows": [
+            900,
+            903,
+            928,
+            977,
+            1085,
+            1103,
+            1144,
+            1189,
+            1250,
+            1280,
+            1361,
+            1448,
+            1497,
+            1522
+          ],
+          "visible_message_counts": {
+            "user": 1,
+            "commentary": 12,
+            "final_answer": 1
+          },
+          "excluded_ui_metadata_rows": [],
+          "redactions": [
+            {
+              "line": 1522,
+              "machine_path_targets": 4,
+              "private_memory_citation_blocks": 1
+            }
+          ],
+          "bytes": 6143,
+          "sha256": "9f896774f1f4c57b09517af3be26740b7d37bf6346f6a636a6ea115721e633b8"
+        }
+      },
+      "project_sources": [
+        "docs/design/concept-generation.md",
+        "evidence/ai-development/2026-11-03-interactive-lab.md",
+        "evidence/ai-development/2026-11-03-frequency-display-red.log",
+        "evidence/ai-development/2026-11-03-frontend-green.log",
+        "evidence/ai-development/2026-11-03-precision-browser.json",
+        "frontend/src/features/lab/format.ts",
+        "frontend/src/features/lab/RunSummary.test.tsx"
+      ],
+      "screenshots": [
+        {
+          "project_source": "evidence/screenshots/task2-desktop.jpg",
+          "attachment": "screenshots/task2-desktop.jpg",
+          "bytes": 109934,
+          "sha256": "1aba09751b22c3cda98558304ab91efbf8d9f0dea881305bca7224b6c371b611"
+        }
+      ]
+    },
+    "task3": {
+      "excerpt": "task3-learning.md",
+      "commits": [
+        "297671eb8bfb4f84c5e407bb733601ed34fcb6a0",
+        "1c8897fc6b2711321de2b438bd3345bb4844f144"
+      ],
+      "conversation": {
+        "segment": "项目主记录",
+        "partial_export_manifest": "evidence/ai-development/2026-11-04-guided-raw-export-manifest.json",
+        "partial_export_source_lines": [
+          1590,
+          1905
+        ],
+        "message_source_lines": [
+          1590,
+          1593,
+          1837,
+          1903
+        ],
+        "tool_source_lines": [
+          1839,
+          1851
+        ],
+        "partial_export_sha256": "436ae61eac9ed7664a379493f8e6f4f34d998c6f1de85a5e070098ed3dfd599a",
+        "complete_visible_transcript": {
+          "attachment": "task3-prompt-chain.md",
+          "source_lines_inclusive": [
+            1590,
+            1936
+          ],
+          "source_segment_sha256": "640651b10ad0ab4397ec12280c8dabb30d883c35c8d3e133ac6372112192e909",
+          "source_turns": [
+            {
+              "user_start_line": 1590,
+              "final_reply_line": 1936,
+              "turn_completed_marker_line": 1939
+            }
+          ],
+          "visible_message_rows": [
+            1590,
+            1593,
+            1615,
+            1633,
+            1666,
+            1705,
+            1734,
+            1795,
+            1837,
+            1903,
+            1936
+          ],
+          "visible_message_counts": {
+            "user": 1,
+            "commentary": 9,
+            "final_answer": 1
+          },
+          "excluded_ui_metadata_rows": [],
+          "redactions": [
+            {
+              "line": 1936,
+              "machine_path_targets": 2,
+              "private_memory_citation_blocks": 0
+            }
+          ],
+          "bytes": 4925,
+          "sha256": "e85bebe925f1bbffd1c4e49c44026e99fd0fa38ca96b97e11401fce7eea531eb"
+        }
+      },
+      "project_sources": [
+        "evidence/ai-development/2026-11-04-guided-learning.md",
+        "evidence/ai-development/2026-11-04-learning-csv-red.log",
+        "evidence/ai-development/2026-11-04-learning-timeout-red.log",
+        "evidence/ai-development/2026-11-04-learning-backend-green.log",
+        "evidence/ai-development/2026-11-04-learning-frontend-green.log",
+        "evidence/ai-development/2026-11-04-guided-browser-sample.csv",
+        "evidence/ai-development/2026-11-04-guided-browser-sample.json",
+        "backend/app/learning.py",
+        "frontend/src/features/learning/learningApi.ts"
+      ],
+      "screenshots": [
+        {
+          "project_source": "evidence/screenshots/task3-learning-desktop.jpg",
+          "attachment": "screenshots/task3-learning-desktop.jpg",
+          "bytes": 131590,
+          "sha256": "96d302cb40b53cd52e697b2ebba324cedf7650f488168f59605ae8adbef40113"
+        }
+      ]
+    },
+    "task4": {
+      "excerpt": "task4-local-tutor.md",
+      "commits": [
+        "439ec17348bfa5a245ad4878259785844485cecd",
+        "0f04a4e7e95414409636f09b559182024e270e01",
+        "eea6a97c9b2ab893aeb0c4e5e25a4cea3cbfdc03"
+      ],
+      "conversation": {
+        "segment": "项目接续记录",
+        "segment_started_at": "2026-11-04T15:55:54+08:00",
+        "message_source_lines": [
+          591,
+          594,
+          787,
+          1146,
+          1471,
+          1478
+        ],
+        "tool_source_lines": [
+          710,
+          714,
+          723,
+          730
+        ],
+        "complete_visible_transcript": {
+          "attachment": "task4-prompt-chain.md",
+          "source_lines_inclusive": [
+            591,
+            1747
+          ],
+          "source_segment_sha256": "0a8c692b32b99e0d54baedc43124ac76a111710113c54cc1ae7a990ad7c08c5d",
+          "source_turns": [
+            {
+              "user_start_line": 591,
+              "final_reply_line": 1139,
+              "turn_completed_marker_line": 1142
+            },
+            {
+              "user_start_line": 1146,
+              "final_reply_line": 1456,
+              "turn_completed_marker_line": 1459
+            },
+            {
+              "user_start_line": 1471,
+              "final_reply_line": 1747,
+              "turn_completed_marker_line": 1750
+            }
+          ],
+          "visible_message_rows": [
+            591,
+            594,
+            663,
+            680,
+            689,
+            787,
+            847,
+            905,
+            1004,
+            1027,
+            1081,
+            1139,
+            1146,
+            1153,
+            1158,
+            1174,
+            1272,
+            1338,
+            1385,
+            1434,
+            1456,
+            1471,
+            1478,
+            1543,
+            1625,
+            1716,
+            1747
+          ],
+          "visible_message_counts": {
+            "user": 4,
+            "commentary": 20,
+            "final_answer": 3
+          },
+          "excluded_ui_metadata_rows": [
+            {
+              "line": 1469,
+              "category": "page_context"
+            }
+          ],
+          "redactions": [
+            {
+              "line": 1139,
+              "machine_path_targets": 1,
+              "private_memory_citation_blocks": 0
+            },
+            {
+              "line": 1456,
+              "machine_path_targets": 1,
+              "private_memory_citation_blocks": 0
+            },
+            {
+              "line": 1747,
+              "machine_path_targets": 3,
+              "private_memory_citation_blocks": 0
+            }
+          ],
+          "bytes": 10939,
+          "sha256": "312cc7d3586d1bf4286fab40501b100709042d3d84d715af5139d792a7a4b96f"
+        }
+      },
+      "project_sources": [
+        "evidence/ai-development/2026-11-05-tutor-real.md",
+        "evidence/ai-development/2026-11-05-tutor-real-samples.json",
+        "evidence/ai-development/2026-11-05-tutor-grounded.md",
+        "evidence/ai-development/2026-11-05-tutor-grounded-samples.json",
+        "backend/app/tutor/client.py",
+        "backend/app/tutor/service.py",
+        "backend/tests/test_tutor.py"
+      ],
+      "screenshots": [
+        {
+          "project_source": "evidence/screenshots/task4-tutor-real-evidence.jpg",
+          "attachment": "screenshots/task4-tutor-real-evidence.jpg",
+          "bytes": 91241,
+          "sha256": "d47b1dcf381a74ae546aef861f138933078c7a0e3cad70e6a8b764449e5b58c7"
+        },
+        {
+          "project_source": "evidence/screenshots/task4-tutor-real-comparison.jpg",
+          "attachment": "screenshots/task4-tutor-real-comparison.jpg",
+          "bytes": 143887,
+          "sha256": "76041ea71d833e65b56b2c03c155a82778ae5b0dda310a50367acff2cd046c9b"
+        }
+      ]
+    }
+  }
+}
