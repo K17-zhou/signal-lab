@@ -1,0 +1,109 @@
+{
+  "date": "2026-11-08",
+  "timezone": "Asia/Shanghai",
+  "recorded_utc": "2026-11-08T07:50:57.161610+00:00",
+  "version": "v1.2",
+  "application_commit": "0b9e622ba9f42e4c5db50dff351c67d9bdcdf24b",
+  "package_source_commit": "35cd771220b0464980b986688837a91e923cd562",
+  "package": {
+    "path": "deliverables/信号实验工坊-完整作品-v1.2.zip",
+    "bytes": 2883527167,
+    "sha256": "6a98266ba6363d50086c5929cd58044f22b9ccdec9aa3a6fc7dade4f1e3ed15f",
+    "members": 3938,
+    "all_member_sha256_crc": "passed",
+    "final_zip_same_host_reproduction": "passed",
+    "download_included_in_timing": false
+  },
+  "github": {
+    "url": "https://github.com/K17-zhou/signal-lab/releases/tag/v1.2",
+    "tag": "v1.2",
+    "source_commit": "35cd771220b0464980b986688837a91e923cd562",
+    "published": true,
+    "assets": [
+      {
+        "name": "signal-lab-technical-v1.2.pdf",
+        "bytes": 924986,
+        "sha256": "03df5eff08cfe14e9b389438ddc7ae416f8c883aafe614dcfb13d9cb92409f9f",
+        "github_digest": "sha256:03df5eff08cfe14e9b389438ddc7ae416f8c883aafe614dcfb13d9cb92409f9f",
+        "url": "https://github.com/K17-zhou/signal-lab/releases/download/v1.2/signal-lab-technical-v1.2.pdf",
+        "anonymous_download_sha256": "passed"
+      },
+      {
+        "name": "signal-lab-introduction-v1.2.pdf",
+        "bytes": 394662,
+        "sha256": "70f782696323ac81449db5c323d23cbe677e58f859e634b3297e90b3bbfbaaba",
+        "github_digest": "sha256:70f782696323ac81449db5c323d23cbe677e58f859e634b3297e90b3bbfbaaba",
+        "url": "https://github.com/K17-zhou/signal-lab/releases/download/v1.2/signal-lab-introduction-v1.2.pdf",
+        "anonymous_download_sha256": "passed"
+      },
+      {
+        "name": "signal-lab-demo-v1.2.mp4",
+        "bytes": 31006159,
+        "sha256": "7d7ce4be807e3939d8d8eb3af68b1ac1d123c88e1f1d8cffe785a1a7459d8924",
+        "github_digest": "sha256:7d7ce4be807e3939d8d8eb3af68b1ac1d123c88e1f1d8cffe785a1a7459d8924",
+        "url": "https://github.com/K17-zhou/signal-lab/releases/download/v1.2/signal-lab-demo-v1.2.mp4",
+        "anonymous_download_sha256": "passed"
+      },
+      {
+        "name": "SHA256SUMS.txt",
+        "bytes": 289,
+        "sha256": "53f54a90ff56741e8c14527198ea689d2e332c52048d8493c38786097415f170",
+        "github_digest": "sha256:53f54a90ff56741e8c14527198ea689d2e332c52048d8493c38786097415f170",
+        "url": "https://github.com/K17-zhou/signal-lab/releases/download/v1.2/SHA256SUMS.txt",
+        "anonymous_download_sha256": "passed"
+      }
+    ]
+  },
+  "bilibili": {
+    "url": "https://www.bilibili.com/video/BV1tz4x6dE2B/",
+    "bvid": "BV1tz4x6dE2B",
+    "review": "completed",
+    "transcode_1080p": "completed",
+    "official_video_page_playback": "passed in current logged-in browser",
+    "source_seconds": 431.0593205,
+    "platform_display_seconds": 432,
+    "ai_content_label": true,
+    "anonymous_media_playback_tested": false
+  },
+  "baidu": {
+    "share_url": "https://pan.baidu.com/s/1M-NOrK8dOw1NdJg10f5bBw?pwd=3ag2",
+    "extract_code": "3ag2",
+    "validity": "permanent",
+    "visitor_count_limit": "unlimited",
+    "client_upload_completed": true,
+    "client_cloud_files": [
+      {
+        "name": "信号实验工坊-完整作品-v1.2.zip",
+        "display_size": "2.69GB",
+        "local_bytes": 2883527167
+      },
+      {
+        "name": "信号实验工坊-完整作品-v1.2.zip.sha256",
+        "display_size": "107.00B",
+        "local_bytes": 107
+      }
+    ],
+    "verification": "native installed client upload completion, cloud filename/size, share creation and selected permanent validity; no browser bypass",
+    "anonymous_full_download_sha256_verified": false
+  },
+  "proofs": [
+    {
+      "path": "evidence/screenshots/baidu-v1.2-uploaded.png",
+      "sha256": "184abf9a6808d816881645bd6cac9707be5c9614987f7e9cd8ae49b5718edb48"
+    },
+    {
+      "path": "evidence/screenshots/baidu-v1.2-share.png",
+      "sha256": "45b7a1047364b6a1b1eaddefa6ae450545761ccb4fd0c39ca888b6bd5495f429"
+    },
+    {
+      "path": "evidence/screenshots/bilibili-v1.2-published.png",
+      "sha256": "1e044412b04faa8839ddc1749ba430e8f822a7a6b957eabb1be3cc0514d8c3e9"
+    }
+  ],
+  "formal_competition_form_submitted": false,
+  "limits": [
+    "CPU candidate first real C guidance timed out (HTTP504); default Vulkan GPU path passed",
+    "same-host reproduction only; different-machine reproduction unmeasured",
+    "human learning effectiveness unmeasured"
+  ]
+}

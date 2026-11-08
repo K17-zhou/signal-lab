@@ -11,6 +11,10 @@
 
 ## 从哪里开始
 
+**v1.2交付入口**：[B站演示视频](https://www.bilibili.com/video/BV1tz4x6dE2B/)（已审核） · [完整便携作品包](https://pan.baidu.com/s/1M-NOrK8dOw1NdJg10f5bBw?pwd=3ag2)（百度网盘永久有效，提取码 **3ag2**） · [PDF与MP4版本附件](https://github.com/K17-zhou/signal-lab/releases/tag/v1.2)。
+
+完整包为2,883,527,167字节，源码固定为 `35cd771220b0464980b986688837a91e923cd562`，应用/启动器基线 `0b9e622`；下载后可先核对[外部SHA-256](deliverables/信号实验工坊-完整作品-v1.2.zip.sha256)。同机从最终ZIP校验/解压开始134.403秒完成功能核验，不含下载；[计时与限制](evaluation/portable-reproduction.md)、[发布核验记录](deliverables/发布核验记录-v1.2.md)分别保留实际证据。后续仓库提交补充发布记录，完整包不重写。
+
 | 拿到的材料 | 包含什么 | 下一步 |
 | --- | --- | --- |
 | GitHub 仓库或源码 ZIP | 源码、依赖锁文件、启动脚本、测试和开发证据 | 完成「准备环境」「安装依赖」「启动网页」，再按需要准备本地模型 |
