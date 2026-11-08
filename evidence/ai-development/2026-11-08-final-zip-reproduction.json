@@ -1,0 +1,479 @@
+{
+  "date": "2026-11-08",
+  "scope": "same-host final ZIP extraction; no system Python/Node for server",
+  "source_commit": "35cd771220b0464980b986688837a91e923cd562",
+  "target": "测试/完整包复现-v1.2-20261108-152318",
+  "download_included": false,
+  "reused_venv": false,
+  "reused_node_modules": false,
+  "server_path": "Windows System32 and Windows only",
+  "cpu": false,
+  "outcome": "passed",
+  "package": "deliverables/信号实验工坊-完整作品-v1.2.zip",
+  "zip_sha256": "6a98266ba6363d50086c5929cd58044f22b9ccdec9aa3a6fc7dade4f1e3ed15f",
+  "extracted_members_verified": 3937,
+  "extraction_and_sha_seconds": 28.446,
+  "staging_seconds": 28.495,
+  "launch_to_ready_seconds": 49.138,
+  "staging_to_ready_seconds": 77.636,
+  "api_health": {
+    "status": "ok",
+    "engine_version": "sampling-periodic-v1"
+  },
+  "model_health": {
+    "status": "ok"
+  },
+  "launch_record": {
+    "python": "3.13.13 (tags/v3.13.13:01104ce, Apr  7 2026, 19:25:48) [MSC v.1944 64 bit (AMD64)]",
+    "executable": "<PROJECT>\\测试\\完整包复现-v1.2-20261108-152318\\runtime\\python\\python.exe",
+    "sys_path": [
+      "<PROJECT>\\测试\\完整包复现-v1.2-20261108-152318\\runtime\\python\\python313.zip",
+      "<PROJECT>\\测试\\完整包复现-v1.2-20261108-152318\\runtime\\python",
+      "<PROJECT>\\测试\\完整包复现-v1.2-20261108-152318\\runtime\\python\\site-packages",
+      "<PROJECT>\\测试\\完整包复现-v1.2-20261108-152318\\backend",
+      "<PROJECT>\\测试\\完整包复现-v1.2-20261108-152318\\scripts"
+    ],
+    "locked_packages": 28,
+    "runtime_files_verified": 3689,
+    "model": "<PROJECT>\\测试\\完整包复现-v1.2-20261108-152318\\model\\Qwen3.5-4B-Q4_K_M.gguf",
+    "model_sha256": "00fe7986ff5f6b463e62455821146049db6f9313603938a70800d1fb69ef11a4",
+    "llama_archive": "<PROJECT>\\测试\\完整包复现-v1.2-20261108-152318\\runtime\\llama-b11814-bin-win-vulkan-x64.zip",
+    "llama_archive_sha256": "0df9335f755538317d59b3442d9b28d68635742f381cdec743221c8dca7a4040",
+    "application_port": 18090,
+    "model_port": 18091,
+    "cpu": false,
+    "startup_warmup": true
+  },
+  "browser_exit_code": 0,
+  "real_checks": {
+    "source": "final ZIP server with isolated PATH",
+    "model": "Qwen3.5-4B Q4_K_M",
+    "requests": [
+      {
+        "case_id": "alias-frequency",
+        "status": 200,
+        "seconds": 7.6302946999999985,
+        "params": {
+          "frequency_hz": 70,
+          "sample_rate_hz": 110,
+          "amplitude": 1,
+          "phase_rad": 0
+        },
+        "metrics": {
+          "alias_frequency_hz": 40,
+          "sampling_state": "undersampled",
+          "sample_rms": 0.7071067811865464,
+          "peak_frequency_hz": 40,
+          "reconstruction_rmse": 0.9999999999999992
+        },
+        "warnings": [
+          "PERIODIC_SIGNAL_MODEL",
+          "UNDERSAMPLED"
+        ],
+        "prediction": {
+          "kind": "numeric",
+          "value": 22,
+          "unit": "Hz"
+        },
+        "reply": {
+          "explanation": "你的原预测是 22 Hz。本次采样率为 110 Hz，信号频率为 70 Hz，振幅为 1，初相位为 0 rad。理论折叠频率为 40 Hz。观测主峰为 40 Hz。本次运行属于欠采样。原信号和折叠信号可能产生相同样本，因此这些样本无法唯一确定原信号。对照目的：保持信号频率、振幅和初相位不变，仅提高采样率，使其严格大于两倍频率（140 Hz）。周期模型计算验证主峰为 70 Hz，重建误差 RMSE 为 1.5e-14；请运行对照并核对。",
+          "evidence": [
+            {
+              "run_id": "bc8d9135-ff7a-4278-a052-f1d4c4235e97",
+              "metric_key": "alias_frequency_hz"
+            },
+            {
+              "run_id": "bc8d9135-ff7a-4278-a052-f1d4c4235e97",
+              "metric_key": "peak_frequency_hz"
+            },
+            {
+              "run_id": "bc8d9135-ff7a-4278-a052-f1d4c4235e97",
+              "metric_key": "sampling_state"
+            }
+          ],
+          "next_experiment": {
+            "experiment_type": "sampling_aliasing",
+            "params": {
+              "frequency_hz": 70,
+              "sample_rate_hz": 141,
+              "amplitude": 1,
+              "phase_rad": 0
+            }
+          },
+          "misconception_code": null
+        }
+      },
+      {
+        "case_id": "nyquist-boundary",
+        "status": 200,
+        "seconds": 7.028752000000001,
+        "params": {
+          "frequency_hz": 50,
+          "sample_rate_hz": 100,
+          "amplitude": 1,
+          "phase_rad": 0
+        },
+        "metrics": {
+          "alias_frequency_hz": 50,
+          "sampling_state": "nyquist_boundary",
+          "sample_rms": 1.0283622142458811e-14,
+          "peak_frequency_hz": null,
+          "reconstruction_rmse": 0.7071067811865476
+        },
+        "warnings": [
+          "PERIODIC_SIGNAL_MODEL",
+          "NYQUIST_BOUNDARY",
+          "DEGENERATE_SAMPLES"
+        ],
+        "prediction": {
+          "kind": "choice",
+          "option_id": "always"
+        },
+        "reply": {
+          "explanation": "你的原预测是“能保证”。本次采样率为 100 Hz，信号频率为 50 Hz，振幅为 1，初相位为 0 rad。理论折叠频率为 50 Hz。本次样本接近零，未检测到可辨主峰。本次运行位于奈奎斯特边界。样本取决于初相位，即使观测到主峰，也无法保证唯一恢复原信号。对照目的：保持信号频率、振幅和初相位不变，仅提高采样率，使其严格大于两倍频率（100 Hz）。周期模型计算验证主峰为 50 Hz，重建误差 RMSE 为 1e-14；请运行对照并核对。",
+          "evidence": [
+            {
+              "run_id": "0427bb5e-1bf0-44eb-9a84-fb55dfb34e3b",
+              "metric_key": "sampling_state"
+            },
+            {
+              "run_id": "0427bb5e-1bf0-44eb-9a84-fb55dfb34e3b",
+              "metric_key": "alias_frequency_hz"
+            },
+            {
+              "run_id": "0427bb5e-1bf0-44eb-9a84-fb55dfb34e3b",
+              "metric_key": "reconstruction_rmse"
+            }
+          ],
+          "next_experiment": {
+            "experiment_type": "sampling_aliasing",
+            "params": {
+              "frequency_hz": 50,
+              "sample_rate_hz": 150,
+              "amplitude": 1,
+              "phase_rad": 0
+            }
+          },
+          "misconception_code": null
+        }
+      },
+      {
+        "case_id": "interpolation",
+        "status": 200,
+        "seconds": 5.873702999999998,
+        "params": {
+          "frequency_hz": 70,
+          "sample_rate_hz": 100,
+          "amplitude": 1,
+          "phase_rad": 0
+        },
+        "metrics": {
+          "alias_frequency_hz": 30,
+          "sampling_state": "undersampled",
+          "sample_rms": 0.7071067811865481,
+          "peak_frequency_hz": 30,
+          "reconstruction_rmse": 1.0000000000000009
+        },
+        "warnings": [
+          "PERIODIC_SIGNAL_MODEL",
+          "UNDERSAMPLED"
+        ],
+        "prediction": {
+          "kind": "choice",
+          "option_id": "restore"
+        },
+        "reply": {
+          "explanation": "你的原预测是“能找回”。本次采样率为 100 Hz，信号频率为 70 Hz，振幅为 1，初相位为 0 rad。理论折叠频率为 30 Hz。观测主峰为 30 Hz。本次运行属于欠采样。原信号和折叠信号可能产生相同样本，因此这些样本无法唯一确定原信号。增加插值点只会从已有样本计算更多绘图点，无法补充独立采样信息。",
+          "evidence": [
+            {
+              "run_id": "181b2581-2868-44ff-8479-5ca84bca9cde",
+              "metric_key": "sampling_state"
+            },
+            {
+              "run_id": "181b2581-2868-44ff-8479-5ca84bca9cde",
+              "metric_key": "reconstruction_rmse"
+            },
+            {
+              "run_id": "181b2581-2868-44ff-8479-5ca84bca9cde",
+              "metric_key": "peak_frequency_hz"
+            }
+          ],
+          "next_experiment": null,
+          "misconception_code": null
+        }
+      },
+      {
+        "case_id": "smoothness",
+        "status": 200,
+        "seconds": 7.732452300000005,
+        "params": {
+          "frequency_hz": 90,
+          "sample_rate_hz": 125,
+          "amplitude": 1,
+          "phase_rad": 0
+        },
+        "metrics": {
+          "alias_frequency_hz": 35,
+          "sampling_state": "undersampled",
+          "sample_rms": 0.7071067811865477,
+          "peak_frequency_hz": 35,
+          "reconstruction_rmse": 1.0000000000000002
+        },
+        "warnings": [
+          "PERIODIC_SIGNAL_MODEL",
+          "UNDERSAMPLED"
+        ],
+        "prediction": {
+          "kind": "choice",
+          "option_id": "enough"
+        },
+        "reply": {
+          "explanation": "你的原预测是“足够”。本次采样率为 125 Hz，信号频率为 90 Hz，振幅为 1，初相位为 0 rad。理论折叠频率为 35 Hz。观测主峰为 35 Hz。本次运行属于欠采样。原信号和折叠信号可能产生相同样本，因此这些样本无法唯一确定原信号。检验恢复效果时，请比较原信号与重建曲线的误差。光滑且经过样本不足以证明恢复。对照目的：保持信号频率、振幅和初相位不变，仅提高采样率，使其严格大于两倍频率（180 Hz）。周期模型计算验证主峰为 90 Hz，重建误差 RMSE 为 1.8e-14；请运行对照并核对。",
+          "evidence": [
+            {
+              "run_id": "fd613c60-9213-4e85-8f6a-751df87b71ae",
+              "metric_key": "reconstruction_rmse"
+            },
+            {
+              "run_id": "fd613c60-9213-4e85-8f6a-751df87b71ae",
+              "metric_key": "sampling_state"
+            },
+            {
+              "run_id": "fd613c60-9213-4e85-8f6a-751df87b71ae",
+              "metric_key": "alias_frequency_hz"
+            }
+          ],
+          "next_experiment": {
+            "experiment_type": "sampling_aliasing",
+            "params": {
+              "frequency_hz": 90,
+              "sample_rate_hz": 181,
+              "amplitude": 1,
+              "phase_rad": 0
+            }
+          },
+          "misconception_code": null
+        }
+      },
+      {
+        "case_id": "post-filter",
+        "status": 200,
+        "seconds": 7.733836199999998,
+        "params": {
+          "frequency_hz": 95,
+          "sample_rate_hz": 140,
+          "amplitude": 1,
+          "phase_rad": 0
+        },
+        "metrics": {
+          "alias_frequency_hz": 45,
+          "sampling_state": "undersampled",
+          "sample_rms": 0.7071067811865476,
+          "peak_frequency_hz": 45,
+          "reconstruction_rmse": 1
+        },
+        "warnings": [
+          "PERIODIC_SIGNAL_MODEL",
+          "UNDERSAMPLED"
+        ],
+        "prediction": {
+          "kind": "choice",
+          "option_id": "recover"
+        },
+        "reply": {
+          "explanation": "你的原预测是“能保证”。本次采样率为 140 Hz，信号频率为 95 Hz，振幅为 1，初相位为 0 rad。理论折叠频率为 45 Hz。观测主峰为 45 Hz。本次运行属于欠采样。原信号和折叠信号可能产生相同样本，因此这些样本无法唯一确定原信号。频率成分一旦折叠到同一频率，采样后低通无法按原始来源分离它们。对照目的：保持信号频率、振幅和初相位不变，仅提高采样率，使其严格大于两倍频率（190 Hz）。周期模型计算验证主峰为 95 Hz，重建误差 RMSE 为 2e-14；请运行对照并核对。",
+          "evidence": [
+            {
+              "run_id": "f2f566bc-b5ab-4c2f-9328-73ec506737ff",
+              "metric_key": "sampling_state"
+            },
+            {
+              "run_id": "f2f566bc-b5ab-4c2f-9328-73ec506737ff",
+              "metric_key": "alias_frequency_hz"
+            },
+            {
+              "run_id": "f2f566bc-b5ab-4c2f-9328-73ec506737ff",
+              "metric_key": "reconstruction_rmse"
+            }
+          ],
+          "next_experiment": {
+            "experiment_type": "sampling_aliasing",
+            "params": {
+              "frequency_hz": 95,
+              "sample_rate_hz": 200,
+              "amplitude": 1,
+              "phase_rad": 0
+            }
+          },
+          "misconception_code": null
+        }
+      },
+      {
+        "case_id": "sampling-phase",
+        "status": 200,
+        "seconds": 5.080385399999999,
+        "params": {
+          "frequency_hz": 50,
+          "sample_rate_hz": 100,
+          "amplitude": 1,
+          "phase_rad": 0
+        },
+        "metrics": {
+          "alias_frequency_hz": 50,
+          "sampling_state": "nyquist_boundary",
+          "sample_rms": 1.0283622142458811e-14,
+          "peak_frequency_hz": null,
+          "reconstruction_rmse": 0.7071067811865476
+        },
+        "warnings": [
+          "PERIODIC_SIGNAL_MODEL",
+          "NYQUIST_BOUNDARY",
+          "DEGENERATE_SAMPLES"
+        ],
+        "prediction": {
+          "kind": "choice",
+          "option_id": "near-zero"
+        },
+        "reply": {
+          "explanation": "你的原预测是“接近零”。本次采样率为 100 Hz，信号频率为 50 Hz，振幅为 1，初相位为 0 rad。理论折叠频率为 50 Hz。本次样本接近零，未检测到可辨主峰。本次运行位于奈奎斯特边界。样本取决于初相位，即使观测到主峰，也无法保证唯一恢复原信号。在两倍采样边界，初相位为零时样本接近零，初相位为 π/2 时样本正负交替。",
+          "evidence": [
+            {
+              "run_id": "166fd007-995b-4869-86ef-7d715f446d05",
+              "metric_key": "sampling_state"
+            },
+            {
+              "run_id": "166fd007-995b-4869-86ef-7d715f446d05",
+              "metric_key": "sample_rms"
+            },
+            {
+              "run_id": "166fd007-995b-4869-86ef-7d715f446d05",
+              "metric_key": "reconstruction_rmse"
+            }
+          ],
+          "next_experiment": null,
+          "misconception_code": null
+        }
+      }
+    ],
+    "first_guide": {
+      "status": 200,
+      "seconds": 7.828585299999999,
+      "reply": {
+        "explanation": "你的原预测是 22 Hz。本次采样率为 110 Hz，信号频率为 70 Hz，振幅为 1，初相位为 0 rad。理论折叠频率为 40 Hz。观测主峰为 40 Hz。本次运行属于欠采样。原信号和折叠信号可能产生相同样本，因此这些样本无法唯一确定原信号。对照目的：保持信号频率、振幅和初相位不变，仅提高采样率，使其严格大于两倍频率（140 Hz）。周期模型计算验证主峰为 70 Hz，重建误差 RMSE 为 1.5e-14；请运行对照并核对。",
+        "evidence": [
+          {
+            "run_id": "b7b942be-042d-45d4-ad96-7941bc0193a4",
+            "metric_key": "alias_frequency_hz"
+          },
+          {
+            "run_id": "b7b942be-042d-45d4-ad96-7941bc0193a4",
+            "metric_key": "peak_frequency_hz"
+          },
+          {
+            "run_id": "b7b942be-042d-45d4-ad96-7941bc0193a4",
+            "metric_key": "sampling_state"
+          }
+        ],
+        "next_experiment": {
+          "experiment_type": "sampling_aliasing",
+          "params": {
+            "frequency_hz": 70,
+            "sample_rate_hz": 141,
+            "amplitude": 1,
+            "phase_rad": 0
+          }
+        },
+        "misconception_code": null
+      }
+    },
+    "browser_events": [
+      {
+        "event_id": "abe52513-e7c0-438a-87e9-2dbec099256a",
+        "session_id": "d8cb941a-59b7-49fc-97d6-e2f283a70537",
+        "case_id": "alias-frequency",
+        "stage": "predict",
+        "run_id": null,
+        "answer": {
+          "kind": "numeric",
+          "value": 22,
+          "unit": "Hz"
+        },
+        "note": null,
+        "elapsed_ms": 547,
+        "outcome": "recorded",
+        "timestamp": "2026-11-08T07:24:40.413888Z"
+      },
+      {
+        "event_id": "f236a8dd-b937-41bd-9c9f-620c8e28dcfa",
+        "session_id": "d8cb941a-59b7-49fc-97d6-e2f283a70537",
+        "case_id": "alias-frequency",
+        "stage": "run",
+        "run_id": "b7b942be-042d-45d4-ad96-7941bc0193a4",
+        "answer": null,
+        "note": null,
+        "elapsed_ms": 29,
+        "outcome": "completed",
+        "timestamp": "2026-11-08T07:24:40.500291Z"
+      },
+      {
+        "event_id": "9879ddfa-9fdd-4f97-8b1c-f1ecf6b31bc1",
+        "session_id": "d8cb941a-59b7-49fc-97d6-e2f283a70537",
+        "case_id": "alias-frequency",
+        "stage": "observe",
+        "run_id": "e4125324-722c-4810-8695-904d84f6046d",
+        "answer": null,
+        "note": null,
+        "elapsed_ms": 27,
+        "outcome": "completed",
+        "timestamp": "2026-11-08T07:24:49.379306Z"
+      },
+      {
+        "event_id": "8729503e-c38b-426a-81bf-eb6fdf32d5fa",
+        "session_id": "d8cb941a-59b7-49fc-97d6-e2f283a70537",
+        "case_id": "alias-frequency",
+        "stage": "transfer",
+        "run_id": "b7b942be-042d-45d4-ad96-7941bc0193a4",
+        "answer": {
+          "kind": "numeric",
+          "value": 30,
+          "unit": "Hz"
+        },
+        "note": null,
+        "elapsed_ms": 8968,
+        "outcome": "correct",
+        "timestamp": "2026-11-08T07:24:49.498388Z"
+      }
+    ],
+    "browser_guidance": {
+      "explanation": "你的原预测是 22 Hz。本次采样率为 110 Hz，信号频率为 70 Hz，振幅为 1，初相位为 0 rad。理论折叠频率为 40 Hz。观测主峰为 40 Hz。本次运行属于欠采样。原信号和折叠信号可能产生相同样本，因此这些样本无法唯一确定原信号。对照目的：保持信号频率、振幅和初相位不变，仅提高采样率，使其严格大于两倍频率（140 Hz）。周期模型计算验证主峰为 70 Hz，重建误差 RMSE 为 1.5e-14；请运行对照并核对。",
+      "evidence": [
+        {
+          "run_id": "b7b942be-042d-45d4-ad96-7941bc0193a4",
+          "metric_key": "alias_frequency_hz"
+        },
+        {
+          "run_id": "b7b942be-042d-45d4-ad96-7941bc0193a4",
+          "metric_key": "peak_frequency_hz"
+        },
+        {
+          "run_id": "b7b942be-042d-45d4-ad96-7941bc0193a4",
+          "metric_key": "sampling_state"
+        }
+      ],
+      "next_experiment": {
+        "experiment_type": "sampling_aliasing",
+        "params": {
+          "frequency_hz": 70,
+          "sample_rate_hz": 141,
+          "amplitude": 1,
+          "phase_rad": 0
+        }
+      },
+      "misconception_code": null
+    },
+    "outcome": "passed"
+  },
+  "staging_to_functional_seconds": 134.403,
+  "launcher_exit_code": 0,
+  "total_seconds": 136.199
+}

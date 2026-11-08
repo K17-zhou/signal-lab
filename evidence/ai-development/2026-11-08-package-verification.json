@@ -1,0 +1,508 @@
+{
+  "mode": "build",
+  "source_sha": "35cd771220b0464980b986688837a91e923cd562",
+  "application_code_sha": "0b9e622ba9f42e4c5db50dff351c67d9bdcdf24b",
+  "audit_UTC": "2026-11-08T02:38:03.678976+00:00",
+  "builder_sha256": "58f7285280015095015ab10413371368718ca2e93a0af0869f530e859f48d4e8",
+  "git_source_archive": {
+    "name": "source-35cd771220b0464980b986688837a91e923cd562.zip",
+    "bytes": 7789022,
+    "sha256": "78a94c1bb37b886a175f068a418a56466cbf53f357da11ff483ec4362ee365a2"
+  },
+  "application_source_equivalence": "passed for protected application, launch, lock and frozen-input paths",
+  "approved_application_changes_since_initial": [
+    "M\tscripts/portable.py",
+    "M\tscripts/tests/test_portable.py"
+  ],
+  "source_files": 219,
+  "unchanged_source_files": 202,
+  "redacted_display_files": {
+    "docs/progress/2026-11-04-handoff.md": {
+      "项目目录": 1
+    },
+    "evidence/ai-development/2026-11-03-api-temp-error.log": {
+      "用户目录": 26,
+      "用户标识": 26,
+      "沙箱标识": 26
+    },
+    "evidence/ai-development/2026-11-03-default-path-red.log": {
+      "用户目录": 2
+    },
+    "evidence/ai-development/2026-11-03-demo-red.log": {
+      "用户目录": 9
+    },
+    "evidence/ai-development/2026-11-03-frequency-display-red.log": {
+      "项目目录": 1
+    },
+    "evidence/ai-development/2026-11-03-frontend-green.log": {
+      "项目目录": 1
+    },
+    "evidence/ai-development/2026-11-03-frontend-red.log": {
+      "项目目录": 1
+    },
+    "evidence/ai-development/2026-11-03-frontend-setup-red.log": {
+      "项目目录": 2
+    },
+    "evidence/ai-development/2026-11-03-interactive-raw-export-manifest.json": {
+      "会话标识": 2
+    },
+    "evidence/ai-development/2026-11-03-phase-slider-jsdom-characterization.log": {
+      "项目目录": 1
+    },
+    "evidence/ai-development/2026-11-03-raw-export-manifest.json": {
+      "会话标识": 1
+    },
+    "evidence/ai-development/2026-11-04-guided-raw-export-manifest.json": {
+      "会话标识": 2
+    },
+    "evidence/ai-development/2026-11-04-learning-frontend-green.log": {
+      "项目目录": 1
+    },
+    "evidence/ai-development/2026-11-04-learning-frontend-red.log": {
+      "项目目录": 1
+    },
+    "evidence/ai-development/2026-11-04-learning-timeout-red.log": {
+      "项目目录": 1
+    },
+    "evidence/ai-development/2026-11-04-tutor-frontend-green.log": {
+      "项目目录": 1
+    },
+    "evidence/ai-development/2026-11-04-tutor-frontend-red.log": {
+      "项目目录": 1
+    }
+  },
+  "other_source_transformations": [],
+  "payload_files_before_checksums": 3937,
+  "payload_bytes_before_compression": 3012083414,
+  "runtime_python_files": 3690,
+  "runtime_python_bytes": 191727673,
+  "runtime_python": {
+    "python_version": "3.13.13",
+    "manifest_sha256": "0fe0a548c67b8befaabd6ce522fae557e40149e5785f0c560c47db6fd575abfd",
+    "files": 3690,
+    "bytes": 191727673,
+    "locked_distributions": 28,
+    "upstream_zip_sha256": "8766a8775746235e23cf5aee5027ab1060bb981d93110577adcf3508aa0cbd55",
+    "upstream_spdx_verified": true,
+    "extension_allowlist": "none; exact ordinary-file manifest is authoritative",
+    "distributions": [
+      {
+        "name": "annotated-doc",
+        "version": "0.0.5",
+        "license_label": "MIT",
+        "metadata": "runtime/python/site-packages/annotated_doc-0.0.5.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/annotated_doc-0.0.5.dist-info/licenses/LICENSE"
+        ]
+      },
+      {
+        "name": "annotated-types",
+        "version": "0.8.0",
+        "license_label": "MIT",
+        "metadata": "runtime/python/site-packages/annotated_types-0.8.0.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/annotated_types-0.8.0.dist-info/licenses/LICENSE"
+        ]
+      },
+      {
+        "name": "anyio",
+        "version": "4.16.0",
+        "license_label": "MIT",
+        "metadata": "runtime/python/site-packages/anyio-4.16.0.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/anyio-4.16.0.dist-info/licenses/LICENSE"
+        ]
+      },
+      {
+        "name": "certifi",
+        "version": "2026.10.23",
+        "license_label": "Mozilla Public License 2.0 (MPL 2.0)",
+        "metadata": "runtime/python/site-packages/certifi-2026.10.23.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/certifi-2026.10.23.dist-info/licenses/LICENSE"
+        ]
+      },
+      {
+        "name": "click",
+        "version": "8.5.0",
+        "license_label": "BSD-3-Clause",
+        "metadata": "runtime/python/site-packages/click-8.5.0.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/click-8.5.0.dist-info/licenses/LICENSE.txt"
+        ]
+      },
+      {
+        "name": "colorama",
+        "version": "0.4.6",
+        "license_label": "BSD License",
+        "metadata": "runtime/python/site-packages/colorama-0.4.6.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/colorama-0.4.6.dist-info/licenses/LICENSE.txt"
+        ]
+      },
+      {
+        "name": "fastapi",
+        "version": "0.162.0",
+        "license_label": "MIT",
+        "metadata": "runtime/python/site-packages/fastapi-0.162.0.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/fastapi-0.162.0.dist-info/licenses/LICENSE"
+        ]
+      },
+      {
+        "name": "h11",
+        "version": "0.16.0",
+        "license_label": "MIT License",
+        "metadata": "runtime/python/site-packages/h11-0.16.0.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/h11-0.16.0.dist-info/licenses/LICENSE.txt"
+        ]
+      },
+      {
+        "name": "httpcore",
+        "version": "1.0.9",
+        "license_label": "BSD-3-Clause",
+        "metadata": "runtime/python/site-packages/httpcore-1.0.9.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/httpcore-1.0.9.dist-info/licenses/LICENSE.md"
+        ]
+      },
+      {
+        "name": "httpcore2",
+        "version": "2.16.0",
+        "license_label": "BSD-3-Clause",
+        "metadata": "runtime/python/site-packages/httpcore2-2.16.0.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/httpcore2-2.16.0.dist-info/licenses/LICENSE.md"
+        ]
+      },
+      {
+        "name": "httpx",
+        "version": "0.28.1",
+        "license_label": "BSD License",
+        "metadata": "runtime/python/site-packages/httpx-0.28.1.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/httpx-0.28.1.dist-info/licenses/LICENSE.md"
+        ]
+      },
+      {
+        "name": "httpx2",
+        "version": "2.16.0",
+        "license_label": "BSD-3-Clause",
+        "metadata": "runtime/python/site-packages/httpx2-2.16.0.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/httpx2-2.16.0.dist-info/licenses/LICENSE.md"
+        ]
+      },
+      {
+        "name": "idna",
+        "version": "3.20",
+        "license_label": "BSD-3-Clause",
+        "metadata": "runtime/python/site-packages/idna-3.20.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/idna-3.20.dist-info/licenses/LICENSE.md"
+        ]
+      },
+      {
+        "name": "iniconfig",
+        "version": "2.3.1",
+        "license_label": "MIT",
+        "metadata": "runtime/python/site-packages/iniconfig-2.3.1.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/iniconfig-2.3.1.dist-info/licenses/LICENSE"
+        ]
+      },
+      {
+        "name": "numpy",
+        "version": "2.5.4",
+        "license_label": "BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0",
+        "metadata": "runtime/python/site-packages/numpy-2.5.4.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/numpy-2.5.4.dist-info/licenses/LICENSE.txt",
+          "runtime/python/site-packages/numpy-2.5.4.dist-info/licenses/numpy/_core/include/numpy/libdivide/LICENSE.txt",
+          "runtime/python/site-packages/numpy-2.5.4.dist-info/licenses/numpy/_core/src/common/pythoncapi-compat/COPYING",
+          "runtime/python/site-packages/numpy-2.5.4.dist-info/licenses/numpy/_core/src/highway/LICENSE",
+          "runtime/python/site-packages/numpy-2.5.4.dist-info/licenses/numpy/_core/src/multiarray/dragon4_LICENSE.txt",
+          "runtime/python/site-packages/numpy-2.5.4.dist-info/licenses/numpy/_core/src/npysort/x86-simd-sort/LICENSE.md",
+          "runtime/python/site-packages/numpy-2.5.4.dist-info/licenses/numpy/_core/src/umath/svml/LICENSE",
+          "runtime/python/site-packages/numpy-2.5.4.dist-info/licenses/numpy/fft/pocketfft/LICENSE.md",
+          "runtime/python/site-packages/numpy-2.5.4.dist-info/licenses/numpy/linalg/lapack_lite/LICENSE.txt",
+          "runtime/python/site-packages/numpy-2.5.4.dist-info/licenses/numpy/ma/LICENSE",
+          "runtime/python/site-packages/numpy-2.5.4.dist-info/licenses/numpy/random/LICENSE.md",
+          "runtime/python/site-packages/numpy-2.5.4.dist-info/licenses/numpy/random/src/distributions/LICENSE.md",
+          "runtime/python/site-packages/numpy-2.5.4.dist-info/licenses/numpy/random/src/mt19937/LICENSE.md",
+          "runtime/python/site-packages/numpy-2.5.4.dist-info/licenses/numpy/random/src/pcg64/LICENSE.md",
+          "runtime/python/site-packages/numpy-2.5.4.dist-info/licenses/numpy/random/src/philox/LICENSE.md",
+          "runtime/python/site-packages/numpy-2.5.4.dist-info/licenses/numpy/random/src/sfc64/LICENSE.md",
+          "runtime/python/site-packages/numpy-2.5.4.dist-info/licenses/numpy/random/src/splitmix64/LICENSE.md"
+        ]
+      },
+      {
+        "name": "opentelemetry-api",
+        "version": "1.45.2",
+        "license_label": "Apache-2.0",
+        "metadata": "runtime/python/site-packages/opentelemetry_api-1.45.2.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/opentelemetry_api-1.45.2.dist-info/licenses/LICENSE"
+        ]
+      },
+      {
+        "name": "packaging",
+        "version": "26.3",
+        "license_label": "Apache-2.0 OR BSD-2-Clause",
+        "metadata": "runtime/python/site-packages/packaging-26.3.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/packaging-26.3.dist-info/licenses/LICENSE",
+          "runtime/python/site-packages/packaging-26.3.dist-info/licenses/LICENSE.APACHE",
+          "runtime/python/site-packages/packaging-26.3.dist-info/licenses/LICENSE.BSD"
+        ]
+      },
+      {
+        "name": "pluggy",
+        "version": "1.7.0",
+        "license_label": "MIT License",
+        "metadata": "runtime/python/site-packages/pluggy-1.7.0.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/pluggy-1.7.0.dist-info/licenses/LICENSE"
+        ]
+      },
+      {
+        "name": "pydantic",
+        "version": "2.14.2",
+        "license_label": "MIT",
+        "metadata": "runtime/python/site-packages/pydantic-2.14.2.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/pydantic-2.14.2.dist-info/licenses/LICENSE"
+        ]
+      },
+      {
+        "name": "pydantic-core",
+        "version": "2.50.2",
+        "license_label": "MIT",
+        "metadata": "runtime/python/site-packages/pydantic_core-2.50.2.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/pydantic_core-2.50.2.dist-info/licenses/LICENSE"
+        ]
+      },
+      {
+        "name": "pygments",
+        "version": "2.21.0",
+        "license_label": "BSD-2-Clause",
+        "metadata": "runtime/python/site-packages/pygments-2.21.0.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/pygments-2.21.0.dist-info/licenses/LICENSE"
+        ]
+      },
+      {
+        "name": "pytest",
+        "version": "9.2.0",
+        "license_label": "MIT",
+        "metadata": "runtime/python/site-packages/pytest-9.2.0.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/pytest-9.2.0.dist-info/licenses/LICENSE"
+        ]
+      },
+      {
+        "name": "scipy",
+        "version": "1.18.1",
+        "license_label": "BSD License",
+        "metadata": "runtime/python/site-packages/scipy-1.18.1.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/scipy-1.18.1.dist-info/LICENSE.txt"
+        ]
+      },
+      {
+        "name": "starlette",
+        "version": "1.10.0",
+        "license_label": "BSD-3-Clause",
+        "metadata": "runtime/python/site-packages/starlette-1.10.0.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/starlette-1.10.0.dist-info/licenses/LICENSE.md"
+        ]
+      },
+      {
+        "name": "truststore",
+        "version": "0.10.5",
+        "license_label": "MIT",
+        "metadata": "runtime/python/site-packages/truststore-0.10.5.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/truststore-0.10.5.dist-info/licenses/LICENSE"
+        ]
+      },
+      {
+        "name": "typing-extensions",
+        "version": "4.16.0",
+        "license_label": "PSF-2.0",
+        "metadata": "runtime/python/site-packages/typing_extensions-4.16.0.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/typing_extensions-4.16.0.dist-info/licenses/LICENSE"
+        ]
+      },
+      {
+        "name": "typing-inspection",
+        "version": "0.4.4",
+        "license_label": "MIT",
+        "metadata": "runtime/python/site-packages/typing_inspection-0.4.4.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/typing_inspection-0.4.4.dist-info/licenses/LICENSE"
+        ]
+      },
+      {
+        "name": "uvicorn",
+        "version": "0.54.0",
+        "license_label": "BSD-3-Clause",
+        "metadata": "runtime/python/site-packages/uvicorn-0.54.0.dist-info/METADATA",
+        "license_files": [
+          "runtime/python/site-packages/uvicorn-0.54.0.dist-info/licenses/LICENSE.md"
+        ]
+      }
+    ]
+  },
+  "frontend": {
+    "files": {
+      "assets/LearningFlow-BANolGe0.js": {
+        "size": 17705,
+        "sha256": "22eaa830c8f80e8035974a0ef47fc6478796616e84d8d60c9c7fc6f8d9352e6e"
+      },
+      "assets/LearningFlow-BP1uiWQ1.css": {
+        "size": 3673,
+        "sha256": "c494f7932755daf15206fb469d5d677ac07cff1123d07a06dbd9b1bb959f2c4e"
+      },
+      "assets/SignalPlots-DVImn0z8.js": {
+        "size": 510930,
+        "sha256": "16f4037ad3a1b31974a0556f53892ce6d57296430e726b5aa37d738fe02c1d5f"
+      },
+      "assets/index-DmPeZuZd.js": {
+        "size": 231977,
+        "sha256": "c5a822856c98047f818cd8bf7125a22c5a71df6b5197a3837e202864c0d3ccbd"
+      },
+      "assets/index-DrbeEKzO.css": {
+        "size": 8165,
+        "sha256": "afe2a9d9c5e4140ff31e840b6228315b65b36b8174d04eecfdab705cb631b4d5"
+      },
+      "index.html": {
+        "size": 625,
+        "sha256": "ce165e0d7cafb7df75db036146b4832281de7034bc5cb267c5f9ec3acf032683"
+      }
+    },
+    "production_dependencies": [
+      {
+        "name": "react",
+        "version": "19.3.1",
+        "license": "MIT",
+        "lock_entry": "node_modules/react",
+        "license_files": [
+          "licenses/frontend/react/LICENSE"
+        ]
+      },
+      {
+        "name": "react-dom",
+        "version": "19.3.1",
+        "license": "MIT",
+        "lock_entry": "node_modules/react-dom",
+        "license_files": [
+          "licenses/frontend/react-dom/LICENSE"
+        ]
+      },
+      {
+        "name": "scheduler",
+        "version": "0.28.0",
+        "license": "MIT",
+        "lock_entry": "node_modules/scheduler",
+        "license_files": [
+          "licenses/frontend/scheduler/LICENSE"
+        ]
+      },
+      {
+        "name": "echarts",
+        "version": "6.1.0",
+        "license": "Apache-2.0",
+        "lock_entry": "node_modules/echarts",
+        "license_files": [
+          "licenses/frontend/echarts/LICENSE",
+          "licenses/frontend/echarts/NOTICE"
+        ]
+      },
+      {
+        "name": "zrender",
+        "version": "6.1.0",
+        "license": "BSD-3-Clause",
+        "lock_entry": "node_modules/zrender",
+        "license_files": [
+          "licenses/frontend/zrender/LICENSE"
+        ]
+      },
+      {
+        "name": "tslib",
+        "version": "2.3.0",
+        "license": "0BSD",
+        "lock_entry": "node_modules/tslib",
+        "license_files": [
+          "licenses/frontend/tslib/LICENSE.txt",
+          "licenses/frontend/tslib/CopyrightNotice.txt"
+        ]
+      }
+    ],
+    "source_frontend_tree": "73f978cd8d4794e4cee4f996bf83b01a5caf2217",
+    "source_matches_current_build_inputs": true
+  },
+  "pinned_assets": {
+    "model/Qwen3.5-4B-Q4_K_M.gguf": {
+      "bytes": 2740937888,
+      "sha256": "00fe7986ff5f6b463e62455821146049db6f9313603938a70800d1fb69ef11a4"
+    },
+    "runtime/llama-b11814-bin-win-vulkan-x64.zip": {
+      "bytes": 36867710,
+      "sha256": "0df9335f755538317d59b3442d9b28d68635742f381cdec743221c8dca7a4040"
+    }
+  },
+  "cmd_archive_validation": {
+    "name": "开始演示.cmd",
+    "sha256": "e41a2db075b2b16c76287230ad30653f42f4af1f4b7dea5853c729e9f4f94d5f",
+    "bytes": 359,
+    "CRLF_lines": 12,
+    "LF_bytes": 12,
+    "line_ending_conversion": "none; exact Git bytes kept",
+    "help_exit_code": 0,
+    "test_directory": "cmd检查 含空格",
+    "services_started": false
+  },
+  "frozen_protocol": {
+    "normalization": "CRLF to LF only, as defined by evaluation/protocol.md",
+    "inputs": {
+      "evaluation/case_manifest.csv": {
+        "sha256_LF": "fc30edf58a5ba265c27a8daaf3e64e811c059606cc8eb4512eda42ee38a8c512",
+        "original_bytes_preserved": true
+      },
+      "evaluation/forms.json": {
+        "sha256_LF": "f0beb85329e431bd54d4185877a430fa3884100126163aab83ec77b7d97a2aa6",
+        "original_bytes_preserved": true
+      },
+      "backend/content/study_keys.json": {
+        "sha256_LF": "ebf64520a9419220ad3a154219ec7db1c9e548c3711877c5f33a501329297ad6",
+        "original_bytes_preserved": true
+      },
+      "evaluation/assignments.csv": {
+        "sha256_LF": "ea5ea2548fb3b5f466566cdd2c17d9d5a1fcd494192bd0be399dae54cfe8724b",
+        "original_bytes_preserved": true
+      }
+    },
+    "comparison_policy_v2": {
+      "json_sha256": "680c21146c9b8af9ccf060b3e3569421ce7dd0c07dc597b2115f43f324bc092e",
+      "md_sha256": "b94f79e0c39f535d45dbdc8fca6cc184f8f28b336bb7e592a8f6d357ca07ed9f",
+      "role": "explicit new supplement; not the original frozen I08 input"
+    }
+  },
+  "pending_materials": [],
+  "link_issues": [],
+  "status": "verified",
+  "package": "deliverables/信号实验工坊-完整作品-v1.2.zip",
+  "external_checksum": "deliverables/信号实验工坊-完整作品-v1.2.zip.sha256",
+  "sha256": "6a98266ba6363d50086c5929cd58044f22b9ccdec9aa3a6fc7dade4f1e3ed15f",
+  "bytes": 2883527167,
+  "members": 3938,
+  "readback_SHA256_all_members": "passed",
+  "readback_CRC_all_members": "passed",
+  "checksum_manifest_members": 3937,
+  "safe_ordinary_casefold_unique_paths": "passed"
+}
