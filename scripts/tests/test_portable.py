@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+from contextlib import ExitStack, redirect_stderr, redirect_stdout
 import hashlib
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import importlib.util
+from io import StringIO
 import json
 import os
 from pathlib import Path
@@ -203,6 +205,165 @@ class PortableTests(unittest.TestCase):
                     child.terminate()
                 child.wait(timeout=5)
         self.assertIn("Application shutdown complete", log.read_text(encoding="utf-8"))
+
+    def launch_with_synthetic_model(self, *, status=200, response=None, options=()):
+        """Exercise main with a real HTTP peer and owned, lightweight subprocesses."""
+        root = Path(tempfile.mkdtemp(prefix="synthetic-launch-", dir=self.root))
+        for relative in ("runtime/python/python.exe", "frontend/dist/index.html", "model/model.gguf",
+                         "runtime/runner/llama-server.exe", "runtime/" + self.launcher.LLAMA_ZIP):
+            path = root / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(b"synthetic test fixture")
+        events, requests, children, browser_observations = [], [], [], []
+        reply = response if response is not None else {
+            "choices": [{"message": {"role": "assistant", "content": "OK"}}],
+            "usage": {"prompt_tokens": 841, "completion_tokens": 1},
+        }
+
+        class ModelHandler(BaseHTTPRequestHandler):
+            def do_POST(self):
+                body = self.rfile.read(int(self.headers["Content-Length"]))
+                requests.append({"path": self.path, "payload": json.loads(body),
+                                 "ready_exists": bool(list((root / "data").glob("logs/*/ready.json")))})
+                events.append("warmup request")
+                encoded = reply if isinstance(reply, bytes) else json.dumps(reply).encode("utf-8")
+                self.send_response(status)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(encoded)
+
+            def log_message(self, *args):
+                pass
+
+        server = ThreadingHTTPServer(("127.0.0.1", 0), ModelHandler)
+        worker = threading.Thread(target=server.serve_forever, daemon=True)
+        worker.start()
+        real_popen, private_python = subprocess.Popen, sys.executable
+        stop = root / "stop-main"
+
+        def start_lightweight_child(command, **kwargs):
+            backend = "--_serve-backend" in command
+            name = "backend" if backend else "model"
+            events.append(name + " start")
+            if backend:
+                marker = command[command.index("--_stop-file") + 1]
+                program = "from pathlib import Path\nimport sys,time\np=Path(sys.argv[1])\nwhile not p.exists(): time.sleep(0.05)"
+                child = real_popen([private_python, "-B", "-X", "utf8", "-c", program, marker], **kwargs)
+            else:
+                child = real_popen([private_python, "-B", "-X", "utf8", "-c", "import time; time.sleep(60)"], **kwargs)
+            children.append(child)
+            return child
+
+        def healthy(child, url, **kwargs):
+            events.append(("backend" if "/api/" in url else "model") + " health")
+            return {"status": "ok"}
+
+        def open_browser(url):
+            events.append("browser")
+            browser_observations.append({"request_count": len(requests),
+                                         "ready_exists": bool(list((root / "data").glob("logs/*/ready.json")))})
+            stop.touch()
+            return True
+
+        output, errors = StringIO(), StringIO()
+        arguments = ["portable.py", "--cpu", "--model-port", str(server.server_port),
+                     "--data-dir", str(root / "data"), "--stop-file", str(stop), *options]
+        try:
+            with ExitStack() as patches:
+                patches.enter_context(patch.dict(os.environ))
+                patches.enter_context(patch.object(self.launcher, "ROOT", root))
+                patches.enter_context(patch.object(sys, "executable", str(root / "runtime/python/python.exe")))
+                patches.enter_context(patch.object(sys, "argv", arguments))
+                patches.enter_context(patch.object(self.launcher, "verify_python_runtime", return_value={"source": "synthetic test fixture"}))
+                patches.enter_context(patch.object(self.launcher, "validate_file"))
+                patches.enter_context(patch.object(self.launcher, "ensure_runtime", return_value=root / "runtime/runner"))
+                patches.enter_context(patch.object(self.launcher, "assert_ports_available"))
+                patches.enter_context(patch.object(self.launcher, "numerical_check", return_value={"S1": "checked"}))
+                patches.enter_context(patch.object(self.launcher, "wait_for_health", side_effect=healthy))
+                patches.enter_context(patch.object(subprocess, "Popen", side_effect=start_lightweight_child))
+                patches.enter_context(patch.object(self.launcher.webbrowser, "open", side_effect=open_browser))
+                patches.enter_context(redirect_stdout(output))
+                patches.enter_context(redirect_stderr(errors))
+                try:
+                    code = self.launcher.main()
+                except SystemExit as error:
+                    code = error.code
+            return {"code": code, "events": events, "requests": requests, "children": children,
+                    "child_exit_codes_before_fixture_cleanup": [child.poll() for child in children],
+                    "browser": browser_observations, "stdout": output.getvalue(), "stderr": errors.getvalue(),
+                    "ready": list((root / "data").glob("logs/*/ready.json")),
+                    "warmup_logs": list((root / "data").glob("logs/*/startup-warmup.json"))}
+        finally:
+            for child in children:
+                if child.poll() is None:
+                    child.terminate()
+                child.wait(timeout=5)
+            server.shutdown()
+            server.server_close()
+            worker.join(timeout=5)
+
+    def test_default_startup_warms_synthetic_prefill_before_backend_ready_and_browser(self):
+        result = self.launch_with_synthetic_model()
+        self.assertEqual(result["code"], 0, result["stderr"])
+        self.assertEqual(result["events"], ["model start", "model health", "warmup request",
+                                             "backend start", "backend health", "browser"])
+        self.assertEqual(result["browser"], [{"request_count": 1, "ready_exists": True}])
+        self.assertEqual(len(result["ready"]), 1)
+        request = result["requests"][0]
+        self.assertEqual(request["path"], "/v1/chat/completions")
+        self.assertIs(request["ready_exists"], False)
+        payload = request["payload"]
+        self.assertEqual(payload["model"], self.launcher.MODEL_ALIAS)
+        self.assertIn(payload["max_tokens"], range(1, 5))
+        self.assertEqual(payload["chat_template_kwargs"], {"enable_thinking": False})
+        self.assertIs(payload["stream"], False)
+        content = " ".join(message["content"] for message in payload["messages"])
+        self.assertIn("synthetic startup warmup", content.lower())
+        self.assertEqual(content.split().count("a"), 800)
+        for forbidden in ("session_id", "run_id", "transfer", "prediction", "study", "学习", "迁移"):
+            self.assertNotIn(forbidden, json.dumps(payload, ensure_ascii=False).lower())
+        self.assertEqual(len(result["warmup_logs"]), 1)
+        report = json.loads(result["warmup_logs"][0].read_text(encoding="utf-8"))
+        self.assertEqual(report["source"], "synthetic_startup_warmup")
+        self.assertIs(report["is_user_guidance"], False)
+        self.assertEqual(report["status"], "completed")
+        self.assertEqual(report["prompt_tokens"], 841)
+
+    def test_failed_warmup_cannot_report_ready_open_browser_or_leave_owned_services(self):
+        for status, response in ((503, {"error": "synthetic failure"}), (200, b"not json"),
+                                 (200, {"choices": []}), (200, {"choices": [{"message": {"content": ""}}]})):
+            with self.subTest(status=status, response=response):
+                result = self.launch_with_synthetic_model(status=status, response=response)
+                self.assertEqual(result["code"], 1, result["stdout"])
+                self.assertIn("synthetic startup warmup", result["stderr"].lower())
+                self.assertEqual(result["events"], ["model start", "model health", "warmup request"])
+                self.assertEqual(result["browser"], [])
+                self.assertEqual(result["ready"], [])
+                self.assertNotIn("READY http", result["stdout"])
+                self.assertEqual(len(result["children"]), 1)
+                self.assertTrue(all(code is not None for code in result["child_exit_codes_before_fixture_cleanup"]))
+                report = json.loads(result["warmup_logs"][0].read_text(encoding="utf-8"))
+                self.assertEqual(report["status"], "failed")
+
+    def test_check_does_not_start_a_model_or_send_a_warmup_request(self):
+        result = self.launch_with_synthetic_model(options=("--check",))
+        self.assertEqual(result["code"], 0, result["stderr"])
+        self.assertEqual(result["events"], [])
+        self.assertEqual(result["requests"], [])
+        self.assertEqual(result["children"], [])
+        self.assertEqual(result["browser"], [])
+        self.assertEqual(result["ready"], [])
+        self.assertEqual(result["warmup_logs"], [])
+
+    def test_explicit_skip_warmup_keeps_the_performance_diagnostic_path(self):
+        result = self.launch_with_synthetic_model(options=("--skip-warmup",))
+        self.assertEqual(result["code"], 0, result["stderr"])
+        self.assertEqual(result["requests"], [])
+        self.assertEqual(result["events"], ["model start", "model health", "backend start", "backend health", "browser"])
+        self.assertEqual(len(result["ready"]), 1)
+        report = json.loads(result["warmup_logs"][0].read_text(encoding="utf-8"))
+        self.assertEqual(report["source"], "synthetic_startup_warmup")
+        self.assertEqual(report["status"], "skipped")
 
 
 if __name__ == "__main__":

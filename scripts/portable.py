@@ -37,6 +37,13 @@ LLAMA_ZIP = "llama-b11814-bin-win-vulkan-x64.zip"
 LLAMA_SIZE = 36867710
 LLAMA_SHA256 = "0df9335f755538317d59b3442d9b28d68635742f381cdec743221c8dca7a4040"
 MODEL_ALIAS = "signal-lab-tutor"
+WARMUP_TIMEOUT_SECONDS = 120
+# Repeated synthetic padding exercises roughly the same prefill size as guidance.
+# It contains no application context, user records, assessment items, or results.
+WARMUP_PROMPT = (
+    "Synthetic startup warmup. This fixed generated text prepares the local runtime. Reply OK only.\n"
+    + " a" * 800
+)
 
 
 class PortableError(RuntimeError):
@@ -219,6 +226,57 @@ def wait_for_health(child: subprocess.Popen, url: str, timeout: float,
     raise PortableError(f"Service did not become healthy within {timeout:g} seconds: {url}")
 
 
+def warmup_model(port: int, log: Path) -> dict:
+    """Prepare a cold model before exposing the app; never create a tutor call."""
+    payload = {
+        "model": MODEL_ALIAS,
+        "messages": [{"role": "user", "content": WARMUP_PROMPT}],
+        "stream": False,
+        "max_tokens": 2,
+        "temperature": 0,
+        "chat_template_kwargs": {"enable_thinking": False},
+    }
+    report = {"source": "synthetic_startup_warmup", "is_user_guidance": False,
+              "status": "in_progress", "timeout_seconds": WARMUP_TIMEOUT_SECONDS,
+              "max_tokens": payload["max_tokens"]}
+    log.write_text(json.dumps(report, indent=2), encoding="utf-8")
+    print("Running synthetic startup warmup (not user guidance)...", flush=True)
+    started = time.monotonic()
+    connection = HTTPConnection("127.0.0.1", port, timeout=WARMUP_TIMEOUT_SECONDS)
+    try:
+        connection.request("POST", "/v1/chat/completions", json.dumps(payload).encode("utf-8"),
+                           {"Content-Type": "application/json"})
+        response = connection.getresponse()
+        body = response.read(65537)
+        if response.status != 200:
+            raise ValueError(f"model returned HTTP {response.status}")
+        if len(body) > 65536:
+            raise ValueError("model response exceeded the warmup size limit")
+        envelope = json.loads(body)
+        message = envelope["choices"][0]["message"]["content"]
+        if not isinstance(message, str) or not message.strip():
+            raise ValueError("model returned no completion text")
+        usage = envelope["usage"]
+        prompt_tokens = usage["prompt_tokens"]
+        completion_tokens = usage["completion_tokens"]
+        report.update({"prompt_tokens": prompt_tokens, "completion_tokens": completion_tokens})
+        if type(prompt_tokens) is not int or not 800 <= prompt_tokens <= 900:
+            raise ValueError(f"synthetic prefill was outside 800-900 tokens: {prompt_tokens!r}")
+        if type(completion_tokens) is not int or not 1 <= completion_tokens <= payload["max_tokens"]:
+            raise ValueError("model returned invalid completion usage")
+        report["status"] = "completed"
+    except (OSError, HTTPException, ValueError, KeyError, IndexError, TypeError) as error:
+        report.update({"status": "failed", "error": f"{type(error).__name__}: {error}"})
+        raise PortableError(f"Synthetic startup warmup failed: {error}; see {log}") from error
+    finally:
+        connection.close()
+        report["elapsed_seconds"] = round(time.monotonic() - started, 3)
+        log.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"Synthetic startup warmup completed ({prompt_tokens} prompt tokens, "
+          f"{report['elapsed_seconds']:.3f}s; not user guidance).", flush=True)
+    return report
+
+
 @dataclass
 class OwnedProcess:
     name: str
@@ -318,6 +376,7 @@ def main() -> int:
     parser.add_argument("--model-path", type=Path, help="Verified GGUF path; relative paths resolve from this project")
     parser.add_argument("--data-dir", type=Path, help="Project-local demo data/log directory (default .cache/portable)")
     parser.add_argument("--check", action="store_true", help="Check all bundled artifacts and compute S1 without starting servers")
+    parser.add_argument("--skip-warmup", action="store_true", help="Skip synthetic startup warmup for performance diagnostics")
     parser.add_argument("--stop-file", type=Path, help="Optional project-local marker; create it to stop a headless demo")
     parser.add_argument("--_serve-backend", action="store_true", help=argparse.SUPPRESS)
     parser.add_argument("--_stop-file", type=Path, help=argparse.SUPPRESS)
@@ -375,7 +434,8 @@ def main() -> int:
             return 0
 
         assert_ports_available([args.port, args.model_port])
-        report.update({"application_port": args.port, "model_port": args.model_port, "cpu": args.cpu})
+        report.update({"application_port": args.port, "model_port": args.model_port, "cpu": args.cpu,
+                       "startup_warmup": not args.skip_warmup})
         (run / "launch.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
         print(f"Logs: {run}", flush=True)
         with ExitStack() as logs:
@@ -395,6 +455,15 @@ def main() -> int:
                 "-t", "4", "-b", "256", "-ub", "128", "--reasoning", "off", *device])
             wait_for_health(llama, f"http://127.0.0.1:{args.model_port}/health", timeout=180,
                             ready_log=run / "llama.log", ready_text=f"listening on http://127.0.0.1:{args.model_port}")
+            warmup_log = run / "startup-warmup.json"
+            if args.skip_warmup:
+                warmup_log.write_text(json.dumps({"source": "synthetic_startup_warmup", "is_user_guidance": False,
+                    "status": "skipped", "reason": "explicit --skip-warmup diagnostic option"}, indent=2), encoding="utf-8")
+                print("Synthetic startup warmup skipped (--skip-warmup).", flush=True)
+            else:
+                warmup_model(args.model_port, warmup_log)
+            if llama.poll() is not None:
+                raise PortableError(f"Model exited before application startup (code {llama.returncode}); see {run}")
             stop_file = run / "stop-backend"
             backend = start("backend", [str(private_python), "-B", "-X", "utf8", str(Path(__file__).resolve()),
                 "--_serve-backend", "--port", str(args.port), "--_stop-file", str(stop_file)], stop_file)
