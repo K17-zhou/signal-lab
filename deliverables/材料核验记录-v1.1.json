@@ -1,0 +1,111 @@
+{
+  "pdf_pages": [
+    {
+      "document": "技术文档",
+      "page": 1,
+      "characters": 500,
+      "outside_page": 0
+    },
+    {
+      "document": "技术文档",
+      "page": 2,
+      "characters": 615,
+      "outside_page": 0
+    },
+    {
+      "document": "技术文档",
+      "page": 3,
+      "characters": 630,
+      "outside_page": 0
+    },
+    {
+      "document": "技术文档",
+      "page": 4,
+      "characters": 843,
+      "outside_page": 0
+    },
+    {
+      "document": "技术文档",
+      "page": 5,
+      "characters": 646,
+      "outside_page": 0
+    },
+    {
+      "document": "技术文档",
+      "page": 6,
+      "characters": 726,
+      "outside_page": 0
+    },
+    {
+      "document": "技术文档",
+      "page": 7,
+      "characters": 796,
+      "outside_page": 0
+    },
+    {
+      "document": "技术文档",
+      "page": 8,
+      "characters": 836,
+      "outside_page": 0
+    },
+    {
+      "document": "技术文档",
+      "page": 9,
+      "characters": 1029,
+      "outside_page": 0
+    },
+    {
+      "document": "作品介绍",
+      "page": 1,
+      "characters": 956,
+      "outside_page": 0
+    }
+  ],
+  "video": {
+    "seconds": 390,
+    "width": 1920,
+    "height": 1080,
+    "decoded_video_frames": 11700,
+    "video_codec": "H.264",
+    "audio_codec": "AAC",
+    "audio_sample_rate": 48000,
+    "full_decode_exit_code": 0,
+    "development_section_seconds": 144,
+    "speech": "Windows local SAPI Huihui",
+    "review_sample_seconds": [
+      201,
+      225,
+      249,
+      273,
+      297,
+      321
+    ],
+    "historical_timing_segment": {
+      "record_date": "2026-11-06",
+      "start_seconds": 359,
+      "duration_seconds": 20,
+      "date_marked_in_title_and_narration": true
+    }
+  },
+  "visual_review": "passed: all 9 technical pages and 1 introduction page rendered; 6 encoded development scenes inspected",
+  "date": "2026-11-07",
+  "application_code_commit": "8aff7d9ce6a1ad5dc7523bcdb8b662ec1864e698",
+  "reproduction_source_commit": "f7dd20c49fd9716e626be78d2c7b0370fa86a608",
+  "files": [
+    {
+      "file": "信号实验工坊-技术文档-v1.1.pdf",
+      "bytes": 918640,
+      "sha256": "c39afb1f65ffa081315e5751ff6a3eb49e157880fabf78831827d5f2aa6e7211"
+    },
+    {
+      "file": "信号实验工坊-作品介绍-v1.1.pdf",
+      "bytes": 326352,
+      "sha256": "be7cda4f745c75f6ce3b1a963a8b19ac614e2c969136f8bf386ffccb3cf96906"
+    },
+    {
+      "file": "信号实验工坊-演示视频-v1.1.mp4",
+      "bytes": 12693248,
+      "sha256": "e02df7126f439e2d75b2cb1819be9c64820ff843e4abcb5c3f87cd3da43c44de"
+    }
+  ]
+}

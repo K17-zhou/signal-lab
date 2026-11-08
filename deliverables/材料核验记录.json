@@ -1,9 +1,12 @@
 {
+  "date": "2026-11-08",
+  "version": "v1.2",
+  "application_code_commit": "0b9e622ba9f42e4c5db50dff351c67d9bdcdf24b",
   "pdf_pages": [
     {
       "document": "技术文档",
       "page": 1,
-      "characters": 500,
+      "characters": 508,
       "outside_page": 0
     },
     {
@@ -33,79 +36,68 @@
     {
       "document": "技术文档",
       "page": 6,
-      "characters": 726,
+      "characters": 744,
       "outside_page": 0
     },
     {
       "document": "技术文档",
       "page": 7,
-      "characters": 796,
+      "characters": 737,
       "outside_page": 0
     },
     {
       "document": "技术文档",
       "page": 8,
-      "characters": 836,
+      "characters": 820,
       "outside_page": 0
     },
     {
       "document": "技术文档",
       "page": 9,
-      "characters": 1029,
+      "characters": 955,
       "outside_page": 0
     },
     {
       "document": "作品介绍",
       "page": 1,
-      "characters": 956,
+      "characters": 972,
       "outside_page": 0
     }
   ],
+  "visual_review": "all 9 technical pages and 1 introduction page rendered and inspected; mathematical sub/superscripts corrected; no overflow",
   "video": {
-    "seconds": 390,
+    "seconds": 431.0593205,
     "width": 1920,
     "height": 1080,
-    "decoded_video_frames": 11700,
+    "fps": 30,
     "video_codec": "H.264",
     "audio_codec": "AAC",
-    "audio_sample_rate": 48000,
-    "full_decode_exit_code": 0,
-    "development_section_seconds": 144,
-    "speech": "Windows local SAPI Huihui",
-    "review_sample_seconds": [
-      201,
-      225,
-      249,
-      273,
-      297,
-      321
-    ],
-    "historical_timing_segment": {
-      "record_date": "2026-11-06",
-      "start_seconds": 359,
-      "duration_seconds": 20,
-      "date_marked_in_title_and_narration": true
-    }
+    "full_decode": "passed",
+    "decode_error_log_bytes": 0,
+    "continuous_source_frames": 3221,
+    "development_section_seconds": 162.2806236,
+    "development_is_labeled_reenactment": true,
+    "voice": "Windows local SAPI Huihui",
+    "record_date": "2026-11-08",
+    "keyframes_reviewed": 3
   },
-  "visual_review": "passed: all 9 technical pages and 1 introduction page rendered; 6 encoded development scenes inspected",
-  "date": "2026-11-07",
-  "application_code_commit": "8aff7d9ce6a1ad5dc7523bcdb8b662ec1864e698",
-  "reproduction_source_commit": "f7dd20c49fd9716e626be78d2c7b0370fa86a608",
+  "candidate_reproduction": "../evaluation/portable-reproduction.md",
+  "final_zip_verification": "recorded after source/material freeze; not claimed in this pre-build record",
   "files": [
     {
-      "file": "信号实验工坊-技术文档-v1.1.pdf",
-      "bytes": 918640,
-      "sha256": "c39afb1f65ffa081315e5751ff6a3eb49e157880fabf78831827d5f2aa6e7211"
+      "file": "信号实验工坊-技术文档-v1.2.pdf",
+      "bytes": 924986,
+      "sha256": "03df5eff08cfe14e9b389438ddc7ae416f8c883aafe614dcfb13d9cb92409f9f"
     },
     {
-      "file": "信号实验工坊-作品介绍-v1.1.pdf",
-      "bytes": 326352,
-      "sha256": "be7cda4f745c75f6ce3b1a963a8b19ac614e2c969136f8bf386ffccb3cf96906"
+      "file": "信号实验工坊-作品介绍-v1.2.pdf",
+      "bytes": 394662,
+      "sha256": "70f782696323ac81449db5c323d23cbe677e58f859e634b3297e90b3bbfbaaba"
     },
     {
-      "file": "信号实验工坊-演示视频-v1.1.mp4",
-      "bytes": 12693248,
-      "sha256": "e02df7126f439e2d75b2cb1819be9c64820ff843e4abcb5c3f87cd3da43c44de"
+      "file": "信号实验工坊-演示视频-v1.2.mp4",
+      "bytes": 31006159,
+      "sha256": "7d7ce4be807e3939d8d8eb3af68b1ac1d123c88e1f1d8cffe785a1a7459d8924"
     }
   ]
 }

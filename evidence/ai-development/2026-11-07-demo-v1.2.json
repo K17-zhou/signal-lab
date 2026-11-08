@@ -1,0 +1,1000 @@
+{
+  "capture_date": "2026-11-08",
+  "filename_date_note": "Evidence path retained from the original 2026-11-07 assignment; actual recording and model request occurred 2026-11-08.",
+  "purpose": "real continuous automated browser operation; synthetic demonstration answers; labeled historical development reenactment",
+  "source_head": "90b97ad8148d4112aa18cc0c67e653e80c1e9a03",
+  "product_fix_commit": "57018cef9ba0e04a3b3ecbdf45817fc0ea142ef5",
+  "old_test_commit": "2b6f3c6",
+  "engineering_acceptance": {
+    "date": "2026-11-07",
+    "backend": 155,
+    "frontend": 16,
+    "browser": 9,
+    "production_build": "passed",
+    "note": "Reported and verified by parent agent; timing not combined across runs."
+  },
+  "continuous_recording": {
+    "start_seconds": 0,
+    "end_seconds": 431.0593205,
+    "seconds": 431.0593205,
+    "unique_captured_frames": 3221,
+    "source_resolution": [
+      1600,
+      900
+    ],
+    "output_resolution": [
+      1920,
+      1080
+    ],
+    "output_fps": 30,
+    "native_browser_capture": "single continuous CDP Page.startScreencast preserving receipt and CDP timestamps",
+    "has_scene_cuts": false,
+    "time_stretch": false,
+    "frame_timestamps": ".cache\\qa\\defect-fixes\\video\\take-20261108-02\\capture.json"
+  },
+  "development_reenactment": {
+    "start_seconds": 226.6549808,
+    "end_seconds": 388.9356044,
+    "seconds": 162.2806236,
+    "label": "开发过程复现 / 历史输入重放，非原始开发录屏",
+    "user_quote": "那现在先把所有的缺陷做好",
+    "agent_input_source": "Codex代理输入节选, not a user quote",
+    "tests": {
+      "old": {
+        "running": false,
+        "exit_code": 1,
+        "stdout": "============================= test session starts =============================\nplatform win32 -- Python 3.13.13, pytest-9.2.0, pluggy-1.7.0 -- <PROJECT>\\.venv\\Scripts\\python.exe\nrootdir: <PROJECT>\\.cache\\qa\\defect-fixes\\video\\old-copy\\backend\nconfigfile: pyproject.toml\nplugins: anyio-4.16.0\ncollecting ... collected 1 item\n\ntests/test_tutor_comparison.py::test_recovery_proposal_rejects_boundary_and_still_aliased_rates[140] FAILED [100%]\n\n================================== FAILURES ===================================\n____ test_recovery_proposal_rejects_boundary_and_still_aliased_rates[140] _____\n\ncomparison_lab = (<starlette.testclient.TestClient object at 0x0000017173DA1FD0>, <test_tutor_comparison.ProposalModel object at 0x0000017123A856A0>)\nrate = 140\n\n    @pytest.mark.parametrize(\"rate\", [140, 130, 100])\n    def test_recovery_proposal_rejects_boundary_and_still_aliased_rates(comparison_lab, rate):\n        \"\"\"Catches treating any changed sampling rate, especially exactly 2f, as recovery.\"\"\"\n        client, model = comparison_lab\n        request, _, _ = bind_case(client)\n        baseline = guide(client, request)\n        propose(model, {\"frequency_hz\": 70, \"sample_rate_hz\": rate})\n    \n        reply = guide(client, request)\n    \n>       assert reply[\"next_experiment\"] is None\nE       AssertionError: assert {'experiment_type': 'sampling_aliasing', 'params': {'frequency_hz': 70, 'sample_rate_hz': 140, 'amplitude': 1.0, 'phase_rad': 0.0}} is None\n\ntests\\test_tutor_comparison.py:95: AssertionError\n=========================== short test summary info ===========================\nFAILED tests/test_tutor_comparison.py::test_recovery_proposal_rejects_boundary_and_still_aliased_rates[140] - AssertionError: assert {'experiment_type': 'sampling_aliasing', 'params': {'frequency_hz': 70, 'sample_rate_hz': 140, 'amplitude': 1.0, 'phase_rad': 0.0}} is None\n============================== 1 failed in 4.80s ==============================\n",
+        "started": 1794103819.2034066,
+        "cwd": "<PROJECT>\\.cache\\qa\\defect-fixes\\video\\old-copy\\backend",
+        "command": [
+          "<PROJECT>\\.venv\\Scripts\\python.exe",
+          "-m",
+          "pytest",
+          "-p",
+          "no:cacheprovider",
+          "-vv",
+          "tests/test_tutor_comparison.py::test_recovery_proposal_rejects_boundary_and_still_aliased_rates[140]",
+          "--basetemp",
+          "<PROJECT>\\.cache\\qa\\defect-fixes\\video\\test-temp\\old\\pytest-1794103819203369400"
+        ],
+        "ended": 1794103827.0510504
+      },
+      "current": {
+        "running": false,
+        "exit_code": 0,
+        "stdout": "============================= test session starts =============================\nplatform win32 -- Python 3.13.13, pytest-9.2.0, pluggy-1.7.0 -- <PROJECT>\\.venv\\Scripts\\python.exe\nrootdir: <PROJECT>\\backend\nconfigfile: pyproject.toml\nplugins: anyio-4.16.0\ncollecting ... collected 1 item\n\ntests/test_tutor_comparison.py::test_recovery_proposal_rejects_boundary_and_still_aliased_rates[140] PASSED [100%]\n\n============================== 1 passed in 3.17s ==============================\n",
+        "started": 1794103870.383211,
+        "cwd": "<PROJECT>\\backend",
+        "command": [
+          "<PROJECT>\\.venv\\Scripts\\python.exe",
+          "-m",
+          "pytest",
+          "-p",
+          "no:cacheprovider",
+          "-vv",
+          "tests/test_tutor_comparison.py::test_recovery_proposal_rejects_boundary_and_still_aliased_rates[140]",
+          "--basetemp",
+          "<PROJECT>\\.cache\\qa\\defect-fixes\\video\\test-temp\\current\\pytest-1794103870383125600"
+        ],
+        "ended": 1794103874.674488
+      }
+    },
+    "scene_active_seconds": 162.04184209999994,
+    "inter_scene_capture_seconds": 0.2387815,
+    "timing_definition": "seconds = end_seconds - start_seconds; scene_active_seconds is the sum of each recorded development scene duration. The difference is real continuously captured time between scene bookkeeping/screenshot operations, without cuts or time compression."
+  },
+  "session_id": "a640ad2b-1014-4ac5-bc3c-8298b941083b",
+  "original": {
+    "run_id": "5c33a449-c0f8-4edc-83be-e21768396961",
+    "experiment_type": "sampling_aliasing",
+    "params": {
+      "frequency_hz": 70,
+      "sample_rate_hz": 110,
+      "amplitude": 1,
+      "phase_rad": 0
+    },
+    "engine_version": "sampling-periodic-v1",
+    "metrics": {
+      "alias_frequency_hz": 40,
+      "sampling_state": "undersampled",
+      "sample_rms": 0.7071067811865464,
+      "peak_frequency_hz": 40,
+      "reconstruction_rmse": 0.9999999999999992
+    },
+    "warnings": [
+      "PERIODIC_SIGNAL_MODEL",
+      "UNDERSAMPLED"
+    ]
+  },
+  "comparison": {
+    "run_id": "e9c81600-4a5f-4157-8b17-39dd52962272",
+    "experiment_type": "sampling_aliasing",
+    "params": {
+      "frequency_hz": 70,
+      "sample_rate_hz": 141,
+      "amplitude": 1,
+      "phase_rad": 0
+    },
+    "engine_version": "sampling-periodic-v1",
+    "metrics": {
+      "alias_frequency_hz": 70,
+      "sampling_state": "well_sampled",
+      "sample_rms": 0.7071067811865446,
+      "peak_frequency_hz": 70,
+      "reconstruction_rmse": 1.5309632436055904e-14
+    },
+    "warnings": [
+      "PERIODIC_SIGNAL_MODEL"
+    ]
+  },
+  "guidance": {
+    "explanation": "你的原预测是 22 Hz。本次采样率为 110 Hz，信号频率为 70 Hz，振幅为 1，初相位为 0 rad。理论折叠频率为 40 Hz。观测主峰为 40 Hz。本次运行属于欠采样。原信号和折叠信号可能产生相同样本，因此这些样本无法唯一确定原信号。对照目的：保持信号频率、振幅和初相位不变，仅提高采样率，使其严格大于两倍频率（140 Hz）。周期模型计算验证主峰为 70 Hz，重建误差 RMSE 为 1.5e-14；请运行对照并核对。",
+    "evidence": [
+      {
+        "run_id": "5c33a449-c0f8-4edc-83be-e21768396961",
+        "metric_key": "alias_frequency_hz"
+      },
+      {
+        "run_id": "5c33a449-c0f8-4edc-83be-e21768396961",
+        "metric_key": "peak_frequency_hz"
+      },
+      {
+        "run_id": "5c33a449-c0f8-4edc-83be-e21768396961",
+        "metric_key": "sampling_state"
+      }
+    ],
+    "next_experiment": {
+      "experiment_type": "sampling_aliasing",
+      "params": {
+        "frequency_hz": 70,
+        "sample_rate_hz": 141,
+        "amplitude": 1,
+        "phase_rad": 0
+      }
+    },
+    "misconception_code": null,
+    "elapsed_browser_seconds": 10.030321199999976
+  },
+  "model_audit": {
+    "started_unix": 1794103663.0884566,
+    "context": {
+      "run": {
+        "run_id": "5c33a449-c0f8-4edc-83be-e21768396961",
+        "experiment_type": "sampling_aliasing",
+        "params": {
+          "frequency_hz": 70,
+          "sample_rate_hz": 110,
+          "amplitude": 1.0,
+          "phase_rad": 0.0
+        },
+        "engine_version": "sampling-periodic-v1",
+        "metrics": {
+          "alias_frequency_hz": 40.0,
+          "sampling_state": "undersampled",
+          "sample_rms": 0.7071067811865464,
+          "peak_frequency_hz": 40.0,
+          "reconstruction_rmse": 0.9999999999999992
+        },
+        "warnings": [
+          "PERIODIC_SIGNAL_MODEL",
+          "UNDERSAMPLED"
+        ]
+      },
+      "prediction": {
+        "kind": "numeric",
+        "value": 22.0,
+        "unit": "Hz"
+      },
+      "exercise": {
+        "title": "观察到的频率来自哪里",
+        "goal": "比较原信号与采样后观测到的主峰。",
+        "prompt": "对这个信号取样，预测单边频谱的主峰频率。",
+        "params": {
+          "frequency_hz": 70,
+          "sample_rate_hz": 110,
+          "amplitude": 1.0,
+          "phase_rad": 0.0
+        },
+        "options": []
+      },
+      "theory": "本次运行属于欠采样。原信号和折叠信号可能产生相同样本，因此这些样本无法唯一确定原信号。理论折叠频率直接读取 run.metrics.alias_frequency_hz，实测主峰读取 run.metrics.peak_frequency_hz。主峰为空表示没有可辨主峰，理论值仍按记录读取。在两倍采样边界，初相位为零时样本接近零，初相位为 π/2 时样本正负交替。增加插值点只会从已有样本计算更多绘图点，无法补充独立采样信息。检验恢复效果时，请比较原信号与重建曲线的误差。光滑且经过样本不足以证明恢复。频率成分一旦折叠到同一频率，采样后低通无法按原始来源分离它们。本次允许的对照目标：固定当前信号频率、振幅和初相位，仅提高采样率，新采样率须严格大于 140 Hz，用主峰和重建误差检验充分采样下的原频率。",
+      "message": "结合我的预测和这次实验解释现象，并建议一个可验证的对照。",
+      "mode": "C"
+    },
+    "model": "signal-lab-tutor",
+    "port": 18109,
+    "raw": "{\n  \"focus\": \"sampling\",\n  \"evidence\": [\n    {\"run_id\": \"5c33a449-c0f8-4edc-83be-e21768396961\", \"metric_key\": \"alias_frequency_hz\"},\n    {\"run_id\": \"5c33a449-c0f8-4edc-83be-e21768396961\", \"metric_key\": \"peak_frequency_hz\"},\n    {\"run_id\": \"5c33a449-c0f8-4edc-83be-e21768396961\", \"metric_key\": \"sampling_state\"}\n  ],\n  \"next_experiment\": {\n    \"experiment_type\": \"sampling_aliasing\",\n    \"params\": {\n      \"frequency_hz\": 70,\n      \"sample_rate_hz\": 141,\n      \"amplitude\": 1.0,\n      \"phase_rad\": 0.0\n    }\n  }\n}",
+    "elapsed_seconds": 8.34195613861084
+  },
+  "session_export": {
+    "session_id": "a640ad2b-1014-4ac5-bc3c-8298b941083b",
+    "events": [
+      {
+        "event_id": "04402984-5fa2-4f00-aca3-3b26dd05155f",
+        "session_id": "a640ad2b-1014-4ac5-bc3c-8298b941083b",
+        "case_id": "alias-frequency",
+        "stage": "predict",
+        "run_id": null,
+        "answer": {
+          "kind": "numeric",
+          "value": 22.0,
+          "unit": "Hz"
+        },
+        "note": null,
+        "elapsed_ms": 7581,
+        "outcome": "recorded",
+        "timestamp": "2026-11-08T02:07:11.746054Z"
+      },
+      {
+        "event_id": "7803f4a4-8b8f-4d18-9f3e-68c7977b1c69",
+        "session_id": "a640ad2b-1014-4ac5-bc3c-8298b941083b",
+        "case_id": "alias-frequency",
+        "stage": "run",
+        "run_id": "5c33a449-c0f8-4edc-83be-e21768396961",
+        "answer": null,
+        "note": null,
+        "elapsed_ms": 47,
+        "outcome": "completed",
+        "timestamp": "2026-11-08T02:07:22.513122Z"
+      },
+      {
+        "event_id": "14262e3e-5547-4d59-b35e-36272b535920",
+        "session_id": "a640ad2b-1014-4ac5-bc3c-8298b941083b",
+        "case_id": "alias-frequency",
+        "stage": "observe",
+        "run_id": "e9c81600-4a5f-4157-8b17-39dd52962272",
+        "answer": null,
+        "note": null,
+        "elapsed_ms": 24,
+        "outcome": "completed",
+        "timestamp": "2026-11-08T02:08:32.097987Z"
+      },
+      {
+        "event_id": "badeb136-2788-48d9-af7a-fa93adcbd2ca",
+        "session_id": "a640ad2b-1014-4ac5-bc3c-8298b941083b",
+        "case_id": "alias-frequency",
+        "stage": "transfer",
+        "run_id": "5c33a449-c0f8-4edc-83be-e21768396961",
+        "answer": {
+          "kind": "numeric",
+          "value": 30.0,
+          "unit": "Hz"
+        },
+        "note": null,
+        "elapsed_ms": 90950,
+        "outcome": "correct",
+        "timestamp": "2026-11-08T02:08:53.492455Z"
+      }
+    ],
+    "runs": {
+      "e9c81600-4a5f-4157-8b17-39dd52962272": {
+        "run_id": "e9c81600-4a5f-4157-8b17-39dd52962272",
+        "experiment_type": "sampling_aliasing",
+        "params": {
+          "frequency_hz": 70,
+          "sample_rate_hz": 141,
+          "amplitude": 1.0,
+          "phase_rad": 0.0
+        },
+        "engine_version": "sampling-periodic-v1",
+        "metrics": {
+          "alias_frequency_hz": 70.0,
+          "sampling_state": "well_sampled",
+          "sample_rms": 0.7071067811865446,
+          "peak_frequency_hz": 70.0,
+          "reconstruction_rmse": 1.5309632436055904e-14
+        },
+        "warnings": [
+          "PERIODIC_SIGNAL_MODEL"
+        ]
+      },
+      "5c33a449-c0f8-4edc-83be-e21768396961": {
+        "run_id": "5c33a449-c0f8-4edc-83be-e21768396961",
+        "experiment_type": "sampling_aliasing",
+        "params": {
+          "frequency_hz": 70,
+          "sample_rate_hz": 110,
+          "amplitude": 1.0,
+          "phase_rad": 0.0
+        },
+        "engine_version": "sampling-periodic-v1",
+        "metrics": {
+          "alias_frequency_hz": 40.0,
+          "sampling_state": "undersampled",
+          "sample_rms": 0.7071067811865464,
+          "peak_frequency_hz": 40.0,
+          "reconstruction_rmse": 0.9999999999999992
+        },
+        "warnings": [
+          "PERIODIC_SIGNAL_MODEL",
+          "UNDERSAMPLED"
+        ]
+      }
+    },
+    "cases": {
+      "alias-frequency": {
+        "case_id": "alias-frequency",
+        "title": "观察到的频率来自哪里",
+        "goal": "比较原信号与采样后观测到的主峰。",
+        "prediction": {
+          "question_id": "alias-predict",
+          "prompt": "对这个信号取样，预测单边频谱的主峰频率。",
+          "params": {
+            "frequency_hz": 70,
+            "sample_rate_hz": 110,
+            "amplitude": 1.0,
+            "phase_rad": 0.0
+          },
+          "kind": "numeric",
+          "unit": "Hz",
+          "options": []
+        },
+        "transfer": {
+          "question_id": "alias-transfer",
+          "prompt": "改变原信号频率后，新的观测主峰是多少？",
+          "params": {
+            "frequency_hz": 80,
+            "sample_rate_hz": 110,
+            "amplitude": 1.0,
+            "phase_rad": 0.0
+          },
+          "kind": "numeric",
+          "unit": "Hz",
+          "options": []
+        }
+      }
+    }
+  },
+  "timeline": [
+    {
+      "id": "intro",
+      "d": 12,
+      "title": "从预测走向可验证的实验",
+      "voice": "这是信号实验工坊。接下来用真实浏览器连续操作，展示自由实验、本地模型指导，以及本轮缺陷的修复证据。演示作答为合成数据。",
+      "start_seconds": 0.002073399999999765,
+      "end_seconds": 12.0155085,
+      "actual_seconds": 12.013435099999999
+    },
+    {
+      "id": "alias",
+      "d": 22,
+      "title": "自由实验 · 70 Hz / 100 Hz → 30 Hz",
+      "voice": "先看混叠。七十赫兹信号以一百赫兹采样，摘要和单边频谱都显示三十赫兹主峰。移动到曲线可以读取数值；波形、频谱和重建误差来自同一次真实计算，不是预先画好的示意图。",
+      "start_seconds": 12.0755469,
+      "end_seconds": 34.088403099999994,
+      "actual_seconds": 22.012856199999995
+    },
+    {
+      "id": "normal",
+      "d": 18,
+      "title": "充分采样 · 50 Hz / 400 Hz → 50 Hz",
+      "voice": "切到正常采样。五十赫兹信号以四百赫兹采样，观测主峰仍是五十赫兹，周期模型的重建误差接近数值零。比较时要同时核对参数、频谱和误差，不能只凭曲线光滑作判断。",
+      "start_seconds": 34.1454434,
+      "end_seconds": 52.1483256,
+      "actual_seconds": 18.002882200000002
+    },
+    {
+      "id": "boundary",
+      "d": 20,
+      "title": "边界退化 · 理论频率不等于可辨主峰",
+      "voice": "再看恰好两倍采样的边界。五十赫兹信号以一百赫兹采样，零初相位使样本接近零，页面明确显示无有效主峰。理论折叠频率仍可计算，但不能把它当成已经检测到的频谱主峰。",
+      "start_seconds": 52.1889468,
+      "end_seconds": 72.1895541,
+      "actual_seconds": 20.0006073
+    },
+    {
+      "id": "filter",
+      "d": 22,
+      "title": "低通滤波 · 修改截止频率并真实重算",
+      "voice": "低通实验包含二十和一百二十赫兹两个分量。把截止频率改为九十赫兹，再运行。页面给出一百二十赫兹分量约零点二七八五倍的稳态增益，并注明单向滤波的相移和计算窗口。",
+      "start_seconds": 72.2370538,
+      "end_seconds": 94.243955,
+      "actual_seconds": 22.0069012
+    },
+    {
+      "id": "prediction",
+      "d": 20,
+      "title": "普通引导学习 · 先保存 22 Hz 预测",
+      "voice": "进入普通引导学习，选择观察到的频率来自哪里。原题是七十赫兹信号、一百一十赫兹采样。先输入二十二赫兹作为演示预测并保存，让原判断和后续观测分别留下记录。",
+      "start_seconds": 94.2835073,
+      "end_seconds": 114.2871296,
+      "actual_seconds": 20.003622300000004
+    },
+    {
+      "id": "observation",
+      "d": 18,
+      "title": "运行本题 · 真实观测为 40 Hz",
+      "voice": "运行本题，实际主峰是四十赫兹，与刚才的预测不同。这时先看当前运行证据和时域采样点，再请求指导。应用把预测、实验参数和这次运行的唯一编号绑定在一起。",
+      "start_seconds": 114.31478990000001,
+      "end_seconds": 132.3235557,
+      "actual_seconds": 18.008765799999978
+    },
+    {
+      "id": "guide",
+      "d": 30,
+      "title": "真实本地 Qwen 请求 · 2026-11-08 · 保留生成等待",
+      "voice": "现在点击获取人工智能指导。本次确实调用本地的千问三点五四B量化模型，画面保留生成等待。模型选择观察重点、证据字段和可选对照参数；科学事实正文由程序根据本次保存的实验记录组织。",
+      "start_seconds": 132.38852419999998,
+      "end_seconds": 162.3967107,
+      "actual_seconds": 30.008186500000022
+    },
+    {
+      "id": "evidence",
+      "d": 18,
+      "title": "引用能点回当前运行 · 对照目标明确",
+      "voice": "点击指导中的实验数据引用，焦点回到当前运行摘要。这里可以核对原预测、观测主峰和采样条件。对照建议还必须符合明确教学目标，通过数值引擎检查，才会显示确认按钮。",
+      "start_seconds": 162.446639,
+      "end_seconds": 180.46095540000002,
+      "actual_seconds": 18.014316400000013
+    },
+    {
+      "id": "comparison",
+      "d": 22,
+      "title": "确认模型实际提出的有效对照",
+      "voice": "确认运行模型这次实际提出的对照。保持信号频率、振幅和初相位不变，只提高采样率，并严格超过两倍频率。新图表要显示七十赫兹主峰和接近零的重建误差，才能支持充分采样的判断。",
+      "start_seconds": 180.5156736,
+      "end_seconds": 202.5266404,
+      "actual_seconds": 22.010966799999977
+    },
+    {
+      "id": "transfer",
+      "d": 24,
+      "title": "迁移题 · 刷新恢复与原始记录导出",
+      "voice": "迁移题把信号改为八十赫兹，采样率仍为一百一十赫兹。填入三十赫兹后由服务端判题。刷新页面，已保存预测、对照运行和迁移结果仍在；导出保留题目参数和运行参数，便于独立核对。",
+      "start_seconds": 202.5870483,
+      "end_seconds": 226.5982451,
+      "actual_seconds": 24.01119680000002
+    },
+    {
+      "id": "dev-role",
+      "d": 24,
+      "title": "开发过程复现 · 清楚区分用户与代理输入",
+      "voice": "下面进入开发过程复现。这不是原始开发录屏，也不是即时生成的模型回答。用户本轮原话只有：那现在先把所有的缺陷做好。具体技术约束由Codex派发给实现代理，画面会按真实保存的文字重放。",
+      "start_seconds": 226.6549808,
+      "end_seconds": 250.6547989,
+      "actual_seconds": 23.9998181
+    },
+    {
+      "id": "dev-input",
+      "d": 26,
+      "title": "真实缺陷 · 合法参数仍可能缺少教学意义",
+      "voice": "实际缺陷是，旧版曾接受一百四十赫兹建议。它等于七十赫兹的两倍，参数合法，却不能作为恢复原频率的对照。修复约束是保持接口兼容，只显示模型确实提出、且教学目的经引擎验证的参数，不自动替换。",
+      "start_seconds": 250.7235674,
+      "end_seconds": 276.7248593,
+      "actual_seconds": 26.001291899999984
+    },
+    {
+      "id": "dev-red",
+      "d": 30,
+      "title": "RED · 在真实旧源码隔离副本上重跑",
+      "voice": "先打开新增测试，再在隔离旧副本上真实运行同一条边界用例。旧副本的两个文件来自提交二B六F三C六，字节已核对，没有人为植入故障。测试只替换模型建议输入，服务、接口和计算引擎都是真实实现。失败输出说明旧服务错误保留了一百四十赫兹建议。",
+      "start_seconds": 276.7729475,
+      "end_seconds": 306.78809590000003,
+      "actual_seconds": 30.015148400000044
+    },
+    {
+      "id": "dev-diff",
+      "d": 32,
+      "title": "真实 git diff · 参数约束和数值校验",
+      "voice": "这是当前源码相对旧提交的真实差异。修复先固定信号频率、振幅与初相位，再要求更高采样率严格大于两倍频率，并调用数值引擎检查采样状态、主峰和重建误差。边界相位题保留独立路径，但必须验证样本发生变化，也明确不能保证唯一恢复。",
+      "start_seconds": 306.83262470000005,
+      "end_seconds": 338.8364091,
+      "actual_seconds": 32.00378439999997
+    },
+    {
+      "id": "dev-green",
+      "d": 30,
+      "title": "GREEN · 同一测试通过且不编造建议",
+      "voice": "现在在当前实现上重跑同一条测试。合格行为是过滤不满足目标的建议，返回空值，保留原解释与证据。它不会悄悄把一百四十改成二百赫兹。再展开本轮原始日志，二十五项对照回归和一百五十五项后端测试均已通过。",
+      "start_seconds": 338.88194350000003,
+      "end_seconds": 368.8954001,
+      "actual_seconds": 30.013456599999984
+    },
+    {
+      "id": "dev-chain",
+      "d": 20,
+      "title": "保留完整来源 · 工程验收与学习效果分开",
+      "voice": "此前三条完整开发链继续保留，分别覆盖页面读数、学习记录和本地指导。角色、输入、失败和复验都有来源。本轮新增证据补充教学对照缺陷。工程测试通过不能替代真人学习实验，目前真人样本数为零。",
+      "start_seconds": 368.92726170000003,
+      "end_seconds": 388.9356044,
+      "actual_seconds": 20.008342699999957
+    },
+    {
+      "id": "portable",
+      "d": 24,
+      "title": "便携运行 · 自带环境，解压后双击",
+      "voice": "便携包自带固定运行环境、依赖、已构建页面、本地模型与推理程序。使用时完整解压，再双击开始演示，等待本地服务就绪。启动器只回收自己创建的服务。具体耗时与跨机兼容性，以单独核验报告为准。",
+      "start_seconds": 388.9746434,
+      "end_seconds": 412.98900230000004,
+      "actual_seconds": 24.014358900000047
+    },
+    {
+      "id": "closing",
+      "d": 18,
+      "title": "可复核的演示 · 保留尚未测量的边界",
+      "voice": "这段视频保留了真实计算、真实模型请求和当前测试重跑。自动化操作与合成作答均已标明。真人学习效果、陌生机器首次运行和更广泛兼容性仍需后续测量，不能由这一次演示推出。",
+      "start_seconds": 413.0258177,
+      "end_seconds": 431.03280850000004,
+      "actual_seconds": 18.00699080000004
+    }
+  ],
+  "interactions": [
+    {
+      "seconds": 13.696252000000001,
+      "action": "click",
+      "target": "进入真实实验页面 →"
+    },
+    {
+      "seconds": 14.2071602,
+      "action": "scroll-to-top"
+    },
+    {
+      "seconds": 24.5161156,
+      "action": "inspect-chart",
+      "label": "时域对比：原信号70Hz，采样率100Hz"
+    },
+    {
+      "seconds": 30.643061999999997,
+      "action": "inspect-chart",
+      "label": "单边频谱：主峰30Hz"
+    },
+    {
+      "seconds": 34.485167499999996,
+      "action": "scroll-to-top"
+    },
+    {
+      "seconds": 37.003919499999995,
+      "action": "click",
+      "target": "正常采样"
+    },
+    {
+      "seconds": 46.980341800000005,
+      "action": "inspect-chart",
+      "label": "单边频谱：主峰50Hz"
+    },
+    {
+      "seconds": 47.301422699999996,
+      "action": "scroll-to-top"
+    },
+    {
+      "seconds": 53.8367222,
+      "action": "click",
+      "target": "边界退化"
+    },
+    {
+      "seconds": 62.824645100000005,
+      "action": "inspect-chart",
+      "label": "时域对比：原信号50Hz，采样率100Hz"
+    },
+    {
+      "seconds": 67.1689966,
+      "action": "inspect-chart",
+      "label": "单边频谱：无有效主峰"
+    },
+    {
+      "seconds": 67.50139019999999,
+      "action": "scroll-to-top"
+    },
+    {
+      "seconds": 73.9060217,
+      "action": "click",
+      "target": "低通滤波"
+    },
+    {
+      "seconds": 76.3639274,
+      "action": "type",
+      "target": "截止频率",
+      "value": 90
+    },
+    {
+      "seconds": 78.6848962,
+      "action": "click",
+      "target": "运行实验"
+    },
+    {
+      "seconds": 88.90420669999999,
+      "action": "inspect-chart",
+      "label": "滤波前后稳态频谱：截止频率 90 Hz"
+    },
+    {
+      "seconds": 94.64997749999999,
+      "action": "scroll-to-top"
+    },
+    {
+      "seconds": 97.2132256,
+      "action": "click",
+      "target": "引导学习"
+    },
+    {
+      "seconds": 99.248853,
+      "action": "select-case",
+      "case_id": "alias-frequency"
+    },
+    {
+      "seconds": 102.86028689999999,
+      "action": "type",
+      "target": "预测答案（Hz）",
+      "value": 22
+    },
+    {
+      "seconds": 105.1957532,
+      "action": "click",
+      "target": "保存预测"
+    },
+    {
+      "seconds": 115.9070815,
+      "action": "click",
+      "target": "运行本题实验"
+    },
+    {
+      "seconds": 126.20710009999999,
+      "action": "inspect-chart",
+      "label": "单边频谱：主峰40Hz"
+    },
+    {
+      "seconds": 136.5181056,
+      "action": "click",
+      "target": "获取 AI 指导"
+    },
+    {
+      "seconds": 144.9188192,
+      "action": "real-model-reply",
+      "elapsed_seconds": 10.030321199999976,
+      "next_experiment": {
+        "experiment_type": "sampling_aliasing",
+        "params": {
+          "frequency_hz": 70,
+          "sample_rate_hz": 141,
+          "amplitude": 1,
+          "phase_rad": 0
+        }
+      }
+    },
+    {
+      "seconds": 150.0427181,
+      "action": "wheel",
+      "delta_y": 180
+    },
+    {
+      "seconds": 164.07464499999998,
+      "action": "click",
+      "target": "理论折叠频率 40 Hz"
+    },
+    {
+      "seconds": 164.5464701,
+      "action": "evidence-focus-confirmed"
+    },
+    {
+      "seconds": 185.5134212,
+      "action": "click",
+      "target": "确认运行对照实验"
+    },
+    {
+      "seconds": 196.1710561,
+      "action": "inspect-chart",
+      "label": "单边频谱：主峰70Hz"
+    },
+    {
+      "seconds": 204.6590924,
+      "action": "type",
+      "target": "迁移题答案（Hz）",
+      "value": 30
+    },
+    {
+      "seconds": 206.93245240000002,
+      "action": "click",
+      "target": "提交迁移题"
+    },
+    {
+      "seconds": 208.9021381,
+      "action": "reload-learning"
+    },
+    {
+      "seconds": 209.798268,
+      "action": "scroll-to-top"
+    },
+    {
+      "seconds": 213.93055919999998,
+      "action": "click",
+      "target": "导出 JSON"
+    },
+    {
+      "seconds": 214.6679349,
+      "action": "download-export",
+      "filename": "session-export.json"
+    },
+    {
+      "seconds": 252.3429197,
+      "action": "click",
+      "target": "重放已保存的代理输入"
+    },
+    {
+      "seconds": 271.3983521,
+      "action": "click",
+      "target": "展开原始引擎指标"
+    },
+    {
+      "seconds": 273.44506060000003,
+      "action": "scroll-source",
+      "element": "engine",
+      "fraction": 0.34
+    },
+    {
+      "seconds": 277.26442110000005,
+      "action": "scroll-to-top"
+    },
+    {
+      "seconds": 279.8126767,
+      "action": "click",
+      "target": "2 旧版本 RED"
+    },
+    {
+      "seconds": 281.92056320000006,
+      "action": "click",
+      "target": "查看新增测试原文"
+    },
+    {
+      "seconds": 290.6182738,
+      "action": "click",
+      "target": "查看新增测试原文"
+    },
+    {
+      "seconds": 292.64199950000005,
+      "action": "click",
+      "target": "真实运行旧版边界测试"
+    },
+    {
+      "seconds": 302.7827975000001,
+      "action": "scroll-source",
+      "element": "old-output",
+      "fraction": 1
+    },
+    {
+      "seconds": 307.241795,
+      "action": "scroll-to-top"
+    },
+    {
+      "seconds": 309.76419820000007,
+      "action": "click",
+      "target": "3 真实修改"
+    },
+    {
+      "seconds": 315.9589917,
+      "action": "scroll-source",
+      "element": "diff-source",
+      "fraction": 0.23
+    },
+    {
+      "seconds": 319.2548996,
+      "action": "scroll-source",
+      "element": "diff-source",
+      "fraction": 0.5
+    },
+    {
+      "seconds": 321.32496420000007,
+      "action": "scroll-to-top"
+    },
+    {
+      "seconds": 323.8522232,
+      "action": "click",
+      "target": "查看 service.py"
+    },
+    {
+      "seconds": 332.54120370000004,
+      "action": "scroll-source",
+      "element": "diff-source",
+      "fraction": 0.43
+    },
+    {
+      "seconds": 339.25700520000004,
+      "action": "scroll-to-top"
+    },
+    {
+      "seconds": 341.78827620000004,
+      "action": "click",
+      "target": "4 当前 GREEN"
+    },
+    {
+      "seconds": 343.83143320000005,
+      "action": "click",
+      "target": "真实运行当前边界测试"
+    },
+    {
+      "seconds": 350.3183627000001,
+      "action": "scroll-source",
+      "element": "current-output",
+      "fraction": 1
+    },
+    {
+      "seconds": 353.5986376,
+      "action": "click",
+      "target": "查看本轮 25 项对照测试原始 GREEN 日志"
+    },
+    {
+      "seconds": 360.7889354,
+      "action": "click",
+      "target": "查看本轮后端全量 155 项通过原始日志"
+    },
+    {
+      "seconds": 369.58889530000005,
+      "action": "scroll-to-top"
+    },
+    {
+      "seconds": 372.0908178,
+      "action": "click",
+      "target": "5 来源与验收"
+    },
+    {
+      "seconds": 378.95820540000005,
+      "action": "click",
+      "target": "展开已有 context.md 原文与完整链入口"
+    },
+    {
+      "seconds": 381.00560650000006,
+      "action": "scroll-source",
+      "element": "context-source",
+      "fraction": 0.31
+    },
+    {
+      "seconds": 384.30768960000006,
+      "action": "scroll-source",
+      "element": "context-source",
+      "fraction": 0.66
+    },
+    {
+      "seconds": 389.50461000000007,
+      "action": "scroll-to-top"
+    },
+    {
+      "seconds": 391.98408570000004,
+      "action": "click",
+      "target": "6 便携运行"
+    },
+    {
+      "seconds": 399.63827230000004,
+      "action": "click",
+      "target": "展开运行边界与计时口径"
+    },
+    {
+      "seconds": 423.98144410000003,
+      "action": "inspect-chart",
+      "label": "单边频谱：主峰70Hz"
+    },
+    {
+      "seconds": 424.42157470000006,
+      "action": "scroll-to-top"
+    }
+  ],
+  "console_errors": [],
+  "console_warnings": [],
+  "pre_recording_conditions": {
+    "formal_request_is_after_services_ready": true,
+    "not_a_cold_start_latency_claim": true,
+    "initial_api_timeout_count": 2,
+    "initial_timeout_audit_path": ".cache/qa/defect-fixes/video/model-audit.jsonl",
+    "separate_warmup_path": ".cache/qa/defect-fixes/video/warmup-20261108.json",
+    "separate_warmup_seconds": 51.77215623855591,
+    "note": "Two initial API probes timed out. An independent 120-second-budget model call completed. After restarting only the owned model service with unchanged inference parameters and verbose diagnostics, a fresh normal API probe completed; these preflight conditions are kept separate from formal recording latency."
+  },
+  "video": {
+    "path": "deliverables\\信号实验工坊-演示视频-v1.2.mp4",
+    "bytes": 31006159,
+    "sha256": "7d7ce4be807e3939d8d8eb3af68b1ac1d123c88e1f1d8cffe785a1a7459d8924",
+    "full_decode": "passed",
+    "decode_log": ".cache\\qa\\defect-fixes\\video\\take-20261108-02\\encoded\\full-decode.log",
+    "stream_info": "Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '<PROJECT>\\deliverables\\信号实验工坊-演示视频-v1.2.mp4':\n  Metadata:\n    major_brand     : isom\n    minor_version   : 512\n    compatible_brands: isomiso2avc1mp41\n    title           : Signal Lab v1.2 - Real continuous browser demonstration\n    encoder         : Lavf61.7.100\n  Duration: 00:07:11.06, start: 0.000000, bitrate: 575 kb/s\n  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuvj420p(pc, bt470bg/unknown/unknown, progressive), 1920x1080 [SAR 1:1 DAR 16:9], 466 kb/s, 30 fps, 30 tbr, 15360 tbn (default)\n      Metadata:\n        handler_name    : VideoHandler\n        vendor_id       : [0][0][0][0]\n        encoder         : Lavc61.19.100 libx264\n  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, mono, fltp, 99 kb/s (default)\n      Metadata:\n        handler_name    : SoundHandler\n        vendor_id       : [0][0][0][0]\nAt least one output file must be specified\n"
+  },
+  "limitations": [
+    "真人样本数0，学习效果未测",
+    "陌生机器首次运行和更广泛兼容性未测",
+    "便携包耗时以单独报告为准",
+    "本地测试替身只控制建议输入，不冒充真实Qwen调用"
+  ],
+  "guidance_timing": {
+    "model_complete_seconds": 8.34195613861084,
+    "browser_click_to_response_approx_seconds": 8.376764799999961,
+    "browser_flow_seconds": 10.030321199999976,
+    "scope_note": "The model timer wraps only the real TutorClient.complete call. Browser flow includes pointer positioning/click preparation. Click-to-response starts immediately before mouse click and ends at the response event; it is an approximate UI/API observation, not cold-start latency."
+  },
+  "recording_verification": {
+    "take": "take-20261108-02",
+    "seconds": 431.0593205,
+    "frames": 3221,
+    "mean_source_fps": 7.472289420082264,
+    "maximum_frame_gap_seconds": 0.21593260000000214,
+    "interaction_count": 68,
+    "api_response_count": 75,
+    "console_errors": [],
+    "keyframes": [
+      {
+        "file": "evidence\\screenshots\\demo-v1.2-01-free.jpg",
+        "seconds": 32.88840309999999,
+        "visual_review": "passed: final encoded frame readable, no layout collision over essential evidence",
+        "sha256": "cb04e44097a3398c6cc67150ddd7a0d0a87f07e999e08925c24767118e66f81c"
+      },
+      {
+        "file": "evidence\\screenshots\\demo-v1.2-02-guide.jpg",
+        "seconds": 159.3967107,
+        "visual_review": "passed: final encoded frame readable, no layout collision over essential evidence",
+        "sha256": "7a9c199056af504f1349f748f2f70bdeb78eeee9869fde1062943efb9b9ed6d3"
+      },
+      {
+        "file": "evidence\\screenshots\\demo-v1.2-03-green.jpg",
+        "seconds": 350.88194350000003,
+        "visual_review": "passed: final encoded frame readable, no layout collision over essential evidence",
+        "sha256": "3b7af59c730981a4ab40dda9bd539b2709a4b843a5121f361e7afad4acfa29d7"
+      }
+    ]
+  },
+  "keyframes": [
+    {
+      "file": "evidence\\screenshots\\demo-v1.2-01-free.jpg",
+      "seconds": 32.88840309999999,
+      "visual_review": "passed: final encoded frame readable, no layout collision over essential evidence",
+      "sha256": "cb04e44097a3398c6cc67150ddd7a0d0a87f07e999e08925c24767118e66f81c"
+    },
+    {
+      "file": "evidence\\screenshots\\demo-v1.2-02-guide.jpg",
+      "seconds": 159.3967107,
+      "visual_review": "passed: final encoded frame readable, no layout collision over essential evidence",
+      "sha256": "7a9c199056af504f1349f748f2f70bdeb78eeee9869fde1062943efb9b9ed6d3"
+    },
+    {
+      "file": "evidence\\screenshots\\demo-v1.2-03-green.jpg",
+      "seconds": 350.88194350000003,
+      "visual_review": "passed: final encoded frame readable, no layout collision over essential evidence",
+      "sha256": "3b7af59c730981a4ab40dda9bd539b2709a4b843a5121f361e7afad4acfa29d7"
+    }
+  ],
+  "preserved_v11_sha256": "e02df7126f439e2d75b2cb1819be9c64820ff843e4abcb5c3f87cd3da43c44de",
+  "product_sources_unchanged": {
+    "backend/app/tutor/service.py": {
+      "current_sha256": "57f6a9d9ba1ac454cb6de92c7b8a8468a30319a491c494b97a27a9ba7734ae23",
+      "old_copy_sha256": "991dd44ea06b3c4a48a1aa6efd3fe5294f434e00ce2c763dfe4212b1c6730687"
+    },
+    "backend/app/tutor/client.py": {
+      "current_sha256": "4a6e46ab5616149f313fa11e915112353d650f03fc938d427e42f38dcac50ce0",
+      "old_copy_sha256": "d6ea70a2dbe620b55dc55c9a300a796df259400ae610438e479fce96e3d8d432"
+    },
+    "backend/tests/test_tutor_comparison.py": {
+      "current_sha256": "f325a608e44a8e8d10c8c9663778d286dc72957ae44db88312ec55cdebfc2302",
+      "old_copy_sha256": "f325a608e44a8e8d10c8c9663778d286dc72957ae44db88312ec55cdebfc2302"
+    }
+  },
+  "excluded_incomplete_take": {
+    "path": ".cache/qa/defect-fixes/video/take-20261108-01",
+    "reason": "recording-only download directory failure; retained intact; no frames used in final video"
+  },
+  "shutdown": {
+    "checked_at": "2026-11-08T10:19:09.209038+08:00",
+    "tcp_connect_ex": {
+      "18108": 10061,
+      "18109": 10061,
+      "18110": 10061
+    },
+    "controlled_service_exit_codes": [
+      1,
+      1,
+      1
+    ],
+    "exit_code_note": "Ctrl+C after successful recording, not a product failure",
+    "recording_exit_code": 0,
+    "render_and_full_decode_exit_code": 0,
+    "active_owned_services": false,
+    "native_pid_note": "Private execution-session and process identifiers are not published. The three owned service sessions exited and all three endpoints refused connections; raw local evidence remains in the project cache.",
+    "owned_services": [
+      "application",
+      "model",
+      "viewer"
+    ]
+  },
+  "source_head_note": "90b97ad8148d4112aa18cc0c67e653e80c1e9a03 is the product baseline used at recording startup. Subsequent launcher commit 0b9e622ba9f42e4c5db50dff351c67d9bdcdf24b changes startup warmup, its tests and its dated evidence note; it does not change the backend/frontend product source used in this recording.",
+  "launcher_followup_commit": "0b9e622ba9f42e4c5db50dff351c67d9bdcdf24b",
+  "public_redaction": {
+    "project_root_placeholder": "<PROJECT>",
+    "private_execution_session_identifiers_removed": true,
+    "learning_session_and_run_reference_ids_preserved": true,
+    "raw_cache_evidence_unchanged": true,
+    "note": "Only the local project-root prefix and private execution/process identifiers were normalized for publication. Actual failed/passed test counts, exit codes, scientific values and learning reference identifiers remain intact."
+  }
+}
